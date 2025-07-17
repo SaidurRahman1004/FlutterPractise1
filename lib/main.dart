@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 void main(){
   runApp(const MyApp());
 }
-
+///এখানে ২ টি ক্লাস MyApp,HomeActivity !MyApp ক্লাসে HomeActivity কে home: এ ডিফাইন করা হয়েছে যা এপ চালু হলে প্রাথমিক স্ক্রিন হিসেবে দেখাবে!
 class MyApp extends StatelessWidget{
   const MyApp({super.key});
 
@@ -63,6 +63,19 @@ ButtonSnack(BuildContext context){   //এটি কল করলেই ভি�
           IconButton(onPressed: (){}, icon: Icon(Icons.email)),
         ],
       ),
+      ///////////////floatingActionButton একটি গোলাকার বাটন যেটা স্ক্রিনের নিচে ডান পাশে ভেসে থাকে (floating position)।
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blue,
+        elevation: 25,
+        child: Icon(Icons.smart_button),
+        //tooltip: "Add Something",   //বাটনে মাউস রালে এই লেখা সো হবে
+        heroTag: AutofillHints.gender,                                              //Hero Animation এর জন্য ট্যাগ
+        onPressed: (){                                                            //onPressed   ক্লিক করলে যা হবে,FloatingActionButton এ ক্লিক করলে onPressed এর আইটেম এক্সেকিউট হবে!
+          ButtonSnackbar("This is floting action button", context);                //FloatingActionButton এ ক্লিক করলে onPressed এর এই ButtonSnackbar সো হবে!This is floting action button
+        },),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,     //FAB-এর অবস্থানও পরিবর্তন !মাঝ বরাবর নিচে!FAB সবসময় Scaffold এর মধ্যে থাকতে হয়।
+
+
       body: Text("This is Body"),
 
 
