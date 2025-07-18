@@ -122,10 +122,21 @@ ButtonSnack(BuildContext context){   //এটি কল করলেই ভি�
       drawer: Drawer(
         child: ListView(
           children: [
-            DrawerHeader(child: Text("This is Drawer")),
+            //Drawer Head
+            DrawerHeader(child: UserAccountsDrawerHeader(
+              decoration: BoxDecoration(color: Colors.black12),
+              currentAccountPicture: Image.network("https://i.postimg.cc/RFTxcvKh/profile-pic-1.png"),
+                accountName: Text("Saidur Rahman" ,style: TextStyle(color: Colors.black),),
+                accountEmail: Text("siyambn705@gmail.com",style: TextStyle(color: Colors.black),),
+              onDetailsPressed: (){
+                ButtonSnackbar("This is Profile Header", context);
+              },
+            ),
+            ),
+            /////drawer Lists
             ListTile(
               leading: Icon(Icons.one_k),
-              title: Text("SecondPage",selectionColor: Colors.blue,),
+              title: Text("SecondPage",style: TextStyle(color: Colors.blue),),
               onTap: (){
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>SecondPage()));
 
