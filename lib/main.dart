@@ -159,8 +159,24 @@ ButtonSnack(BuildContext context){   //এটি কল করলেই ভি�
           ],
         ),
       ),
-
-      body: Text("This is Body"),
+///body with container
+      body: Center(
+        child: Container(
+          width: 1024,
+          height: 900,
+          padding: EdgeInsets.all(10),
+          color: Colors.tealAccent,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("This is container"),
+                Text("This is container"),
+              ],
+            ),
+          ),
+        ),
+      ),
 
 
     );

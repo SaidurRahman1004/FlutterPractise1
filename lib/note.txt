@@ -1,0 +1,17 @@
+
+   //  Container 1
+
+     body: Container(
+        width: 200,
+        height: 200,
+        color: Colors.tealAccent,
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Hi"),
+              Text("Hi"),
+            ],
+          ),
+        ),
+      ),
