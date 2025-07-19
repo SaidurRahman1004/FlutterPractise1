@@ -1,4 +1,11 @@
+উইজেট গুলো Row Column child children হিসেবে সাজাতে হবে!
 
+👉 একক Widget দিলে → child:
+ 👉 একাধিক Widget দিলে → children:
+
+🔹 যেমন Center, Container শুধু ১টা child নিতে পারে।
+🔹 কিন্তু Column, Row — নিতে পারে বহু child, তাই children: লাগে।
+temp: https://i.postimg.cc/bvqf138T/rrrrr.png
    //  Container 1
 
      body: Container(
@@ -15,3 +22,135 @@
           ),
         ),
       ),
+      ............................................................20/07/2025 ...............................body prac 1....................................
+
+     --------------------
+     Container
+     ----------------------
+            body: Center(
+              child: Container(
+                width: 1024,
+                height: 900,
+                padding: EdgeInsets.all(10),
+                color: Colors.tealAccent,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("This is container"),
+                      Text("This is container"),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+     ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,      ,,,,,,,,,,,,
+     body: Center(                                  //ভিতরের সকঅল আইটেম সেন্টারে রাখে!
+       child: Container(
+         height: 950,                               // কন্টেইনারের উচ্চতা নির্ধারণ করে।
+         width: 800,                                // কন্টেইনারের প্রস্থ নির্ধারণ করে।
+         margin: EdgeInsets.all(70),                // কন্টেইনারের বাইরে চারদিকে দিকে ফাঁকা জায়গা তৈরি করে।
+         padding: EdgeInsets.all(50),               // কন্টেইনারের ভেতরে child-এর চারপাশে ফাঁকা জায়গা তৈরি করে।
+         alignment: Alignment.topCenter,            // কন্টেইনারের ভেতরে child-কে উপরে মাঝখানে স্থাপন করে।
+         decoration: BoxDecoration(                 // কন্টেইনারের background (background) ও বর্ডার স্টাইল করার জন্য।
+           color: Colors.green,                     // কন্টেইনারের background রঙ সবুজ করে।
+           border: Border.all(color: Colors.black)  // কন্টেইনারের চারপাশে কালো রঙের বর্ডার তৈরি করে।
+         ),
+         child: Image.network("https://i.postimg.cc/RFTxcvKh/profile-pic-1.png"), // কন্টেইনারের ভেতরে একটি ছবি দেখায়।
+       ),
+     ),
+
+
+     --------------------
+
+     ----------------------
+
+---------------------- --------------------
+body SingleChildScrollView
+---------------------- ----------------------
+body: SingleChildScrollView(                      // 🔁 পুরো স্ক্রিনকে Scrollable করে (Vertical Scroll)
+  scrollDirection: Axis.vertical,                // ↕️ Scroll হবে উপরে-নিচে (Column এর জন্য সাধারণত vertical)
+
+  child: Column(                                  // ⬇️ স্ক্রিনে UI এলিমেন্টগুলো একটার নিচে একটা (Vertical Layout)
+    children: [
+
+      Container(                                  // 🔲 একটি Box/Block যার ভিতরে ইমেজ ও টেক্সট থাকবে
+        height: 400,                              // 🔺 Box এর উচ্চতা 400 px
+        width: 350,                               // 🔻 Box এর প্রস্থ 350 px
+        padding: EdgeInsets.all(15),              // ⛔ ভিতরের content এর চারপাশে 15 px ফাঁকা
+        color: Colors.tealAccent,                 // 🎨 Box এর ব্যাকগ্রাউন্ড রঙ Teal Accent
+
+        child: SingleChildScrollView(             // 📦 Container এর ভিতরের Content ও Scrollable
+          scrollDirection: Axis.vertical,         // ↕️ Scroll হবে উপরে-নিচে (ভেতরের Column অনেক বড় হলে কাজ দেবে)
+
+          child: Column(                          // ⬇️ Box এর ভিতরে UI গুলো লম্বাভাবে বসবে
+            children: [
+
+              Image.network(                      // 🖼️ ইন্টারনেট থেকে একটি ইমেজ লোড করে দেখায়
+                "https://i.postimg.cc/RFTxcvKh/profile-pic-1.png"
+              ),
+
+              SizedBox(height: 15),               // ↕️ ইমেজ আর টেক্সট এর মাঝে 15 px ফাঁকা
+
+              Text(
+                "SR Sheam",                       // 🔤 “SR Sheam” টেক্সট দেখাবে
+                style: TextStyle(                 // 🎨 টেক্সট এর স্টাইল কনফিগার করা হয়েছে
+                  fontSize: 22,                   // 🔠 ফন্ট সাইজ: 22
+                  fontWeight: FontWeight.bold,    // 🔸 মোটা/গাঢ় লেখার জন্য
+                  color: Colors.yellow            // 🎨 টেক্সট এর রঙ: হলুদ
+                ),
+              ),
+
+            ],
+          ),
+        ),
+      ),
+
+    ],
+  ),
+),
+......................................................................................................................
+শেখার আছেঃ
+
+import 'package:flutter/material.dart';
+
+class PractisePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Layout Task"),
+          backgroundColor: Colors.cyanAccent,
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center, // সব মাঝামাঝি
+            children: [
+              Container(
+                height: 120,
+                width: 250,
+                color: Colors.blue,
+                padding: EdgeInsets.all(8),
+                child: Center(
+                  child: Text(
+                    "Welcome Saidur",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              Padding(
+                padding: EdgeInsets.all(8),
+                child: Text("You are learning Layout!"),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+.........................................................।...

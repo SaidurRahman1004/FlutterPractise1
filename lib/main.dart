@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'SecondPage.dart';
 import 'layoutP.dart';
+import 'practisePage.dart';
 
 void main(){
   runApp(const MyApp());
@@ -156,27 +157,76 @@ ButtonSnack(BuildContext context){   //এটি কল করলেই ভি�
                 ButtonSnackbar("This is ListTile form Navigation Drawer", context);
               },
             ),
+            ListTile(
+              leading: Icon(Icons.three_k),
+              title: Text("TestPAge"),
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>practisePage()));
+              },
+            ),
           ],
         ),
       ),
-///body with container
-      body: Center(
-        child: Container(
-          width: 1024,
-          height: 900,
-          padding: EdgeInsets.all(10),
-          color: Colors.tealAccent,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("This is container"),
-                Text("This is container"),
-              ],
+
+    body: Center(
+      child: SingleChildScrollView(                      // 🔁 পুরো স্ক্রিনকে Scrollable করে (Vertical Scroll)
+        scrollDirection: Axis.vertical,                // ↕️ Scroll হবে উপরে-নিচে (Column এর জন্য সাধারণত vertical)
+
+        child: Column(                                  // ⬇️ স্ক্রিনে UI এলিমেন্টগুলো একটার নিচে একটা (Vertical Layout)
+          children: [
+
+            Container(                                  // 🔲 একটি Box/Block যার ভিতরে ইমেজ ও টেক্সট থাকবে
+              height: 400,                              // 🔺 Box এর উচ্চতা 400 px
+              width: 350,                               // 🔻 Box এর প্রস্থ 350 px
+              padding: EdgeInsets.all(15),              // ⛔ ভিতরের content এর চারপাশে 15 px ফাঁকা
+              color: Colors.tealAccent,                 // 🎨 Box এর ব্যাকগ্রাউন্ড রঙ Teal Accent
+
+              child: SingleChildScrollView(             // 📦 Container এর ভিতরের Content ও Scrollable
+                scrollDirection: Axis.vertical,         // ↕️ Scroll হবে উপরে-নিচে (ভেতরের Column অনেক বড় হলে কাজ দেবে)
+
+                child: Column(                          // ⬇️ Box এর ভিতরে UI গুলো লম্বাভাবে বসবে
+                  children: [
+
+                    Image.network(                      // 🖼️ ইন্টারনেট থেকে একটি ইমেজ লোড করে দেখায়
+                        "https://i.postimg.cc/RFTxcvKh/profile-pic-1.png"
+                    ),
+
+                    SizedBox(height: 15),               // ↕️ ইমেজ আর টেক্সট এর মাঝে 15 px ফাঁকা
+
+                    Text(
+                      "SR Sheam",                       // 🔤 “SR Sheam” টেক্সট দেখাবে
+                      style: TextStyle(                 // 🎨 টেক্সট এর স্টাইল কনফিগার করা হয়েছে
+                          fontSize: 22,                   // 🔠 ফন্ট সাইজ: 22
+                          fontWeight: FontWeight.bold,    // 🔸 মোটা/গাঢ় লেখার জন্য
+                          color: Colors.yellow            // 🎨 টেক্সট এর রঙ: হলুদ
+                      ),
+                    ),
+
+                  ],
+                ),
+              ),
             ),
-          ),
+
+          ],
         ),
       ),
+    ),
+
+    ///body with container
+     /* body: Center(
+        child: Container(
+          height: 950,
+          width: 800,
+          margin: EdgeInsets.all(70),
+          padding: EdgeInsets.all(50),
+          alignment: Alignment.topCenter,
+          decoration: BoxDecoration(color: Colors.green,border: Border.all(color: Colors.black)),
+          child: Image.network("https://i.postimg.cc/RFTxcvKh/profile-pic-1.png"),
+
+        ),
+      ),
+
+      */
 
 
     );
