@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+///task1
+/*
 class practisePage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
@@ -24,6 +27,51 @@ class practisePage extends StatelessWidget{
 
 
         ),
+      ),
+
+    );
+  }
+
+
+
+
+}
+
+ */
+
+//task 2
+class practisePage extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Task6.2"),
+          backgroundColor: Colors.cyanAccent,
+        ),
+
+        body: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(child: Container(
+              color: Colors.red,
+              child: Center(child: Text("Box 1",textAlign: TextAlign.center,style: TextStyle(fontSize: 20,color: Colors.yellow),)),
+            )),
+
+            Expanded(child: Container(
+              color: Colors.green,
+              child: Center(child: Text("Box 2",textAlign: TextAlign.center,style: TextStyle(fontSize: 20,color: Colors.yellow),)),
+            )),
+
+            Expanded(child: Container(
+              color: Colors.blue,
+              child: Center(child: Text("Box 3",textAlign: TextAlign.center,style: TextStyle(fontSize: 20,color: Colors.yellow),)),
+            )),
+          ],
+        ),
+
+
       ),
 
     );

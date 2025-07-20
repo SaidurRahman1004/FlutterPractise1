@@ -27,12 +27,13 @@ class MyApp extends StatelessWidget{
 }
 
 class HomeActivity extends StatelessWidget{
-  const HomeActivity({super.key});
+   HomeActivity({super.key});
 
 
   // ইমেইল লঞ্চ করার ফাংশন
-  //////////////////////////////////////////////////////////////////////
-  void _launchEmail() async {
+  ///////////////////////////url_launcher///////////////////////////////////////////
+   //Email
+  void _launchEmail() async {    //ব্যাখা যুক্ত করা আছে note.txt তে _launchEmail
     final Uri emailUri = Uri(
       scheme: 'mailto',
       path: 'example@example.com',
@@ -44,6 +45,14 @@ class HomeActivity extends StatelessWidget{
       print('Could not launch email');
     }
   }
+  //Facebook url button ভিন্ন পদ্ধতি
+   final Uri _urifb = Uri.parse("https://www.facebook.com/srs1313");                                                // 🔹 ফেসবুকের লিংককে একটি Uri অবজেক্টে রূপান্তর করা হয়েছে
+
+   Future<void> _launchUrl() async {                                                                                // 🔹 Future ফাংশন যা ফেসবুক লিংক ওপেন করার চেষ্টা করবে
+     if (!await launchUrl(_urifb)) {                                                                                          // ✅ যদি লিংক ওপেন না করা যায়
+       throw Exception('Could not launch $_urifb');                                                                           // ❌ তাহলে একটি Error ছুঁড়ে দাও
+     }
+   }
 /////////////////////////////////////////////////////////////////////////////////////   Snackbar হলো Flutter-এ একটি ছোট Notification বার যেটা স্ক্রিনের নিচে কিছু সময়ের জন্য ভেসে উঠে।
   ///Snackbar1 function  //এটি কল করলেই ভিতরের কনটেন্ট সো হবে!appbar এর Actionbar এর Snackbar
   ButtonSnackbar(msg,context){                                             //ButtonSnackbar(msg, context): এটি একটি ফাংশন যা দুটি আর্গুমেন্ট নেয়:msg: এটি একটি স্ট্রিং যা SnackBar-এ প্রদর্শিত হবে।,context: এটি BuildContext অবজেক্ট, যা উইজেট ট্রি-তে বর্তমান উইজেটের অবস্থান নির্দেশ করে এবং ScaffoldMessenger-কে খুঁজে পেতে সাহায্য করে
@@ -61,8 +70,38 @@ ButtonSnack(BuildContext context){   //এটি কল করলেই ভি�
 
     );
   }
-///////////////////////////////////////////////////////////////
+////////////////////Button Style///////////////////////////////////////////
+  //Button Style function
+   final ButtonStyle btnstyl = ElevatedButton.styleFrom(
+    padding: EdgeInsets.all(5),
+     backgroundColor: Colors.yellow,
+     foregroundColor: Colors.teal,
+     shape: RoundedRectangleBorder(
+       borderRadius: BorderRadius.circular(20),
+     )
 
+
+  );
+///////////////////////////////////////////////////////////////
+  //////////////////////////////Function দিয়ে এলার্ট বক্স তৈরি!/////////Alert box////////////popup box////////////
+  AlartBtn(context){
+    return showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return Expanded(
+              child: AlertDialog(
+                title: Text("This is alart"),
+                content: Text("this is alart box.please get close!and go to website"),
+                actions: [
+                  TextButton(onPressed: (){_launchUrl();}, child: Text("Reach me on FB")),                       //aler box action button
+                  TextButton(onPressed: (){Navigator.of(context).pop();}, child: Text("close")),                   //aler box action button
+                ],
+
+              )
+          );
+        }
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +148,7 @@ ButtonSnack(BuildContext context){   //এটি কল করলেই ভি�
         ],
         onTap: (int index){
           if(index == 0){
-            _launchEmail();
+            _launchEmail();                                                             // 🔁 তাহলে _launchEmail() ফাংশন কল করে ইমেইল অ্যাপ খুলবে //ব্যাখা যুক্ত করা আছে note.txt তে _launchEmail
           }else if(index==1){
             ButtonSnackbar("This is Home", context);
           }else if(index==2){
@@ -176,10 +215,10 @@ ButtonSnack(BuildContext context){   //এটি কল করলেই ভি�
           children: [
 
             Container(                                  // 🔲 একটি Box/Block যার ভিতরে ইমেজ ও টেক্সট থাকবে
-              height: 400,                              // 🔺 Box এর উচ্চতা 400 px
-              width: 350,                               // 🔻 Box এর প্রস্থ 350 px
-              padding: EdgeInsets.all(15),              // ⛔ ভিতরের content এর চারপাশে 15 px ফাঁকা
-              color: Colors.tealAccent,                 // 🎨 Box এর ব্যাকগ্রাউন্ড রঙ Teal Accent
+              height: 550,                              // 🔺 Box এর উচ্চতা 400 px
+              width: 450,                               // 🔻 Box এর প্রস্থ 350 px
+              padding: EdgeInsets.all(10),              // ⛔ ভিতরের content এর চারপাশে 15 px ফাঁকা
+              color: Colors.red,                 // 🎨 Box এর ব্যাকগ্রাউন্ড রঙ Teal Accent
 
               child: SingleChildScrollView(             // 📦 Container এর ভিতরের Content ও Scrollable
                 scrollDirection: Axis.vertical,         // ↕️ Scroll হবে উপরে-নিচে (ভেতরের Column অনেক বড় হলে কাজ দেবে)
@@ -201,11 +240,41 @@ ButtonSnack(BuildContext context){   //এটি কল করলেই ভি�
                           color: Colors.yellow            // 🎨 টেক্সট এর রঙ: হলুদ
                       ),
                     ),
+                    SizedBox(height: 15),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        //বাটন
+                        ElevatedButton(onPressed: () async{                                                         // 🔹 বাটন বানানো হয়েছে — ক্লিক করলে _launchUrl() ফাংশন কল হবে
+                          await _launchUrl();                                                                        //_launchUrl দিয়ে _urifb কল করা হয়েছে!  // ✅ বাটনে ক্লিক করলে ফেসবুক লিংক ওপেন হবে
+                        }, child: Icon(Icons.facebook),style: btnstyl,) ,     //শুধু আইকন সহ বাটন!কোন টেক্সট নাই!                                           //style এ btnstyl কল করা হয়েছে!
+                        SizedBox(width: 10),
+
+                        //outline button
+                        OutlinedButton(onPressed: (){AlartBtn(context);},    //alert function call  show arert box
+
+                          child: Row(                                     //টেক্সট আইকন সহ বাটন
+                            mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.warning),
+                            SizedBox(width: 5),
+                            Text("Other Alert"),
+                          ],
+                        ),style: btnstyl,),
+
+                      ],
+                    ),
+
+
+
 
                   ],
                 ),
               ),
             ),
+
+
 
           ],
         ),
