@@ -13,7 +13,7 @@ class layoutP extends StatelessWidget {
           children: [
             Padding(
                 padding: EdgeInsets.all(100),
-                 child:             TextField(
+                 child:TextField(
                    controller: name,
                    decoration: InputDecoration(
                      labelText: "Enter your name",
