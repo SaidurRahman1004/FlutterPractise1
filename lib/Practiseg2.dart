@@ -11,6 +11,7 @@ class Practiseg2 extends StatelessWidget{
       ),
       body: Center(
         child: Container(
+          padding: const EdgeInsets.all(10.0),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.lightBlueAccent,width: 3,),
             borderRadius: BorderRadius.circular(10),
@@ -23,18 +24,16 @@ class Practiseg2 extends StatelessWidget{
               ),
             ],
           ),
-          height: 220,
           width: 215,
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                height: 150,
-                decoration: BoxDecoration(
-                  image: DecorationImage(image: NetworkImage("https://i.postimg.cc/4NhHrvd9/Apple-i-Phone-15-Pro-Max-256-GB-Natural-Titanium-1-485x485-optimized.webp"),
-                  fit: BoxFit.cover)
-                ),
-                
+              // ছবির কন্টেইনারের কোণাগুলোও মূল কন্টেইনারের মতো গোলাকার করলে আরও সুন্দর লাগবে।
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10.0),
+                child: Image.network("https://i.postimg.cc/4NhHrvd9/Apple-i-Phone-15-Pro-Max-256-GB-Natural-Titanium-1-485x485-optimized.webp",height: 150,width: double.infinity,fit: BoxFit.cover,),
               ),
+              const SizedBox(height: 8),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -43,6 +42,7 @@ class Practiseg2 extends StatelessWidget{
 
                 ],
               ),
+              const SizedBox(height: 4),
               Text("A magical new way to interact with iPhone."),
             ],
           ),
