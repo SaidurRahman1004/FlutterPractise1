@@ -4,6 +4,9 @@ import 'package:url_launcher/url_launcher.dart';
 import 'SecondPage.dart';
 import 'layoutP.dart';
 import 'practisePage.dart';
+import 'Practiseg2.dart';
+
+
 
 void main(){
   runApp(const MyApp());
@@ -165,7 +168,7 @@ ButtonSnack(BuildContext context){   //এটি কল করলেই ভি�
             //Drawer Head
             DrawerHeader(child: UserAccountsDrawerHeader(
               decoration: BoxDecoration(color: Colors.black12),
-              currentAccountPicture: Image.network("https://i.postimg.cc/RFTxcvKh/profile-pic-1.png"),
+              currentAccountPicture: Image.network("https://i.postimg.cc/bNZdjVSY/o1.jpg"),
                 accountName: Text("Saidur Rahman" ,style: TextStyle(color: Colors.black),),
                 accountEmail: Text("siyambn705@gmail.com",style: TextStyle(color: Colors.black),),
               onDetailsPressed: (){
@@ -203,6 +206,11 @@ ButtonSnack(BuildContext context){   //এটি কল করলেই ভি�
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>practisePage()));
               },
             ),
+            ListTile(
+              leading: Icon(Icons.transfer_within_a_station),
+              title: Text("TestGminiTask"),
+              onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>Practiseg2()));},
+            ),
           ],
         ),
       ),
@@ -227,7 +235,7 @@ ButtonSnack(BuildContext context){   //এটি কল করলেই ভি�
                   children: [
 
                     Image.network(                      // 🖼️ ইন্টারনেট থেকে একটি ইমেজ লোড করে দেখায়
-                        "https://i.postimg.cc/RFTxcvKh/profile-pic-1.png"
+                        "https://i.postimg.cc/bNZdjVSY/o1.jpg"
                     ),
 
                     SizedBox(height: 15),               // ↕️ ইমেজ আর টেক্সট এর মাঝে 15 px ফাঁকা
@@ -290,7 +298,7 @@ ButtonSnack(BuildContext context){   //এটি কল করলেই ভি�
           padding: EdgeInsets.all(50),
           alignment: Alignment.topCenter,
           decoration: BoxDecoration(color: Colors.green,border: Border.all(color: Colors.black)),
-          child: Image.network("https://i.postimg.cc/RFTxcvKh/profile-pic-1.png"),
+          child: Image.network("https://i.postimg.cc/bNZdjVSY/o1.jpg"),
 
         ),
       ),

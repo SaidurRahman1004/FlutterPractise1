@@ -40,6 +40,8 @@ class practisePage extends StatelessWidget{
  */
 
 //task 2
+///practise  Row, Column, Expanded (Beginner Friendly)
+/*
 class practisePage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
@@ -78,6 +80,42 @@ class practisePage extends StatelessWidget{
   }
 
 
+
+
+}
+
+ */
+
+///Step 6.3 Task Container, Margin, Padding, SizedBox, Alignment
+class practisePage extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Task6.3"),
+        backgroundColor: Colors.cyanAccent,
+      ),
+      body: Center(
+        child: Container(
+          height: 150,
+          width: 300,
+          margin: EdgeInsets.all(20),
+          padding: EdgeInsets.all(20),
+          alignment: Alignment.center,
+          color: Colors.lightBlueAccent,
+          child: Column(
+            children: [
+              Text("Hello Layout"),
+              SizedBox(height: 20),
+              Text("You're learning Flutter"),
+
+            ],
+          ),
+        ),
+      )
+    );
+
+  }
 
 
 }
