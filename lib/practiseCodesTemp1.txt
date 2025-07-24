@@ -122,3 +122,40 @@ body: Center(
   ),
 ),
 /////////////////////////////////////////////////pT1.End...........................///////////////////////////////////////////////////////////////////
+import 'package:flutter/material.dart';
+
+class Step64Example extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Row & Column Alignment"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly, // ✅ উপরের থেকে নিচে সমানভাবে ফাঁকা
+        crossAxisAlignment: CrossAxisAlignment.center,     // ✅ বাম থেকে ডানে মাঝখানে রাখবে
+        children: [
+          Container(
+            height: 60,
+            width: 150,
+            color: Colors.red,
+            child: Center(child: Text("Box 1", style: TextStyle(color: Colors.white))),
+          ),
+          Container(
+            height: 60,
+            width: 150,
+            color: Colors.green,
+            child: Center(child: Text("Box 2", style: TextStyle(color: Colors.white))),
+          ),
+          Container(
+            height: 60,
+            width: 150,
+            color: Colors.blue,
+            child: Center(child: Text("Box 3", style: TextStyle(color: Colors.white))),
+          ),
+        ],
+      ),
+    );
+  }
+}

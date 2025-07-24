@@ -5,11 +5,12 @@ import 'SecondPage.dart';
 import 'layoutP.dart';
 import 'practisePage.dart';
 import 'Practiseg2.dart';
+import 'listview.dart';
 
 
 
 void main(){
-  runApp(const MyApp());
+  runApp( MyApp());  //listExample  //MyApp  //practisePage  //Practiseg2
 }
 ///এখানে ২ টি ক্লাস MyApp,HomeActivity !MyApp ক্লাসে HomeActivity কে home: এ ডিফাইন করা হয়েছে যা এপ চালু হলে প্রাথমিক স্ক্রিন হিসেবে দেখাবে!
 class MyApp extends StatelessWidget{
@@ -210,6 +211,11 @@ ButtonSnack(BuildContext context){   //এটি কল করলেই ভি�
               leading: Icon(Icons.transfer_within_a_station),
               title: Text("TestGminiTask"),
               onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>Practiseg2()));},
+            ),
+            ListTile(
+              leading: Icon(Icons.list),
+              title: Text("TestGminiTask"),
+              onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>listExample()));},
             ),
           ],
         ),

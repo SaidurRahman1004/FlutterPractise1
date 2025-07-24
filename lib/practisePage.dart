@@ -87,35 +87,77 @@ class practisePage extends StatelessWidget{
  */
 
 ///Step 6.3 Task Container, Margin, Padding, SizedBox, Alignment
+/*
 class practisePage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Task6.3"),
-        backgroundColor: Colors.cyanAccent,
-      ),
-      body: Center(
-        child: Container(
-          height: 150,
-          width: 300,
-          margin: EdgeInsets.all(20),
-          padding: EdgeInsets.all(20),
-          alignment: Alignment.center,
-          color: Colors.lightBlueAccent,
-          child: Column(
-            children: [
-              Text("Hello Layout"),
-              SizedBox(height: 20),
-              Text("You're learning Flutter"),
-
-            ],
-          ),
+        appBar: AppBar(
+          title: Text("Task6.3"),
+          backgroundColor: Colors.cyanAccent,
         ),
-      )
+        body: Center(
+          child: Container(
+            height: 151,
+            width: 300,
+            margin: EdgeInsets.all(20),
+            padding: EdgeInsets.all(20),
+            alignment: Alignment.center,
+            color: Colors.lightBlueAccent,
+            child: Column(
+              children: [
+                Text("Hello Layout"),
+                SizedBox(height: 20),
+                Text("You're learning Flutter"),
+
+              ],
+            ),
+          ),
+        )
     );
 
   }
 
 
+}
+
+ */
+
+///6.4: Row vs Column – Advanced Concepts + Alignment + CrossAxis
+
+
+class practisePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Step 6.4 Task"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround, // ✅ উপরের থেকে নিচে সমানভাবে ফাঁকা
+        crossAxisAlignment: CrossAxisAlignment.center,     // ✅ বাম থেকে ডানে মাঝখানে রাখবে
+        children: [
+          Container(
+            height: 80,
+            width: 100,
+            color: Colors.red,
+            child: Center(child: Text("One", style: TextStyle(color: Colors.white))),
+          ),
+          Container(
+            height: 80,
+            width: 100,
+            color: Colors.green,
+            child: Center(child: Text("Two", style: TextStyle(color: Colors.white))),
+          ),
+          Container(
+            height: 80,
+            width: 100,
+            color: Colors.blue,
+            child: Center(child: Text("Three", style: TextStyle(color: Colors.white))),
+          ),
+        ],
+      ),
+    );
+  }
 }
