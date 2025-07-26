@@ -163,6 +163,7 @@ class practisePage extends StatelessWidget {
 
  */
 //Task 6.5:Ans SizedBox, Expanded, Spacer – Flutter Layout
+/*
 class practisePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -185,5 +186,79 @@ class practisePage extends StatelessWidget {
   }
 }
 
+ */
 
+// Task 6.6:Ans Stack এবং Positioned Widget
+/*
+class practisePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Step 6.4 Task"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Center(
+        child: Stack(
+          children: <Widget>[
+            Container(
+              width: 300,
+              height: 300,
+              color: Colors.red,
+            ),
+            Positioned(
+              top: 0,
+              left: 0,
+              child: Container(
+                width: 100,
+                height: 100,
+                color: Colors.green,
+              ),
+              ),
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: Container(
+                height: 80,
+                width: 80,
+                color: Colors.blue,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+ */
+
+//🎯 Task 6.7 ListView, ListTile, ListView.builder
+class practisePage extends StatelessWidget {
+  var name = ["Rohan", "Priya", "David", "Siam", "Fatima", "Nabil", "John", "Maria", "Sumit", "Luna"];
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Step 6.4 Task"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Center(
+        child: ListView.builder(
+            itemCount: name.length,
+            itemBuilder: (BuildContext context, int index){
+              return ListTile(
+                leading: Icon(Icons.person),
+                title: Text(name[index]),
+                trailing: Icon(Icons.arrow_forward),
+                onTap: (){
+                  print("This is ${name[index]}");
+                },
+              );
+            }
+        ),
+      ),
+    );
+  }
+}
 
