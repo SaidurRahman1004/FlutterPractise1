@@ -124,8 +124,7 @@ class practisePage extends StatelessWidget{
  */
 
 ///6.4: Row vs Column – Advanced Concepts + Alignment + CrossAxis
-
-
+/*
 class practisePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -161,3 +160,30 @@ class practisePage extends StatelessWidget {
     );
   }
 }
+
+ */
+//Task 6.5:Ans SizedBox, Expanded, Spacer – Flutter Layout
+class practisePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Step 6.4 Task"),
+        backgroundColor: Colors.deepPurple,
+      ),
+      body: Row(
+        children: [
+          Expanded(child: Container(color: Colors.red,height: 100,child: Text("Box1"),)),
+          SizedBox(width: 10),
+          Container(width: 80, height: 100, color: Colors.green, child: Center(child: Text("Box2")),),
+          SizedBox(width: 10),
+          Expanded(child: Container(color: Colors.blue,height: 100,child: Text("Box3"),)),
+
+        ],
+      ),
+    );
+  }
+}
+
+
+

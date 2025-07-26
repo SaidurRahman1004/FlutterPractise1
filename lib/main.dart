@@ -2,15 +2,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'SecondPage.dart';
+import 'tabBottom.dart';
 import 'layoutP.dart';
 import 'practisePage.dart';
 import 'Practiseg2.dart';
 import 'listview.dart';
+import 'navigatorPassData.dart';
+import 'GminiPractise.dart';
 
-
+/*
+  runApp( MaterialApp(
+    home: GminiPractise(),
+  )
+ */
 
 void main(){
-  runApp( MyApp());  //listExample  //MyApp  //practisePage  //Practiseg2
+  runApp( MaterialApp(
+    home: GminiPractise(),
+  ));  //listExample  //MyApp  //practisePage  //Practiseg2 //ExampleOfAllList //GminiPractise
 }
 ///এখানে ২ টি ক্লাস MyApp,HomeActivity !MyApp ক্লাসে HomeActivity কে home: এ ডিফাইন করা হয়েছে যা এপ চালু হলে প্রাথমিক স্ক্রিন হিসেবে দেখাবে!
 class MyApp extends StatelessWidget{
@@ -148,7 +157,7 @@ ButtonSnack(BuildContext context){   //এটি কল করলেই ভি�
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.contact_mail),label: "Mail",),
           BottomNavigationBarItem(icon: Icon(Icons.home),label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.view_agenda),label: "View"),
+          BottomNavigationBarItem(icon: Icon(Icons.tab),label: "TabBar"),
         ],
         onTap: (int index){
           if(index == 0){
@@ -156,7 +165,7 @@ ButtonSnack(BuildContext context){   //এটি কল করলেই ভি�
           }else if(index==1){
             ButtonSnackbar("This is Home", context);
           }else if(index==2){
-            ButtonSnackbar("This is View", context);
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>ExampleOfAllList()));
           }
         },
 
@@ -216,6 +225,16 @@ ButtonSnack(BuildContext context){   //এটি কল করলেই ভি�
               leading: Icon(Icons.list),
               title: Text("TestGminiTask"),
               onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>listExample()));},
+            ),
+            ListTile(
+              leading: Icon(Icons.navigate_before),
+              title: Text("NavigatorPassData"),
+              onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>navigatorPassData()));},
+            ),
+            ListTile(
+              leading: Icon(Icons.navigate_before),
+              title: Text("Gmini"),
+              onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>GminiPractise()));},
             ),
           ],
         ),
