@@ -19,8 +19,8 @@ import 'GminiPractise.dart';
 void main(){
   runApp( MaterialApp(
     home: practisePage(),
-  ));  //listExample  //MyApp  //practisePage  //Practiseg2 //ExampleOfAllList //GminiPractise
-}
+  ));  //listExample  //MyApp  //practisePage  //Practiseg2 //ExampleOfAllList //GminiPractise  //CounterWidget
+ }
 ///এখানে ২ টি ক্লাস MyApp,HomeActivity !MyApp ক্লাসে HomeActivity কে home: এ ডিফাইন করা হয়েছে যা এপ চালু হলে প্রাথমিক স্ক্রিন হিসেবে দেখাবে!
 class MyApp extends StatelessWidget{
   const MyApp({super.key});
