@@ -316,6 +316,7 @@ class practisePage extends StatelessWidget {
 
  */
 //Task 6.9: ListTile Customization + Leading, Trailing, Subtitle
+/*
 class practisePage extends StatelessWidget {
   var nameOccu = [
     {"name": "Siyam", "subtitle": "Flutter Developer"},
@@ -360,6 +361,178 @@ class practisePage extends StatelessWidget {
     );
   }
 }
+
+ */
+
+//extra
+
+/*
+class practisePage extends StatelessWidget {
+  int num =0;
+
+  mysnk(msg,context){
+    return ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Step 6.9 Task"),
+          backgroundColor: Colors.deepPurple,
+        ),
+        body: Center(
+          child: InkWell(
+
+            child: Container(
+              height: 200,
+              width: 200,
+              color: Colors.blue,
+              child: Center(child: Text("Click",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.yellow),textAlign: TextAlign.center,)),
+
+            ),
+          ),
+        ),
+      ),
+
+    );
+
+  }
+
+
+}
+
+ */
+
+//Statefull Widget Simple CounterApp
+
+/*
+নিচের কোডটি একটি Flutter Counter App যা StatefulWidget ব্যবহার করে তৈরি করা হয়েছে।
+ইউজার একটি বাটনে ক্লিক করলে Counter সংখ্যা বাড়াতে (➕) ও কমাতে (➖) পারে। এখন আমরা একে একেবারে লাইন-বাই-লাইন ব্যাখ্যা করব বাংলা ভাষায়, প্রতিটি লাইনের পাশে কমেন্ট সহ, সুন্দর ফরম্যাটে:
+ */
+/*
+class practisePage extends StatefulWidget {
+  const practisePage({super.key});
+
+  @override
+  State<practisePage> createState() => _practisePageState();
+}
+
+class _practisePageState extends State<practisePage> {
+  int count = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Counter"),
+          backgroundColor: Colors.deepPurple,
+        ),
+        body: Center(
+          child: Column(
+            children: [
+              Container(
+                alignment: Alignment.center,
+                height: 300,
+                width: 300,
+                color: Colors.blue,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(count.toString(),style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.yellow),textAlign: TextAlign.center,),
+                    SizedBox(height: 10,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        OutlinedButton(onPressed: (){setState(() {
+                          count++;
+                        });}, child: Icon(Icons.add,size: 30,color: Colors.yellow,)),
+
+                        SizedBox(width: 10,),
+                        OutlinedButton(onPressed: (){setState(() {
+                          count--;
+                        });}, child: Icon(Icons.remove,size: 30,color: Colors.yellow,)),
+
+                      ],
+                    ),
+
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+        ),
+      ),
+    );
+  }
+}
+
+ */
+
+//নিচের নির্দেশনা অনুযায়ী একটি Flutter UI App বানাও:🔹 ListView এর ভিতরে ৩টি Card থাকবে
+///Task 6.10 Ans:  Card Widget in Flutter – Full Beginner Guide  
+class practisePage extends StatelessWidget {
+  const practisePage({super.key});
+  mysnk(msg,context){
+    return ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: Text(" Task 6.10 Ans card"),),
+        body: ListView(
+          padding: EdgeInsets.all(20),
+          children: [
+            Card(
+              elevation: 10,
+              child: ListTile(
+                leading: CircleAvatar(child: Text("S"),),
+                title: Text("Siyam"),
+                subtitle: Text("Flutter Developer"),
+                trailing: Icon(Icons.arrow_forward),
+                onLongPress: (){mysnk("Siyam is selected",context);},
+                
+              ),
+
+            ),
+            Card(
+              elevation: 10,
+              child: ListTile(
+                leading: CircleAvatar(child: Text("S"),),
+                title: Text("Saidur"),
+                subtitle: Text("Kotlin Developer"),
+                trailing: Icon(Icons.arrow_forward),
+                onLongPress: (){mysnk("Saidur is selected",context);},
+
+              ),
+
+            ),
+            Card(
+              elevation: 10,
+              child: ListTile(
+                leading: CircleAvatar(child: Text("HI"),),
+                title: Text("Hiru"),
+                subtitle: Text("kungfu Developer"),
+                trailing: Icon(Icons.arrow_forward),
+                onLongPress: (){mysnk("Hiru is selected",context);},
+
+              ),
+
+            ),
+          ],
+
+        ),
+
+    );
+  }
+}
+
 
 
 
