@@ -81,6 +81,7 @@ class ListStackBuilder extends StatelessWidget{
 
  */
 ///মডিউল ২-এর শেষ ধাপ,  StatefulWidget
+/*
 class GminiPractise extends StatefulWidget {
   const GminiPractise({super.key});
   @override
@@ -124,6 +125,101 @@ class _GminiPractiseState extends State<GminiPractise> {
 
           ),
         ),
+      ),
+    );
+  }
+}
+
+ */
+
+// পরীক্ষা (Exam)  প্রজেক্ট (Project) ডিজিটাল বিজনেস কার্ড" অ্যাপ
+/*
+এই কোডটি একটি StatelessWidget যা একটি Flutter অ্যাপে ব্যবহারকারীর প্রোফাইল কার্ড দেখায়। কার্ডে ইউজারের ছবি,
+ নাম, পেশা, ইমেইল ও ফোন নম্বর রয়েছে। এটি Scaffold, AppBar, Card, ListTile, Row, এবং Icon widget গুলোর সমন্বয়ে তৈরি একটি সাধারণ
+ UI layout। এর মাধ্যমে Flutter UI তৈরি ও ডাটা দেখানোর একটি সুন্দর বাস্তব উদাহরণ তৈরি করা হয়েছে।
+
+ */
+///মডিউল 2: একটি "ডিজিটাল বিজনেস কার্ড" অ্যাপ
+/*
+class GminiPractise extends StatelessWidget {                       // 📌 একটি StatelessWidget ক্লাস তৈরি করা হয়েছে যার নাম GminiPractise
+  const GminiPractise({super.key});                                   // 🔐 Constructor যা key প্যারামিটার গ্রহণ করে (optional)
+
+  final String Imgurl = "https://i.postimg.cc/jjKRZgRq/profile-pic-1.png";   // 🖼️ একটি image URL স্টোর করার জন্য ফিক্সড স্ট্রিং ভ্যালু
+
+  @override
+  Widget build(BuildContext context) {                                     // 🔁 build() method – UI রেন্ডার করার জন্য কাজ করে
+    return Scaffold(                                // 🧱 Scaffold – একটি basic layout structure
+      appBar: AppBar(                               // 🟦 AppBar – উপরের title bar
+        title: Text("Gmini Practise"),              // 📝 AppBar এর মধ্যে টাইটেল
+      ),
+      body: Center(                                 // 📦 Body কে স্ক্রিনের মাঝে আনবে
+        child: Column(                              // ↕️ একের পর এক UI item দেখাতে Column ব্যবহার করা হয়েছে
+          children: [
+            Container(                              // 📦 একটি container যাতে কার্ডটি রাখা হয়েছে
+              height: 220,                          // ↕️ Container এর উচ্চতা 220px
+              width: 300,                           // ↔️ প্রস্থ 300px
+              child: Card(                          // 🃏 Card widget – সুন্দর Shadow সহ box তৈরি
+                margin: EdgeInsets.all(20),         // 🧱 Card এর চারপাশে ২০px margin
+                elevation: 30,                      // 🪄 Card এর shadow depth – 30 মানে অনেক উঁচু
+
+                child: Column(                      // ↕️ Card এর মধ্যে এলিমেন্টগুলো সাজানো হয়েছে Column দিয়ে
+                  mainAxisSize: MainAxisSize.min,   // 🔧 Card এর height content অনুযায়ী হবে (min মানে যতটুকু দরকার)
+                  children: [
+
+                    ListTile(                       // 📋 ListTile – একটি row আকারে ডেটা দেখাতে ব্যবহৃত widget
+                      leading: CircleAvatar(        // 🧑 বাম পাশে একটি গোলাকার প্রোফাইল ছবি
+                        backgroundImage:NetworkImage(Imgurl),  // 🌐 ইন্টারনেট থেকে প্রোফাইল ইমেজ লোড হচ্ছে
+                      ),
+                      title: Text("Saidur Rahman"),     // 🔠 টাইটেল – ইউজারের নাম
+                      subtitle: Text("App Developer"),  // 📌 সাবটাইটেল – পেশা
+                    ),
+
+                    Divider(                        // ➖ একটি divider লাইন (horizontal line)
+                      color: Colors.purple,         // 🟣 Divider এর রঙ
+                      thickness: 3,                 // 🔁 Divider এর পুরুত্ব ৩px
+                      endIndent: 20,                // ↘️ ডান পাশে ২০px ফাঁকা রাখা হয়েছে
+                    ),
+
+                    Row(                            // ↔️ একটি row – ইমেইল দেখানোর জন্য
+                      mainAxisAlignment: MainAxisAlignment.center,  // ↔️ মাঝ বরাবর অ্যালাইন
+                      children: [
+                        Icon(Icons.email),          // 📧 Email আইকন
+                        Text("saidur0410@gmail.com")// ✉️ Email address
+                      ],
+                    ),
+
+                    SizedBox(height: 5,),           // ↕️ একটু ফাঁকা জায়গা রাখার জন্য
+
+                    Row(                            // ↔️ একটি row – ফোন নম্বর দেখানোর জন্য
+                      mainAxisAlignment: MainAxisAlignment.center,  // ↔️ মাঝ বরাবর অ্যালাইন
+                      children: [
+                        Icon(Icons.call),           // 📞 Call আইকন
+                        Text("01817278961")         // ☎️ ফোন নম্বর
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+ */
+
+///GminiPractise
+class GminiPractise extends StatelessWidget {
+  const GminiPractise({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("মডিউল ৩:"),backgroundColor: Colors.purple,),
+      body: Center(
+
       ),
     );
   }

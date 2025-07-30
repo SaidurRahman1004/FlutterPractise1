@@ -107,3 +107,202 @@ class _practisePageState extends State<practisePage> {            // 🔹 ৪. �
 
  */
 
+///বাটন ক্লিক করে টেক্সট চেইঞ্জ
+/*
+class StatefullWidgetAiAll extends StatefulWidget {
+  const StatefullWidgetAiAll({super.key});
+
+  @override
+  State<StatefullWidgetAiAll> createState() => _StatefullWidgetAiAllState();
+}
+
+class _StatefullWidgetAiAllState extends State<StatefullWidgetAiAll> {
+  String txt = "Its Wil be changed Just Click Button";
+  String txtCng = "Yes Changed";
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("StatefullWidgetAiAll"),),
+      body: Center(
+        child: Column(
+          children: [
+            Container(
+              height: 210,
+              width: 210,
+              margin: EdgeInsets.all(30),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(txt),
+                  ElevatedButton(onPressed: (){setState(() {txt = txtCng;});}, child: Text("Changed txt")),
+                ],
+              ),
+
+            ),
+          ],
+        ),
+
+      ),
+    );
+  }
+}
+
+
+ */
+
+// ///Image  ক্লিক করে টেক্সট নাম চেইঞ্জ
+/*
+
+class StatefullWidgetAiAll extends StatefulWidget {
+  const StatefullWidgetAiAll({super.key});
+
+  @override
+  State<StatefullWidgetAiAll> createState() => _StatefullWidgetAiAllState();
+}
+
+class _StatefullWidgetAiAllState extends State<StatefullWidgetAiAll> {
+  String username1 = "Saidur Rahman";
+  String defult = "Press Image to see Name";
+  final String Imgurl = "https://i.postimg.cc/jjKRZgRq/profile-pic-1.png";
+  final String Imgurl2 = "https://i.postimg.cc/bNZdjVSY/o1.jpg";
+  snkbar(msg,context){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("StatefullWidgetAiAll"),),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: (){
+                setState(() {
+                  defult = username1;
+
+                });
+              },
+              child: Container(
+                height: 100,
+                width: 100,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(image: NetworkImage(Imgurl),fit: BoxFit.cover),
+                ),
+
+              ),
+            ),
+            SizedBox(height: 15),
+            Text(defult, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            SizedBox(height: 15),
+
+            InkWell(
+              onTap: (){
+                setState(() {
+                  defult = "Siyam";
+                });
+              },
+
+              child: Container(
+                height: 100,
+                width: 100,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    image: DecorationImage(image: NetworkImage(Imgurl2),fit: BoxFit.cover),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black,
+                          blurRadius: 10,
+                          spreadRadius: 2,
+                          offset: Offset(0,2)
+                      )
+                    ]
+                ),
+
+
+              ),
+            )
+          ],
+
+        ),
+      ),
+
+
+    );
+
+  }
+}
+
+
+ */
+
+
+
+
+
+//.......................................
+class StatefullWidgetAiAll extends StatefulWidget {
+  const StatefullWidgetAiAll({super.key});
+
+  @override
+  State<StatefullWidgetAiAll> createState() => _UserInputPageState();
+}
+
+class _UserInputPageState extends State<StatefullWidgetAiAll> {
+  // 1. TextEditingController তৈরি করা
+  final TextEditingController _nameController = TextEditingController();
+
+  // 2. State ভ্যারিয়েবল, যা ব্যবহারকারীর নাম ধারণ করবে
+  String _displayName = '';
+
+  @override
+  void dispose() {
+    // 3. Controller-কে dispose করা জরুরি, নয়তো মেমোরি লিক হতে পারে
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("User Input")),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // 4. TextField এবং Controller-কে যুক্ত করা
+            TextField(
+              controller: _nameController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Enter Your Name',
+                hintText: 'e.g., Saidur Rahman',
+                prefixIcon: Icon(Icons.person),
+              ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                // 5. বাটন চাপলে Controller থেকে টেক্সট নিয়ে State আপডেট করা
+                setState(() {
+                  _displayName = _nameController.text;
+                });
+              },
+              child: const Text('Show Name'),
+            ),
+            const SizedBox(height: 30),
+            Text(
+              'Hello, $_displayName', // 6. আপডেট হওয়া নাম এখানে দেখানো
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+

@@ -159,3 +159,133 @@ class _GminiPractiseState extends State<GminiPractise> {
     );
   }
 }
+........................................................................................
+বহুনির্বাচনী প্রশ্ন (MCQ) - (মান: ১০) এর সকল উত্তরঃ
+১. একটি StatefulWidget-এর UI আপডেট করার জন্য কোন মেথডটি কল করা আবশ্যক?
+গ) setState()
+
+২. একটি Row উইজেটের ভেতরে আইটেমগুলোকে উল্লম্বভাবে (vertically) মাঝে আনার জন্য কোন প্রোপার্টি ব্যবহার করা হয়?
+খ) crossAxisAlignment
+৩. অনেক বড় বা ডাইনামিক লিস্ট দেখানোর জন্য কোনটি ব্যবহার করা সবচেয়ে কার্যকরী?
+ঘ) ListView.builder
+
+৪. Container উইজেটের বর্ডারের ভেতরের খালি জায়গাকে কী বলা হয়?
+গ) padding
+
+৫. Stack-এর ভেতরে একটি উইজেটকে নির্দিষ্ট স্থানে বসানোর জন্য কোন উইজেটটি ব্যবহার করা হয়?
+খ) Positioned
+৬. StatelessWidget-এর প্রধান বৈশিষ্ট্য কী?
+ক) এটি নিজের অবস্থা পরিবর্তন করতে পারে
+৭. একটি Flutter অ্যাপের রুট বা মূল কাঠামো তৈরি করে কোন উইজেট?
+গ) MaterialApp
+
+৮. একটি Column-এর mainAxisAlignment কোন দিক বরাবর কাজ করে?
+খ) উপর-নিচ (Vertically)
+
+৯. কোন উইজেটটি ট্যাপ করলে Material Design-এর ripple effect দেখায়?
+ঘ) InkWell
+
+১০. ListView.builder-এর কোন দুটি প্রোপার্টি অবশ্যই দিতে হয়?
+গ) itemCount ও itemBuilder
+
+সংক্ষিপ্ত প্রশ্ন - (মান: ৫)
+১১. সহজ ভাষায়, StatelessWidget এবং StatefulWidget-এর মধ্যে মূল পার্থক্য কী? কখন কোনটি ব্যবহার করবে?
+Ans:
+StatelessWidget vs StatefulWidget এর পার্থক্য:
+| বিষয়    | StatelessWidget           | StatefulWidget                                 |
+| ------- | ------------------------- | ---------------------------------------------- |
+| State   | পরিবর্তন হয় না (Fixed UI) | পরিবর্তনযোগ্য UI                               |
+| ব্যবহার | যেসব UI একবার দেখালেই হয়  | যেসব UI ইউজার Interaction এর কারণে পরিবর্তন হয় |
+| উদাহরণ  | App Logo, Static Text     | Counter App, Form Input                        |
+কখন ব্যবহার করবে:
+
+যদি UI একবার রেন্ডার করার পর আর আপডেট না লাগে → StatelessWidget
+
+যদি UI ইউজার একশন অনুযায়ী আপডেট হয় → StatefulWidget
+
+
+১২. Row এবং Column-এর মধ্যে প্রধান পার্থক্য কী? mainAxisAlignment এবং crossAxisAlignment এই দুটি উইজেটের ক্ষেত্রে কীভাবে ভিন্নভাবে কাজ করে?
+ans:
+Row vs Column ও Axis Alignment পার্থক্য:
+Row - Horizontal (পাশাপাশি)
+Column = Vertical (উপর-নিচে)
+
+
+➡️ mainAxisAlignment:
+
+Row-তে → বাম থেকে ডানে আইটেমগুলোর অ্যালাইনমেন্ট
+
+Column-এ → উপর থেকে নিচে অ্যালাইনমেন্ট
+
+➡️ crossAxisAlignment:
+
+Row-তে → উল্লম্বভাবে (Vertically) অ্যালাইনমেন্ট
+
+Column-এ → অনুভূমিকভাবে (Horizontally) অ্যালাইনমেন্ট
+
+প্রজেক্ট (Project): Ans:
+ একটি "ডিজিটাল বিজনেস কার্ড" অ্যাপ:
+
+ class GminiPractise extends StatelessWidget {
+   const GminiPractise({super.key});
+   final String Imgurl = "https://i.postimg.cc/jjKRZgRq/profile-pic-1.png";
+
+   @override
+   Widget build(BuildContext context) {
+     return Scaffold(
+       appBar: AppBar(
+         title: Text("Gmini Practise"),
+       ),
+       body: Center(
+         child: Column(
+           children: [
+             Container(
+               height: 220,
+               width: 300,
+               child: Card(
+                 margin: EdgeInsets.all(20),
+
+                 elevation: 30,
+                 child: Column(
+                   mainAxisSize: MainAxisSize.min,
+                   children: [
+                     ListTile(
+                       leading: CircleAvatar(
+                         backgroundImage:NetworkImage(Imgurl) ,
+                       ),
+                       title: Text("Saidur Rahman"),
+                       subtitle: Text("App Developer"),
+                     ),
+                     Divider(
+                       color: Colors.purple,
+                       thickness: 3,
+                       endIndent: 20,
+                     ),
+                     Row(
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       children: [
+                         Icon(Icons.email),
+                         Text("saidur0410@gmail.com")
+                       ],
+                     ),
+                     SizedBox(height: 5,),
+                     Row(
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       children: [
+                         Icon(Icons.call),
+                         Text("01817278961")
+                       ],
+                     )
+                   ],
+                 ),
+
+               ),
+             ),
+           ],
+         ),
+
+
+       ),
+     );
+   }
+ }

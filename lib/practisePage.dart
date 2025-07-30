@@ -473,6 +473,7 @@ class _practisePageState extends State<practisePage> {
 }
 
  */
+/*
 
 //নিচের নির্দেশনা অনুযায়ী একটি Flutter UI App বানাও:🔹 ListView এর ভিতরে ৩টি Card থাকবে
 ///Task 6.10 Ans:  Card Widget in Flutter – Full Beginner Guide  
@@ -533,8 +534,93 @@ class practisePage extends StatelessWidget {
   }
 }
 
+ */
+/*
+৮. একটি Column-এর mainAxisAlignment কোন দিক বরাবর কাজ করে?
+খ) উপর-নিচ (Vertically)
+ */
+//Task 6.11: Flutter Image + Decoration + Rounded UI
+/*
+class practisePage extends StatelessWidget {
+  String username1 = "Saidur Rahman";
+  String username2 = "Siyam";
+  final String Imgurl = "https://i.postimg.cc/jjKRZgRq/profile-pic-1.png";
+  final String Imgurl2 = "https://i.postimg.cc/bNZdjVSY/o1.jpg";
+  snkbar(msg,context){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("practisePage"),),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: (){
+                snkbar("Image clicked by $username1", context);
+              },
+              child: Container(
+                height: 100,
+                width: 100,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(image: NetworkImage(Imgurl),fit: BoxFit.cover),
+                ),
+              
+              ),
+            ),
+            Text("SR Sheam"),
+            GestureDetector(
+              onTap: (){
+                snkbar("Image clicked by $username2", context);
+              },
+
+              child: Container(
+                height: 100,
+                width: 100,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  image: DecorationImage(image: NetworkImage(Imgurl2),fit: BoxFit.cover),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black,
+                      blurRadius: 10,
+                        spreadRadius: 2,
+                      offset: Offset(0,2)
+                    )
+                  ]
+                ),
 
 
+              ),
+            )
+          ],
+
+        ),
+
+
+      ),
+    );
+  }
+}
+
+ */
+///Practice Task 6.12:Ans: Page Navigation (Routes)
+class practisePage extends StatelessWidget {
+
+  snkbar(msg,context){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("practisePage"),),
+      body: Center(),
+    );
+  }
+}
 
 
 
