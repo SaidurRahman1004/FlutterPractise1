@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'SecondPage.dart';
 import 'StatefullWidgetAiAll.dart';
+import 'TextFormFieldEditingController.dart';
 import 'tabBottom.dart';
 import 'layoutP.dart';
 import 'practisePage.dart';
@@ -25,8 +26,9 @@ void main(){
 //Copyed
 void main(){
   runApp( MaterialApp(
-    home: StatefullWidgetAiAll(),
-  ) ); //listExample  //MyApp  //practisePage  //Practiseg2 //ExampleOfAllList //GminiPractise  //CounterWidget //StatefullWidgetAiAll
+    home: TextFormFieldEditingController(),
+    debugShowCheckedModeBanner: false,
+  ) ); //listExample  //MyApp  //practisePage  //Practiseg2 //ExampleOfAllList //GminiPractise  //CounterWidget //StatefullWidgetAiAll //TextFormFieldEditingController
  }
 ///এখানে ২ টি ক্লাস MyApp,HomeActivity !MyApp ক্লাসে HomeActivity কে home: এ ডিফাইন করা হয়েছে যা এপ চালু হলে প্রাথমিক স্ক্রিন হিসেবে দেখাবে!
 class MyApp extends StatelessWidget{

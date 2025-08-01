@@ -242,7 +242,8 @@ class _StatefullWidgetAiAllState extends State<StatefullWidgetAiAll> {
 
 
 
-//.......................................
+//.......................Extra Copued From Ai................
+
 class StatefullWidgetAiAll extends StatefulWidget {
   const StatefullWidgetAiAll({super.key});
 
@@ -306,3 +307,95 @@ class _UserInputPageState extends State<StatefullWidgetAiAll> {
   }
 }
 
+//Another Extra
+
+/*
+
+// এটি একটি StatelessWidget, কারণ ফর্মের ডেটা এবং অবস্থা (state)
+// সরাসরি এই ক্লাসে রাখা হয়নি।
+class StatefullWidgetAiAll extends StatelessWidget {
+  // ✅ _formKey: ফর্মের জন্য একটি ইউনিক চাবি বা শনাক্তকারী।
+  // এর মাধ্যমে ফর্মের বর্তমান অবস্থা (state) নিয়ন্ত্রণ করা যায়।
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  // ✅ TextEditingController: নাম ইনপুট ফিল্ডের জন্য একটি রিমোট কন্ট্রোল।
+  // এর মাধ্যমে ফিল্ডের লেখা পড়া বা পরিবর্তন করা যায়।
+  final TextEditingController nameCtrl = TextEditingController();
+
+  // ✅ TextEditingController: পাসওয়ার্ড ইনপুট ফিল্ডের জন্য আরেকটি রিমোট কন্ট্রোল।
+  final TextEditingController passCtrl = TextEditingController();
+
+  // এই ফাংশনটি বাটন ক্লিক করলে কল হবে।
+  void submitData(BuildContext context) {
+    // ফর্মের validate() মেথড কল করে সব validator চেক করা হচ্ছে।
+    if (_formKey.currentState!.validate()) {
+      // যদি সব ফিল্ডের ভ্যালিডেশন সঠিক হয়...
+
+      // কন্ট্রোলার ব্যবহার করে নাম এবং পাসওয়ার্ডের লেখাগুলো পড়া হচ্ছে।
+      String name = nameCtrl.text;
+      String pass = passCtrl.text;
+
+      // ✅ ScaffoldMessenger: স্ক্রিনের নিচে একটি মেসেজ (SnackBar) দেখানোর জন্য।
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Welcome $name! Login Successful ✅")),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Login Form")),
+      body: Padding(
+        padding: EdgeInsets.all(20),
+        // ✅ Form: একাধিক ইনপুট ফিল্ডকে একটি গ্রুপ হিসেবে ধরে রাখে।
+        child: Form(
+          key: _formKey, // ফর্মের সাথে চাবিটি যুক্ত করা হলো।
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // 👉 Name Field
+              TextFormField(
+                controller: nameCtrl, // নাম ফিল্ডের সাথে তার কন্ট্রোলার যুক্ত করা হলো।
+                decoration: InputDecoration(labelText: "Enter your name"),
+                // ✅ validator: এই ফিল্ডের ইনপুট যাচাই করার নিয়ম।
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    // যদি ফিল্ড খালি থাকে, তাহলে এই এরর মেসেজটি দেখানো হবে।
+                    return 'Name cannot be empty';
+                  }
+                  return null; // যদি সব ঠিক থাকে, তাহলে null রিটার্ন করতে হবে।
+                },
+              ),
+              SizedBox(height: 20),
+
+              // 👉 Password Field
+              TextFormField(
+                controller: passCtrl, // পাসওয়ার্ড ফিল্ডের সাথে তার কন্ট্রোলার যুক্ত করা হলো।
+                obscureText: true,    // ✅ obscureText: লেখার অক্ষরগুলোকে * চিহ্ন দিয়ে গোপন রাখে।
+                decoration: InputDecoration(labelText: "Enter your password"),
+                validator: (value) {
+                  if (value == null || value.length < 6) {
+                    // যদি পাসওয়ার্ড ৬ অক্ষরের কম হয়, তাহলে এরর মেসেজ দেখানো হবে।
+                    return 'Password must be at least 6 characters';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 30),
+
+              // 👉 Submit Button
+              ElevatedButton(
+                // বাটন চাপলে submitData ফাংশনটি কল হবে।
+                onPressed: () => submitData(context),
+                child: Text("Login"),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+ */
