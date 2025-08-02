@@ -607,18 +607,134 @@ class practisePage extends StatelessWidget {
 }
 
  */
-///Practice Task 6.12:Ans: Page Navigation (Routes)
-class practisePage extends StatelessWidget {
+/// Practice Task 6.14: Ans . Flutter Checkbox, Radio Button, Switch
+/*
+class practisePage extends StatefulWidget {
+  const practisePage({super.key});
 
-  snkbar(msg,context){
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
-  }
+  @override
+  State<practisePage> createState() => _practisePageState();
+}
+
+class _practisePageState extends State<practisePage> {
+  bool isChkd = false;
+  bool isSwiched = false;
+  String slectOptn = "Teacher";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("practisePage"),),
-      body: Center(),
+      body: Center(
+        child: Padding(
+          padding: EdgeInsets.all(10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Card(
+                elevation: 10,
+                child: CheckboxListTile(
+                    value: isChkd,
+                    title: Text("I accept terms & conditions"),
+                    onChanged: (valu){
+                  setState(() {
+                    isChkd = valu!;
+                  });
+                }),
+              ),
+              SizedBox(height: 10,),
+              Text("Select Options"),
+
+              Card(
+                elevation: 10,
+                child: RadioListTile(title: Text("Teacher"),value: "Teacher", groupValue: slectOptn, onChanged: (value){setState(() {
+                  slectOptn = value!;
+                });}),
+
+              ),
+              Card(
+                elevation: 10,
+                child: RadioListTile(title: Text("Student"),value: "Student", groupValue: slectOptn, onChanged: (value){setState(() {
+                  slectOptn = value!;
+                });}),
+
+              ),
+              SizedBox(height: 10,),
+              SwitchListTile(
+                  value: isSwiched,
+                  title: Text("Enable Notification"),
+                  onChanged: (values){setState(() {
+                    isSwiched = values;
+                  });}),
+            ],
+          ),
+
+        ),
+      ),
     );
+  }
+}
+
+ */
+
+///darkmode
+/*
+class practisePage extends StatefulWidget {
+  const practisePage({super.key});
+
+  @override
+  State<practisePage> createState() => _practisePageState();
+}
+
+class _practisePageState extends State<practisePage> {
+  bool isDark = false; //প্রথমিক অবস্থাই ডার্ক Mode OFF ,light থাকবে
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      //lightMoge
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        brightness: Brightness.light,
+      ),
+      //DarktMoge
+      darkTheme: ThemeData(primarySwatch: Colors.blue,brightness: Brightness.dark),
+      //ThemeMode
+      themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
+      home: Scaffold(
+        appBar: AppBar(title: Text("All CustomFunctions",),),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SwitchListTile(value: isDark,title: Text("DarkMode"), onChanged: (darkValue){
+                setState(() {
+                  isDark = darkValue;
+                });
+              })
+            ],
+          ),
+        ),
+      ),
+    );
+
+
+  }
+}
+
+
+ */
+
+class practisePage extends StatefulWidget {
+  const practisePage({super.key});
+
+  @override
+  State<practisePage> createState() => _practisePageState();
+}
+
+class _practisePageState extends State<practisePage> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }
 

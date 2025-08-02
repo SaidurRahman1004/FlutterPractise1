@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'CustomWidgetFunction/CustomFunctions.dart';
 //মডিউল ২ button
 /*
 class GminiPractise extends StatelessWidget {
@@ -210,16 +211,176 @@ class GminiPractise extends StatelessWidget {                       // 📌 এ�
 
  */
 
-///GminiPractise
-class GminiPractise extends StatelessWidget {
-  const GminiPractise({super.key});
+///প্র্যাকটিস টাস্ক Ans:
+/*
+class GminiPractise extends StatefulWidget {
+   const GminiPractise({super.key});
 
+
+  @override
+  State<GminiPractise> createState() => _GminiPractiseState();
+}
+
+class _GminiPractiseState extends State<GminiPractise> {
+  final TextEditingController _nameC = TextEditingController();
+  String _DisplyName = "";
+  ///txtStyle Function
+  txtStyl(){
+    return TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.red);
+  }
+  @override
+  void dispose(){
+    _nameC.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("মডিউল ৩:"),backgroundColor: Colors.purple,),
-      body: Center(
+      appBar: AppBar(title: Text("TextField "),),
+      body: Padding(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            TextField(
+              controller: _nameC,
+              decoration: InputDecoration(
+                labelText:"Enter Yor Name",
+                hintText: 'Ex. Hiru',
+                border: OutlineInputBorder(),
+              ),
 
+            ),
+            SizedBox(height: 10,),
+            ElevatedButton(onPressed: (){
+              if(_nameC.text.isNotEmpty){
+                setState(() {
+                  _DisplyName = _nameC.text;
+                });
+              }else{
+                setState(() {
+                  _DisplyName = "Please Enter Your Name";
+                });
+              }
+
+            }, child: Text("Greet Me")),
+            SizedBox(height: 15,),
+            Text("Hello, ${_DisplyName}",style: txtStyl(),)
+            
+          ],
+          
+        ),
+      ),
+    );
+  }
+}
+
+ */
+
+//taSK Ans: TextFormField
+class GminiPractise extends StatefulWidget {
+  const GminiPractise({super.key});
+
+  @override
+  State<GminiPractise> createState() => _GminiPractiseState();
+}
+
+class _GminiPractiseState extends State<GminiPractise> {
+   snkbtn(msg,context){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+  }
+  final _formKey  = GlobalKey<FormState>();
+   TextEditingController _nameC = TextEditingController();
+   TextEditingController _mailC = TextEditingController();
+   String nameDis = "";
+   String mailmeDis = "";
+   String isSuccess = "";
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Registration Form Task"),),
+      body: Padding(
+          padding: EdgeInsets.all(20),
+          child: Form(
+            key: _formKey ,
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: _nameC,
+                  validator: (value){
+                    if(value!.isEmpty){
+                      return "Please Fill Your Name";
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    labelText: "Enter Your Name",
+                    hintText: "Ex. Hiru",
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+
+                  ),
+                ),
+                SizedBox(height: 15,),
+
+                TextFormField(
+                  controller: _mailC,
+                  validator: (value){
+                    if(value!.isEmpty || value.contains("@")==false){
+                      return "Please Fill Your Valid Email";
+                    }
+                    return null;
+                  },
+
+                  decoration: InputDecoration(
+                    labelText: "Enter Your Email",
+                    hintText: "Ex. fsgf@gmail.com",
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+
+                  ),
+                ),
+                SizedBox(height: 15,),
+
+                TextFormField(
+                  validator: (value){
+                    if(value!.isEmpty || value.length < 8){
+                      return "Please Fill Your Valid Password";
+                    }
+                    return null;
+
+                  },
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: "Enter Your Pass",
+                    hintText: "@gsg!Dg",
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+
+                  ),
+                ),
+                SizedBox(height: 20,),
+                ElevatedButton(onPressed: (){
+                  if (_formKey .currentState!.validate()) {
+                    snkbtn("Registration Successful!!", context);
+                    setState(() {
+                      nameDis = "Your Name is ${_nameC.text}";
+                      mailmeDis = "Your Email is ${_mailC.text}";
+                      isSuccess = "Registration Successful!!";
+                    });
+                  }
+
+                }, child: Text("Register")),
+                SizedBox(height: 10,),
+                Text(nameDis.toString()),
+                SizedBox(height: 10,),
+                Text(mailmeDis),
+                SizedBox(height: 10,),
+                Text(isSuccess),
+
+
+
+
+              ],
+
+            ),)
       ),
     );
   }

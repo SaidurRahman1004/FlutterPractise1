@@ -12,6 +12,7 @@ import 'listview.dart';
 import 'navigatorPassData.dart';
 import 'GminiPractise.dart';
 
+
 /*
   runApp( MaterialApp(
     home: GminiPractise(),
@@ -20,16 +21,24 @@ import 'GminiPractise.dart';
 
 /*
 void main(){
-  runApp( MyApp());
+  runApp( GminiPractise());
  }
+
+
  */
+
+
 //Copyed
+
 void main(){
   runApp( MaterialApp(
-    home: TextFormFieldEditingController(),
-    debugShowCheckedModeBanner: false,
+    home: GminiPractise(),
+
   ) ); //listExample  //MyApp  //practisePage  //Practiseg2 //ExampleOfAllList //GminiPractise  //CounterWidget //StatefullWidgetAiAll //TextFormFieldEditingController
  }
+
+
+
 ///এখানে ২ টি ক্লাস MyApp,HomeActivity !MyApp ক্লাসে HomeActivity কে home: এ ডিফাইন করা হয়েছে যা এপ চালু হলে প্রাথমিক স্ক্রিন হিসেবে দেখাবে!
 class MyApp extends StatelessWidget{
   const MyApp({super.key});
