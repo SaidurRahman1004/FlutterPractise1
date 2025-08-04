@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'CustomWidgetFunction/CustomFunctions.dart';
+import 'Drawer.dart';
 import 'SecondPage.dart';
 import 'StatefullWidgetAiAll.dart';
+import 'TabBarBottomNavigationBar.dart';
 import 'TextFormFieldEditingController.dart';
 import 'tabBottom.dart';
 import 'layoutP.dart';
@@ -21,21 +24,28 @@ import 'GminiPractise.dart';
 
 /*
 void main(){
-  runApp( GminiPractise());
+  runApp( MyApp());
  }
 
 
+
  */
+
+
 
 
 //Copyed
 
 void main(){
   runApp( MaterialApp(
-    home: GminiPractise(),
+    home: DrawerWithRoute(),
 
   ) ); //listExample  //MyApp  //practisePage  //Practiseg2 //ExampleOfAllList //GminiPractise  //CounterWidget //StatefullWidgetAiAll //TextFormFieldEditingController
  }
+
+
+
+
 
 
 
@@ -259,19 +269,19 @@ ButtonSnack(BuildContext context){   //এটি কল করলেই ভি�
       ),
 
     body: Center(
-      child: SingleChildScrollView(                      // 🔁 পুরো স্ক্রিনকে Scrollable করে (Vertical Scroll)
-        scrollDirection: Axis.vertical,                // ↕️ Scroll হবে উপরে-নিচে (Column এর জন্য সাধারণত vertical)
+      child: SingleChildScrollView(                       // 🔁 পুরো স্ক্রিনকে Scrollable করে (Vertical Scroll)
+        scrollDirection: Axis.vertical,                   // ↕️ Scroll হবে উপরে-নিচে (Column এর জন্য সাধারণত vertical)
 
-        child: Column(                                  // ⬇️ স্ক্রিনে UI এলিমেন্টগুলো একটার নিচে একটা (Vertical Layout)
+        child: Column(                                    // ⬇️ স্ক্রিনে UI এলিমেন্টগুলো একটার নিচে একটা (Vertical Layout)
           children: [
 
-            Container(                                  // 🔲 একটি Box/Block যার ভিতরে ইমেজ ও টেক্সট থাকবে
-              height: 550,                              // 🔺 Box এর উচ্চতা 400 px
-              width: 450,                               // 🔻 Box এর প্রস্থ 350 px
-              padding: EdgeInsets.all(10),              // ⛔ ভিতরের content এর চারপাশে 15 px ফাঁকা
-              color: Colors.red,                 // 🎨 Box এর ব্যাকগ্রাউন্ড রঙ Teal Accent
+            Container(                                             // 🔲 একটি Box/Block যার ভিতরে ইমেজ ও টেক্সট থাকবে
+              height: 550,                                       // 🔺 Box এর উচ্চতা 400 px
+              width: 450,                                                                                      // 🔻 Box এর প্রস্থ 350 px
+              padding: EdgeInsets.all(10),                                                                 // ⛔ ভিতরের content এর চারপাশে 15 px ফাঁকা
+              color: Colors.red,                                                                         // 🎨 Box এর ব্যাকগ্রাউন্ড রঙ Teal Accent
 
-              child: SingleChildScrollView(             // 📦 Container এর ভিতরের Content ও Scrollable
+              child: SingleChildScrollView(                                                            // 📦 Container এর ভিতরের Content ও Scrollable
                 scrollDirection: Axis.vertical,         // ↕️ Scroll হবে উপরে-নিচে (ভেতরের Column অনেক বড় হলে কাজ দেবে)
 
                 child: Column(                          // ⬇️ Box এর ভিতরে UI গুলো লম্বাভাবে বসবে

@@ -1,0 +1,75 @@
+
+🔶 1. AlertDialog – সতর্কতা বা নোটিশ ডায়ালগ
+🔹 সাধারণত কোন কিছু ইউজারকে জানাতে বা কনফার্ম করতে ব্যবহৃত হয়।
+🔹 ✅ Title, Content, এবং Actions (Buttons) থাকে।
+
+showDialog(
+  context: context,
+  builder: (context) {
+    return AlertDialog(
+      title: Text("Alert!"),
+      content: Text("Are you sure you want to continue?"),
+      actions: [
+        TextButton(
+            onPressed: () {
+              Navigator.pop(context); // ❌ Cancel করলে Dialog বন্ধ হবে
+            },
+            child: Text("Cancel")),
+        ElevatedButton(
+            onPressed: () {
+              // ✅ Confirm Logic
+              Navigator.pop(context);
+            },
+            child: Text("Yes"))
+      ],
+    );
+  },
+);
+
+
+🔶 2. SimpleDialog – অপশন দেখানোর জন্য
+🔹 যখন ইউজারকে কিছু অপশন দিতে হয়, তখন এটা ইউজ করি।
+🔹 সাধারণত title + options লিস্ট থাকে।
+
+🔸 Syntax:
+showDialog(
+  context: context,
+  builder: (context) {
+    return SimpleDialog(
+      title: Text("Select One"),
+      children: [
+        SimpleDialogOption(
+          onPressed: () {
+            print("Option 1 selected");
+            Navigator.pop(context);
+          },
+          child: Text("Option 1"),
+        ),
+        SimpleDialogOption(
+          onPressed: () {
+            print("Option 2 selected");
+            Navigator.pop(context);
+          },
+          child: Text("Option 2"),
+        ),
+      ],
+    );
+  },
+);
+
+🔶 3. BottomSheet – স্ক্রিনের নিচ থেকে ওপরে আসা UI
+🔹 কোন শর্ট অ্যাকশন বা অপশন নিচ থেকে দেখাতে BottomSheet ব্যবহার হয়।
+
+🔸 Syntax:
+
+showModalBottomSheet(
+  context: context,
+  builder: (context) {
+    return Container(
+      height: 200,
+      color: Colors.amber[100],
+      child: Center(child: Text("This is a Bottom Sheet")),
+    );
+  },
+);
+

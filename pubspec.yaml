@@ -13,6 +13,7 @@ dependencies:
     sdk: flutter
   url_launcher: ^6.3.2
   email_validator: ^3.0.0
+  fluttertoast: ^8.2.12
 
 
   cupertino_icons: ^1.0.8

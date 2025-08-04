@@ -1,58 +1,56 @@
 import 'package:flutter/material.dart';
-class CustomFunctions extends StatefulWidget {
+import 'package:myapp/TabBarBottomNavigationBar.dart';
+class CustomFunctions extends StatelessWidget {
   const CustomFunctions({super.key});
 
   @override
-  State<CustomFunctions> createState() => _CustomFunctionsState();
+  Widget build(BuildContext context) {
+    //TabBar Structure
+    return  DefaultTabController(
+      length: 3,
+      initialIndex: 1,
+      child: Scaffold(
+        appBar: AppBar(title: Text("TabBar"),backgroundColor: Colors.red,
+          bottom: TabBar(tabs: [
+            Tab(icon: Icon(Icons.home), text: "Bottom"),
+            Tab(icon: Icon(Icons.star), text: "Star"),
+            Tab(icon: Icon(Icons.settings), text: "Settings"),
+          ],),
+        ),
+
+        body: TabBarView(children: [
+          Center(child: BottomNavigationBarCustom()),
+          Center(child: tabbarCustom()),
+          Center(child: Text("Settings Page")),
+        ]),
+
+      ),
+    );
+  }
 }
 
-class _CustomFunctionsState extends State<CustomFunctions> {
-  bool isDark = false;  //প্রথমিক অবস্থাই ডার্ক Mode OFF ,light থাকবে
+//////////
+class BottomNavigationBarCustom extends StatefulWidget {
+  const BottomNavigationBarCustom({super.key});
 
-  TextEditingController _nameC = TextEditingController();
-  TextEditingController _emailC = TextEditingController();
-  TextEditingController _passC = TextEditingController();
-  final _fromKey = GlobalKey<FormState>();
-  String _name = "";
-  String _email = "";
-  String _pass = "";
+  @override
+  State<BottomNavigationBarCustom> createState() => _BottomNavigationBarCustomState();
+}
+
+class _BottomNavigationBarCustomState extends State<BottomNavigationBarCustom> {
+  int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      //lightMoge
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        brightness: Brightness.light,
+    return Scaffold(
+      appBar: AppBar(title: Text("BottomNavigationBar"),),
+      bottomNavigationBar: BottomNavigationBar(items: [
+        BottomNavigationBarItem(icon: Icon(Icons.dashboard)),
+        BottomNavigationBarItem(icon: Icon(Icons.message)),
+        BottomNavigationBarItem(icon: Icon(Icons.settings)),
+      ],
+          currentIndex: selectedIndex,
+          onTap: (index){}
       ),
-      //DarktMoge
-      darkTheme: ThemeData(primarySwatch: Colors.blue,brightness: Brightness.dark),
-      //ThemeMode
-      themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
-      home: Scaffold(
-        appBar: AppBar(title: Text("All CustomFunctions",),),
-        body: Padding(
-            padding: EdgeInsets.all(20),
-            child: Form(
-              key: _fromKey,
-              child: Column(
-                children: [
-                  TextFormField(
-                    controller: _nameC,
-                    decoration: InputDecoration(
-                      labelText: "Enter Your Name",
-                      hintText: "Ex. Hiru",
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-
-                    ),
-                  ),
-                  SizedBox(height: 10,),
-
-
-                ],
-
-              ),)
-        ),
-    ));
+    );
   }
 }

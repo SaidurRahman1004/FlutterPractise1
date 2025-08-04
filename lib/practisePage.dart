@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 ///task1
 /*
@@ -724,19 +725,266 @@ class _practisePageState extends State<practisePage> {
 
  */
 
-class practisePage extends StatefulWidget {
+///Task 6.15: Flutter AlertDialog, SimpleDialog & BottomSheet
+/*
+class practisePage extends StatelessWidget {
   const practisePage({super.key});
+
+  void btnSnk(msg,context){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+  }
+//Task 1 AlertDialog Function
+  AlartCustomdislog(BuildContext context){
+    showDialog(
+        context: context,
+        builder: (context){
+          return AlertDialog(
+            title: Text("Do you want to logout?"),
+            actions: [
+              TextButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> practisePage()));}, child: Text("Cancel")),
+              TextButton(onPressed: (){Navigator.pop(context);}, child: Text("Yes")),
+            ],
+
+          );
+        });
+  }
+//Task 2 SimpleDialog Function
+  SimPleDialogCustomFn(BuildContext context){
+    showDialog(context: context, builder: (context){
+      return SimpleDialog(
+        title: Text("Select Your Gender"),
+        children: [
+          SimpleDialogOption(
+            onPressed: (){btnSnk("You are Selectedn Male", context);},child: Text("Male"),
+          ),
+
+          SimpleDialogOption(
+            onPressed: (){btnSnk("You are Selectedn Female", context);},child: Text("Female"),
+          ),
+        ],
+      );
+    });
+  }
+
+  //Task 3 BottomSheet BottomSheet Function
+  BottomSheetCustomDialog(BuildContext context){
+    showModalBottomSheet(context: context, builder: (context){return Container(height: 200,color: Colors.blue,child: Text("Hello! This is Bottom Sheet"),);},);
+  }
+
+
+
+  
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("practisePage"),),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(onPressed: (){
+              AlartCustomdislog(context);
+
+      }, child: Text("AlartDialog")),
+
+            SizedBox(height: 10,),
+            ElevatedButton(onPressed: (){
+              SimPleDialogCustomFn(context);
+
+            }, child: Text("SimpleOptionDialog")),
+            SizedBox(height: 10,),
+            ElevatedButton(onPressed: (){
+              BottomSheetCustomDialog(context);
+
+            }, child: Text("BottomSheet "))
+            
+            
+          ],
+        ),
+      ),
+
+    );
+  }
+}
+
+ */
+///Practice Task 6.16: Ans: Flutter Advanced Form Validation + Snackbar + Toast Message
+/*
+class practisePage extends StatefulWidget {
+  practisePage({super.key});
 
   @override
   State<practisePage> createState() => _practisePageState();
 }
 
 class _practisePageState extends State<practisePage> {
+  final _formKey = GlobalKey<FormState>();
+
+  TextEditingController nameC = TextEditingController();
+
+  TextEditingController emailC = TextEditingController();
+
+  TextEditingController passC = TextEditingController();
+
+  snkbtn(msg,context){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+  }
+
+  showToastMessage(String msg) {
+    Fluttertoast.showToast(msg: msg, gravity: ToastGravity.BOTTOM);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(title: Text("TextFormFieldEditingController"),leading: Icon(Icons.text_decrease),backgroundColor: Colors.amber,),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(20),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                TextFormField(
+                  controller: nameC,
+                  decoration: InputDecoration(labelText: "Name",hintText: "Enter Your Valid Name",border: OutlineInputBorder(),suffixIcon: Icon(Icons.person)),
+                  validator: (value){
+                    if(value!.isEmpty || value == null){
+                      return 'Name cannot be empty';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 10,),
+
+                TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  controller: emailC,
+                  decoration: InputDecoration(labelText: "Email",hintText: "Ex: example@gmail.com",border: OutlineInputBorder(),suffixIcon: Icon(Icons.mail)),
+                  validator: (value){
+                    if(value!.isEmpty || value == null){
+                      return 'Email cannot be empty';
+                    }else if(value.contains("@")==false || RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)==false){
+                      return 'Email is not valid';
+                    }
+                    return null;
+
+                  },
+                ),
+                SizedBox(height: 10,),
+
+                TextFormField(
+                  controller: passC,
+                  obscureText: true,
+                  decoration: InputDecoration(labelText: "Password",hintText: "Enter Your Valid Password",border: OutlineInputBorder(),suffixIcon: Icon(Icons.lock)),
+                  validator: (value){
+                    if(value!.isEmpty){
+                      return 'Password cannot be empty';
+                    }else if(value==null || value.length <= 6){
+                      return 'Password must be at least 6 characters';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 10,),
+                ElevatedButton(onPressed: (){
+                  if(_formKey.currentState!.validate()){
+                    snkbtn("Account Created for [${nameC.text}]!",context);
+                    showToastMessage("Signup Successful");
+                  }
+                }, child: Text("Submit"),style: ElevatedButton.styleFrom(backgroundColor: Colors.lightBlueAccent,foregroundColor: Colors.black),),
+
+              ],
+            ),
+          ),
+        ),
+      ),
+
+    );
   }
 }
+
+ */
+
+import 'package:flutter/material.dart';
+
+class practisePage extends StatelessWidget {
+  const practisePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Drawer Example"),
+        backgroundColor: Colors.teal,
+      ),
+
+      drawer: Drawer( // ✅ Drawer শুরু
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+
+            // ✅ Drawer Header (প্রোফাইল UI)
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.red,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundImage: NetworkImage(
+                        "https://i.postimg.cc/jjKRZgRq/profile-pic-1.png"
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Text("Saidur Devo", style: TextStyle(fontSize: 18, color: Colors.white)),
+                  Text("saidur@app.com", style: TextStyle(color: Colors.white70)),
+                ],
+              ),
+            ),
+
+            // ✅ Drawer List Options
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text("Home"),
+              onTap: () {
+                Navigator.pop(context); // Drawer বন্ধ করবে
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Home Clicked")));
+              },
+            ),
+
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text("Settings"),
+              onTap: () {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Settings Clicked")));
+              },
+            ),
+
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text("Logout"),
+              onTap: () {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Logged Out")));
+              },
+            ),
+          ],
+        ),
+      ),
+
+      body: Center(
+        child: Text("Welcome to Drawer UI!", style: TextStyle(fontSize: 20)),
+      ),
+    );
+  }
+}
+
 
 
 

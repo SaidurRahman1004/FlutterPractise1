@@ -299,88 +299,91 @@ class _GminiPractiseState extends State<GminiPractise> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Registration Form Task"),),
-      body: Padding(
-          padding: EdgeInsets.all(20),
-          child: Form(
-            key: _formKey ,
-            child: Column(
-              children: [
-                TextFormField(
-                  controller: _nameC,
-                  validator: (value){
-                    if(value!.isEmpty){
-                      return "Please Fill Your Name";
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                    labelText: "Enter Your Name",
-                    hintText: "Ex. Hiru",
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Padding(
+            padding: EdgeInsets.all(20),
+            child: Form(
+              key: _formKey ,
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: _nameC,
+                    validator: (value){
+                      if(value!.isEmpty){
+                        return "Please Fill Your Name";
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: "Enter Your Name",
+                      hintText: "Ex. Hiru",
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
 
+                    ),
                   ),
-                ),
-                SizedBox(height: 15,),
+                  SizedBox(height: 15,),
 
-                TextFormField(
-                  controller: _mailC,
-                  validator: (value){
-                    if(value!.isEmpty || value.contains("@")==false){
-                      return "Please Fill Your Valid Email";
-                    }
-                    return null;
-                  },
+                  TextFormField(
+                    controller: _mailC,
+                    validator: (value){
+                      if(value!.isEmpty || value.contains("@")==false){
+                        return "Please Fill Your Valid Email";
+                      }
+                      return null;
+                    },
 
-                  decoration: InputDecoration(
-                    labelText: "Enter Your Email",
-                    hintText: "Ex. fsgf@gmail.com",
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                    decoration: InputDecoration(
+                      labelText: "Enter Your Email",
+                      hintText: "Ex. fsgf@gmail.com",
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
 
+                    ),
                   ),
-                ),
-                SizedBox(height: 15,),
+                  SizedBox(height: 15,),
 
-                TextFormField(
-                  validator: (value){
-                    if(value!.isEmpty || value.length < 8){
-                      return "Please Fill Your Valid Password";
-                    }
-                    return null;
+                  TextFormField(
+                    validator: (value){
+                      if(value!.isEmpty || value.length < 8){
+                        return "Please Fill Your Valid Password";
+                      }
+                      return null;
 
-                  },
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    labelText: "Enter Your Pass",
-                    hintText: "@gsg!Dg",
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                    },
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: "Enter Your Pass",
+                      hintText: "@gsg!Dg",
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
 
+                    ),
                   ),
-                ),
-                SizedBox(height: 20,),
-                ElevatedButton(onPressed: (){
-                  if (_formKey .currentState!.validate()) {
-                    snkbtn("Registration Successful!!", context);
-                    setState(() {
-                      nameDis = "Your Name is ${_nameC.text}";
-                      mailmeDis = "Your Email is ${_mailC.text}";
-                      isSuccess = "Registration Successful!!";
-                    });
-                  }
+                  SizedBox(height: 20,),
+                  ElevatedButton(onPressed: (){
+                    if (_formKey .currentState!.validate()) {
+                      snkbtn("Registration Successful!!", context);
+                      setState(() {
+                        nameDis = "Your Name is ${_nameC.text}";
+                        mailmeDis = "Your Email is ${_mailC.text}";
+                        isSuccess = "Registration Successful!!";
+                      });
+                    }
 
-                }, child: Text("Register")),
-                SizedBox(height: 10,),
-                Text(nameDis.toString()),
-                SizedBox(height: 10,),
-                Text(mailmeDis),
-                SizedBox(height: 10,),
-                Text(isSuccess),
-
+                  }, child: Text("Register")),
+                  SizedBox(height: 10,),
+                  Text(nameDis.toString()),
+                  SizedBox(height: 10,),
+                  Text(mailmeDis),
+                  SizedBox(height: 10,),
+                  Text(isSuccess),
 
 
 
-              ],
 
-            ),)
+                ],
+
+              ),)
+        ),
       ),
     );
   }
