@@ -727,12 +727,18 @@ class _practisePageState extends State<practisePage> {
 
 ///Task 6.15: Flutter AlertDialog, SimpleDialog & BottomSheet
 /*
-class practisePage extends StatelessWidget {
-  const practisePage({super.key});
+class practisePage extends StatefulWidget {
+   practisePage({super.key});
 
+  @override
+  State<practisePage> createState() => _practisePageState();
+}
+
+class _practisePageState extends State<practisePage> {
   void btnSnk(msg,context){
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
   }
+
 //Task 1 AlertDialog Function
   AlartCustomdislog(BuildContext context){
     showDialog(
@@ -748,6 +754,7 @@ class practisePage extends StatelessWidget {
           );
         });
   }
+
 //Task 2 SimpleDialog Function
   SimPleDialogCustomFn(BuildContext context){
     showDialog(context: context, builder: (context){
@@ -767,13 +774,49 @@ class practisePage extends StatelessWidget {
   }
 
   //Task 3 BottomSheet BottomSheet Function
-  BottomSheetCustomDialog(BuildContext context){
-    showModalBottomSheet(context: context, builder: (context){return Container(height: 200,color: Colors.blue,child: Text("Hello! This is Bottom Sheet"),);},);
+  String ShowText = "";
+  snkbtn(msg,context){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
   }
-
-
-
-  
+  final List<String> items = [
+    "Flutter",
+    "Dart",
+    "Firebase",
+    "UI Design",
+    "API Integration"
+  ];
+/*
+BottomSheetCustomDialog(BuildContext context){
+    showModalBottomSheet(context: context, builder: (context){
+      return Container(height: 200,color: Colors.blue,child: Text("Hello! This is Bottom Sheet"),);},);
+ */
+  BottomSheetCustomDialog(BuildContext context){
+    showModalBottomSheet(context: context, builder: (context){
+      return Container(
+        padding: EdgeInsets.all(20),
+        height: 300,
+        color: Colors.amberAccent,
+        child: ListView.builder(
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            return Card(
+              child: ListTile(
+                leading: Icon(Icons.label),
+                title: Text(items[index]),
+                onTap: () {
+                  //onItemSelected(items[index]);
+                  setState(() {
+                    ShowText = items[index];
+                  });
+                  snkbtn("${items[index]} is selected", context);
+                  Navigator.pop(context); // BottomSheet বন্ধ হবে
+                },
+              ),
+            );
+          },
+        ),
+      );},);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -783,6 +826,8 @@ class practisePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text("You Selected $ShowText"),
+            SizedBox(height: 10,),
             ElevatedButton(onPressed: (){
               AlartCustomdislog(context);
 
@@ -797,9 +842,10 @@ class practisePage extends StatelessWidget {
             ElevatedButton(onPressed: (){
               BottomSheetCustomDialog(context);
 
+
             }, child: Text("BottomSheet "))
-            
-            
+
+
           ],
         ),
       ),
@@ -807,8 +853,8 @@ class practisePage extends StatelessWidget {
     );
   }
 }
+*/
 
- */
 ///Practice Task 6.16: Ans: Flutter Advanced Form Validation + Snackbar + Toast Message
 /*
 class practisePage extends StatefulWidget {
@@ -908,6 +954,9 @@ class _practisePageState extends State<practisePage> {
 
  */
 
+///////////Drawer//////////
+/*
+
 import 'package:flutter/material.dart';
 
 class practisePage extends StatelessWidget {
@@ -985,6 +1034,53 @@ class practisePage extends StatelessWidget {
   }
 }
 
+ */
+class practisePage extends StatefulWidget {
+  const practisePage({super.key});
+
+  @override
+  State<practisePage> createState() => _practisePageState();
+}
+
+class _practisePageState extends State<practisePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Design"),),
+      body: Center(
+        child: Column(
+          children: [
+            Container(
+              color: Colors.blue,
+              height: 150,
+              width: 300,
+              child: Stack(
+                  children: [
+
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: ElevatedButton(onPressed: (){}, child: Text("Button")),
+                    ),
+
+
+                    Center(
+                      child: Text("DatePicked"),
+                    ),
+
+
+                    Positioned(
+                      child: Text("Date"),
+                    ),
+
+                  ]
+              ),
+            ),
+          ],
+        ),
+      ),
+    );;
+  }
+}
 
 
 
