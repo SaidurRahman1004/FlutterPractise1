@@ -102,6 +102,26 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+
+MaterialApp
+└── MyApp (StatelessWidget)
+    └── Scaffold
+        ├── AppBar (title: "Product Grid")
+        └── Body: Padding
+            └── GridView.builder
+                └── For each item:
+                    └── GestureDetector
+                        └── Card
+                            └── Column
+                                ├── ClipRRect
+                                │   └── Image.network(product.imageUrl)
+                                └── Padding
+                                    └── Column
+                                        ├── Text(product.title)
+                                        ├── Text(product.description)
+                                        └── ElevatedButton (Add to Cart)
+
 🔍 এই কোড দিয়ে কী করা হয়েছে (সংক্ষিপ্ত বর্ণনা):
 এই কোডটি একটি Flutter অ্যাপ তৈরি করে যেখানে ৫টি পণ্যের ডেটা (Product) একটি লিস্টে রাখা হয়েছে এবং GridView.builder দিয়ে সেই প্রোডাক্টগুলোকে একটি 2-column গ্রিডে UI হিসেবে দেখানো হয়েছে। প্রতিটি গ্রিড আইটেমে আছে: প্রোডাক্ট ইমেজ, নাম, বর্ণনা ও একটি "Add to Cart" বাটন। ইউজার যদি পুরো কার্ড বা বাটনে ট্যাপ করে, তাহলে Snackbar দিয়ে সংশ্লিষ্ট বার্তা দেখানো হয়।
 
@@ -118,3 +138,154 @@ Reusable UI design using Card + Column + Network image + Button
 
 তুমি চাইলে এই কোডের উপর ভিত্তি করে আরও প্রোডাক্ট অ্যাপ, ই-কমার্স UI বা রিইউজেবল কম্পোনেন্ট বানাতে পারো।
 ......................................................................................
+
+
+DRY Principle মানে হলো:
+
+"Don’t Repeat Yourself"
+অর্থাৎ — একই কোড বা লজিক বারবার না লিখে, reusable করে লিখতে হবে যাতে প্রজেক্টে maintainability, scalability & readability বাড়ে।
+
+🔥 DRY Principle ব্যবহার করে Flutter / Dart-এ যেকোনো জিনিস Reuse করার উপায়:
+✅ 1. Widget Reuse – UI বারবার ব্যবহার
+🔻 উদাহরণ:
+dart
+Copy
+Edit
+class MyCustomButton extends StatelessWidget {
+  final String label;
+  final VoidCallback onPressed;
+
+  MyCustomButton({required this.label, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      child: Text(label),
+    );
+  }
+}
+🧪 যেখানে খুশি ব্যবহার করো:
+dart
+Copy
+Edit
+MyCustomButton(
+  label: "Submit",
+  onPressed: () => print("Clicked"),
+),
+✅ 2. Reusable Function – সাধারণ কাজগুলো একবারে লিখো
+🔻 উদাহরণ:
+dart
+Copy
+Edit
+void showMySnackbar(String message, BuildContext context) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text(message)),
+  );
+}
+🧪 ব্যবহার:
+dart
+Copy
+Edit
+onTap: () => showMySnackbar("Hello!", context),
+✅ 3. Style / Theme Reuse
+একই TextStyle বা ButtonStyle বারবার না লিখে একটা ফাইল বা constant বানিয়ে রাখো।
+
+dart
+Copy
+Edit
+const myTextStyle = TextStyle(fontSize: 18, color: Colors.blue);
+🧪 ব্যবহার:
+dart
+Copy
+Edit
+Text("Hello", style: myTextStyle)
+✅ 4. Constants & Config Reuse
+Hardcoded string, API URL, color, etc এক জায়গায় রেখো:
+
+dart
+Copy
+Edit
+class AppConfig {
+  static const apiUrl = "https://api.example.com";
+  static const defaultPadding = 16.0;
+}
+🧪 ব্যবহার:
+dart
+Copy
+Edit
+print(AppConfig.apiUrl);
+✅ 5. Mixin / Inheritance / Abstract class (OOP Concepts for DRY)
+🔻 Example:
+dart
+Copy
+Edit
+mixin Logger {
+  void log(String msg) => print("Log: $msg");
+}
+
+class MyService with Logger {
+  void fetchData() {
+    log("Fetching data...");
+  }
+}
+✅ 6. Extension Method – Dart-এ custom method যুক্ত করো
+🔻 Example:
+dart
+Copy
+Edit
+extension MyStringUtils on String {
+  String capitalize() {
+    if (this.isEmpty) return this;
+    return this[0].toUpperCase() + substring(1);
+  }
+}
+🧪 ব্যবহার:
+dart
+Copy
+Edit
+print("hello".capitalize());  // Output: Hello
+✅ 7. Custom Form Validator Reuse
+dart
+Copy
+Edit
+String? validateEmail(String? value) {
+  if (value == null || !value.contains('@')) return 'Invalid email';
+  return null;
+}
+✅ 8. Reusable BottomSheet / Dialog / Toast
+dart
+Copy
+Edit
+void showConfirmDialog(BuildContext context, String message) {
+  showDialog(
+    context: context,
+    builder: (_) => AlertDialog(
+      content: Text(message),
+      actions: [TextButton(onPressed: () => Navigator.pop(context), child: Text("OK"))],
+    ),
+  );
+}
+✅ 9. Reusable Grid / List Items
+একবার বক্স ডিজাইন করো, তারপর List/Grid এর ভিতরে শুধু data loop করে inject করো।
+
+✅ 10. Service Layer / Repository Pattern
+Backend call, API hit, Auth, Database — এসবের জন্য আলাদা সার্ভিস class বানাও।
+
+
+class ApiService {
+  Future<void> fetchData() async {
+    // API logic here
+  }
+}
+🧠 Bonus: DRY Principle ব্যবহারের সুবিধা
+সুবিধা	ব্যাখ্যা
+Maintainable	এক জায়গা থেকে কোড পরিবর্তন করা যায়
+Clean Code	কোড পরিষ্কার ও ছোট হয়
+Less Bug	একটাই লজিক, তাই কম ভুল হয়
+Fast Development	বারবার একই জিনিস লিখতে হয় না
+
+✅ শেষ কথা
+DRY মানে শুধু copy-paste এড়ানো না, বরং:
+
+✅ Smartly reusable architecture বানানো — যেন future এ বড় app maintain করা সহজ হয়।
