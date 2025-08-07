@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 class listExample extends StatelessWidget{
   @override
@@ -70,4 +71,109 @@ class ListItemsActivity extends StatelessWidget{
 
   }
 
+}
+
+
+///ListView Practise Task  6.22: Ans Flutter ListView – Builder, Separated, Horizontal
+class ListViewExam extends StatefulWidget {
+  const ListViewExam({super.key});
+
+  @override
+  State<ListViewExam> createState() => _ListViewExamState();
+}
+
+class _ListViewExamState extends State<ListViewExam> {
+  List<String> names = ['Siyam', 'Fatima', 'Rohan', 'Maria','Fatima'];
+
+  List<String> profession = [
+    'Software Engineer',
+    'Doctor',
+    'Teacher',
+    'Architect',
+    'Data Scientist',
+  ];
+
+  List<String> product = [
+    'Smartphone',
+    'Laptop',
+    'Headphones',
+    'Keyboard',
+    'Monitor',
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("ListView Exam!"),
+      ),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+
+              //ListView.builder
+              Container(
+                margin: EdgeInsets.all(10),
+                height: 200,
+                width: 200,
+                color: Colors.white38,
+                child: ListView.builder(
+                    itemCount: names.length,
+                    itemBuilder: (context,index){
+                      return ListTile(
+                        title: Text(names[index]),
+                      );
+
+                    }),
+
+              ),
+              //ListView.separated
+              Container(
+                margin: EdgeInsets.all(10),
+                height: 200,
+                width: 200,
+                color: Colors.white38,
+                child: ListView.separated(
+                  itemCount: profession.length,
+                  itemBuilder: (context,index){
+                    return ListTile(
+                      title: Text(profession[index]),
+                    );
+
+                  },
+                  separatorBuilder: (context,index) => Divider(color: Colors.black,),
+                ),
+
+              ),
+              //Horizontal scroll
+              Container(
+                margin: EdgeInsets.all(10),
+                height: 200,
+                width: 200,
+                color: Colors.white38,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: product.length,
+                    itemBuilder: (context,index){
+                      return Container(
+                        width: 100,
+                        margin: EdgeInsets.all(8),
+                        color: Colors.amberAccent,
+                        alignment: Alignment.center,
+                        child: Text(product[index]),
+                      );
+
+                    }
+                ),
+
+              ),
+            ],
+          ),
+
+
+      ),
+
+    );
+  }
 }

@@ -1,0 +1,120 @@
+import 'package:flutter/material.dart';                         // Flutter এর Material design UI components ব্যবহার করার জন্য import
+
+void main() {
+  runApp(MaterialApp(                                         // অ্যাপ চালু করার জন্য MaterialApp widget দিয়ে শুরু
+    home: MyApp(),                                            // অ্যাপের প্রথম স্ক্রিন হিসেবে MyApp widget ব্যবহার
+  ));
+}
+
+class Product {                                               // একটি custom class যেটা একটি প্রোডাক্টের ডেটা ধারণ করে
+  final String title;                                         // প্রোডাক্টের নাম
+  final String description;                                   // প্রোডাক্টের বর্ণনা
+  final String imageUrl;                                      // প্রোডাক্টের ইমেজ URL
+
+  Product(this.title, this.description, this.imageUrl);       // কনস্ট্রাক্টর: প্রোডাক্টের তিনটি তথ্য সেট করে
+}
+
+class MyApp extends StatelessWidget {
+  final List<Product> productList = [                         // ৫টি প্রোডাক্টের লিস্ট তৈরি করা হয়েছে
+    Product("iPhone 15", "Apple Smartphone", "https://i.postimg.cc/jjKRZgRq/profile-pic-1.png"),
+    Product("MacBook", "Apple Laptop", "https://i.postimg.cc/bNZdjVSY/o1.jpg"),
+    Product("Headphone", "Wireless", "https://i.postimg.cc/9XzZ1h7q/headphone.jpg"),
+    Product("Smartwatch", "Fitness Tracker", "https://i.postimg.cc/Y2kYj9wh/smartwatch.jpg"),
+    Product("Camera", "DSLR", "https://i.postimg.cc/qvRJSPVN/camera.jpg"),
+  ];
+
+  showSnack(context, msg) {                                   // একটি ফাংশন: স্ক্রিনে snackbar দেখানোর জন্য
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(msg)),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(                                          // Scaffold: মূল স্ক্রিনের layout তৈরি করে
+      appBar: AppBar(                                         // AppBar: উপরের টাইটেল বারের জন্য
+        title: Text("Product Grid"),
+        backgroundColor: Colors.deepPurple,                   // AppBar এর ব্যাকগ্রাউন্ড রঙ
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(10),                    // চারপাশে 10px padding
+        child: GridView.builder(                              // একটি grid view তৈরি করা হয়েছে যা dynamically item দেখায়
+          itemCount: productList.length,                      // প্রোডাক্ট লিস্টের total item সংখ্যা
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,                                // প্রতি রো-তে ২টি আইটেম থাকবে
+            crossAxisSpacing: 10,                             // দুই grid item এর মাঝে horizontal gap
+            mainAxisSpacing: 10,                              // দুই grid item এর মাঝে vertical gap
+            childAspectRatio: 0.75,                           // প্রতিটি আইটেমের width:height অনুপাত
+          ),
+          itemBuilder: (context, index) {                     // প্রতিটি grid item তৈরি করার জন্য builder
+            final product = productList[index];               // বর্তমান index অনুযায়ী product ডেটা বের করা
+            return GestureDetector(                           // GestureDetector: ক্লিক ডিটেক্ট করার জন্য
+              onTap: () => showSnack(context, "${product.title} Clicked!"),  // ক্লিক করলে snackbar দেখায়
+              child: Card(                                    // প্রতিটি প্রোডাক্টের জন্য একটি কার্ড UI
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),    // কার্ডের কোণ গোল করা
+                ),
+                elevation: 5,                                 // কার্ডের ছায়া
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ClipRRect(                                // ইমেজের উপরের দিকের কোণ গোল করার জন্য
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(15),
+                      ),
+                      child: Image.network(                   // প্রোডাক্ট ইমেজ লোড করা
+                        product.imageUrl,
+                        height: 100,
+                        width: double.infinity,
+                        fit: BoxFit.cover,                    // ইমেজ container এর পুরো জায়গা কভার করবে
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8),       // কার্ডের ভিতরের content এর জন্য padding
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(product.title,                 // প্রোডাক্টের নাম দেখানো হচ্ছে
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                          SizedBox(height: 5),                // নাম ও description এর মাঝে gap
+                          Text(product.description,           // প্রোডাক্টের বর্ণনা
+                              style: TextStyle(color: Colors.grey[700])),
+                          SizedBox(height: 10),               // বর্ণনা ও বাটনের মাঝে gap
+                          ElevatedButton(
+                            onPressed: () => showSnack(context, "Added to Cart: ${product.title}"), // ক্লিক করলে snackbar
+                            child: Text("Add to Cart"),       // বাটনের টেক্সট
+                            style: ElevatedButton.styleFrom(  // বাটনের স্টাইল
+                              backgroundColor: Colors.deepPurpleAccent,
+                              foregroundColor: Colors.white,
+                              minimumSize: Size(double.infinity, 35), // ফুল-ওয়াইড বাটন
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+🔍 এই কোড দিয়ে কী করা হয়েছে (সংক্ষিপ্ত বর্ণনা):
+এই কোডটি একটি Flutter অ্যাপ তৈরি করে যেখানে ৫টি পণ্যের ডেটা (Product) একটি লিস্টে রাখা হয়েছে এবং GridView.builder দিয়ে সেই প্রোডাক্টগুলোকে একটি 2-column গ্রিডে UI হিসেবে দেখানো হয়েছে। প্রতিটি গ্রিড আইটেমে আছে: প্রোডাক্ট ইমেজ, নাম, বর্ণনা ও একটি "Add to Cart" বাটন। ইউজার যদি পুরো কার্ড বা বাটনে ট্যাপ করে, তাহলে Snackbar দিয়ে সংশ্লিষ্ট বার্তা দেখানো হয়।
+
+✅ শেখার মূল পয়েন্ট:
+Custom class (Product)
+
+GridView.builder এর ব্যবহার
+
+GestureDetector দিয়ে ট্যাপ ডিটেকশন
+
+Snackbar দেখানোর পদ্ধতি
+
+Reusable UI design using Card + Column + Network image + Button
+
+তুমি চাইলে এই কোডের উপর ভিত্তি করে আরও প্রোডাক্ট অ্যাপ, ই-কমার্স UI বা রিইউজেবল কম্পোনেন্ট বানাতে পারো।
+......................................................................................

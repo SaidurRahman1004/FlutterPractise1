@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'CustomWidgetFunction/CustomFunctions.dart';
 
 class gridExample extends StatelessWidget{
 
@@ -58,3 +59,97 @@ class gridExample extends StatelessWidget{
   }
 
 }
+
+
+///aNOTHEReXAMPLE
+///Practice Task 6.23: Ans Flutter GridView – GridView.builder, GridView.count, GridView.extent
+
+/// GridView.count
+class gridCount extends StatelessWidget {
+  const gridCount({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return  Scaffold(
+      appBar: AppBar(title: Text("data"),),
+      body: GridView.count(
+        crossAxisCount: 2,
+        children: List.generate(6, (index){
+          return Container(
+            color: Colors.amber,
+            margin: EdgeInsets.all(5),
+            child: Center(
+              child: Text("Count Grid"),
+            ),
+          );
+        }),
+      ),
+    );
+  }
+}
+
+/// GridView.extent
+class gridExtent extends StatelessWidget {
+  const gridExtent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return  Scaffold(
+      appBar: AppBar(title: Text("data"),),
+      body: GridView.extent(
+        maxCrossAxisExtent: 150,
+        children: List.generate(4, (index){
+          return Container(
+            color: Colors.greenAccent,
+            margin: EdgeInsets.all(5),
+            child: Center(
+              child: Text("Grid Extent"),
+            ),
+          );
+        }),
+      ),
+    );
+  }
+}
+//GridView.builder
+class gridBuilder extends StatelessWidget {
+   gridBuilder({super.key});
+  mysnkbar(msg,context){
+    return ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+  }
+
+   List<Color> boxColors = [
+    Colors.red,
+    Colors.green,
+    Colors.blue,
+    Colors.orange,
+    Colors.purple,
+    Colors.teal,
+    Colors.pink,
+    Colors.brown,
+    Colors.indigo,
+    Colors.amber,
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Grid Builder"),),
+      body: GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3,crossAxisSpacing: 10,mainAxisSpacing: 10),itemCount: 10, itemBuilder: (context,index){
+        return GestureDetector(
+          onTap:()=> cusSnk.customSnkbar(context, "Grid Builder ${index}",backgroundColor: boxColors[index]),
+          child: Container(
+            color: boxColors[index],
+            margin: EdgeInsets.all(5),
+            child: Center(
+              child: Text("Grid Builder ${index++}"),
+            ),
+          ),
+        );
+
+      }),
+
+    );
+  }
+}
+
