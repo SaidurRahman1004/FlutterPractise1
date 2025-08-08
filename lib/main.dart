@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'Advanced Custom Card Design/StackUIAdv.dart';
+import 'Advanced Custom Card Design/protuctDetails.dart';
 import 'CustomWidgetFunction/CustomFunctions.dart';
 import 'DateTime.dart';
 import 'Drawer.dart';
@@ -31,6 +33,12 @@ void main(){
  }
 
 
+void main(){
+  runApp( MaterialApp(
+    home: MyApp(),
+
+  ) );
+ }
 
  */
 
@@ -41,7 +49,7 @@ void main(){
 
 void main(){
   runApp( MaterialApp(
-    home: gridBuilder(),    //practisePage  //CustomBottomSheetDemo  //BottomSheetExample
+    home: Stack2Ui(),    //practisePage  //CustomBottomSheetDemo  //BottomSheetExample
 
   ) ); //listExample  //MyApp  //practisePage  //Practiseg2 //ExampleOfAllList //GminiPractise  //CounterWidget //StatefullWidgetAiAll //TextFormFieldEditingController
  }
