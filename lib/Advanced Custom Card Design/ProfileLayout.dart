@@ -1,7 +1,82 @@
 import 'package:flutter/material.dart';
-// Step 6.27: Flutter Stack + Positioned – Profile Layout UI Design
+// Practice Task 6.27:Ans: Flutter Stack + Positioned – Profile Layout UI Design
+class CustomProfileLayout extends StatelessWidget {
+  const CustomProfileLayout({super.key});
+  final coverImage = "https://i.postimg.cc/BQJ74d94/Cover-Pic-SRSiyam.png";
+  final ProfileImage = "https://i.postimg.cc/bNZdjVSY/o1.jpg";
+  snkbtn(msg,context){
+    return ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(msg))
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Custom Profile Layout"),),
+      body: Column(
+        children: [
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Container(
+                height: 210,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  image: DecorationImage(image: NetworkImage(coverImage),fit: BoxFit.cover),
+                ),
+
+              ),
+              Positioned(
+                right: 0,
+                left: 0,
+                bottom: -50,
+                child: Container(
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundColor: Colors.white,
+                    child: CircleAvatar(
+                      radius: 46,
+                      backgroundImage: NetworkImage(ProfileImage),
+                    ),
+                  ),
+
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 60,),
+          Text("Saidur R. Sheam",style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
+          const SizedBox(height: 5,),
+          Text("App Developer | DevOPS Engineer",style: TextStyle(fontSize: 14, color: Colors.grey[700]),),
+          const SizedBox(height: 15,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(onPressed: (){snkbtn("Followed", context);}, icon: Icon(Icons.follow_the_signs,color: Colors.blue,)),
+              IconButton(onPressed: (){snkbtn("Massege Done", context);}, icon: Icon(Icons.message,color: Colors.redAccent,)),
+              IconButton(onPressed: (){snkbtn("Call me", context);}, icon: Icon(Icons.call,color: Colors.blue,)),
+            ],
+          ),
+          const SizedBox(height: 20,),
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: Text(
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
+                  "Vestibulum at sagittis elit, sed malesuada sapien. "
+                  "Praesent porttitor augue nec turpis luctus varius.",textAlign: TextAlign.center,)
+
+          )
+
+        ],
+      ),
+    );
+  }
+}
 
 
+//CopyedCollectedAi
+/*
 class ProfileLayoutResponsive extends StatelessWidget { // Stateless widget ডিক্লেয়ার
   const ProfileLayoutResponsive({super.key}); // Constructor (key নেয়ার জন্য)
 
@@ -101,4 +176,4 @@ class ProfileLayoutResponsive extends StatelessWidget { // Stateless widget ড�
     );
   }
 }
-
+*/
