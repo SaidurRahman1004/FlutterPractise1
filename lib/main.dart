@@ -51,7 +51,7 @@ void main(){
 
 void main(){
   runApp( MaterialApp(
-    home: EcommerceProductCard(),    //practisePage  //CustomBottomSheetDemo  //BottomSheetExample
+    home: SocialMediaPost(),    //practisePage  //CustomBottomSheetDemo  //BottomSheetExample
 
   ) ); //listExample  //MyApp  //practisePage  //Practiseg2 //ExampleOfAllList //GminiPractise  //CounterWidget //StatefullWidgetAiAll //TextFormFieldEditingController
  }
@@ -277,6 +277,7 @@ ButtonSnack(BuildContext context){   //এটি কল করলেই ভি�
               title: Text("Gmini"),
               onTap: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>GminiPractise()));},
             ),
+
           ],
         ),
       ),

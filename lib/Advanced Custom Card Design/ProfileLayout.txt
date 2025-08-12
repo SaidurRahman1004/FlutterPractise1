@@ -32,3 +32,24 @@ width: double.infinity
 
 width: double.infinity ঠিক এই ইলাস্টিকের মতো কাজ করে। এটি যে উইজেটের ভেতরে থাকে (প্যারেন্ট), তার পুরো প্রস্থ জুড়ে প্রসারিত হয়।
 ...............................................................................................................................
+
+Replace hare...;
+
+
+                Divider(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Icon(Icons.thumb_up),
+                    Icon(Icons.thumb_down),
+                  ],
+                ),
+                Divider(),
+                Row(
+                  children: [
+                    ElevatedButton.icon(onPressed: (){}, label: Icon(Icons.thumb_up), icon: Text("Like")),
+                    SizedBox(width: 10,),
+                    ElevatedButton.icon(onPressed: (){}, label: Icon(Icons.comment), icon: Text("Comment"))
+                  ],
+
+                ),
