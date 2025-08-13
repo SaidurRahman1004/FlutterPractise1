@@ -408,3 +408,14 @@ StatelessWidget (StackExample)
                   ]
             ]
  ..................................................................................................................
+
+ bool allSelected = taskCompleted.every((t) => t);
+.every() ফাংশন চেক করে লিস্টের সব এলিমেন্ট শর্ত পূরণ করছে কিনা।
+
+(t) => t মানে প্রতিটি এলিমেন্ট true কিনা।
+
+উদাহরণ:
+
+[true, true, true].every((t) => t) → true (সব true)
+
+[true, false, true].every((t) => t) → false (কারণ একটি false আছে)

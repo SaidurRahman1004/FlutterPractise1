@@ -1,0 +1,176 @@
+
+class SwitChkbx extends StatefulWidget {                           // একটি StatefulWidget তৈরি করা হয়েছে, যাতে UI এবং ডেটা আপডেট হতে পারে।
+   SwitChkbx({super.key});                                        // Constructor (ঐচ্ছিকভাবে key নেয়)।
+
+  @override
+  State<SwitChkbx> createState() => _SwitChkbxState();             // State অবজেক্ট তৈরি করছে।
+}
+
+class _SwitChkbxState extends State<SwitChkbx> {
+  var ContactsList = ["Siyam Devo","HiruDon","Padraj Arafat","Hot Xahid 2 2",]; // কন্টাক্ট নামের লিস্ট।
+  List<bool> isActive = [true, false, true, false];                // প্রতিটি কন্টাক্টের Active/Inactive স্ট্যাটাস (true = active)।
+
+  Map<String, int> ActiveInactiveCount() {                         // Active/Inactive কন্টাক্ট সংখ্যা বের করার ফাংশন।
+    int activeCount = isActive.where((status)=>status).length;     // কতগুলো true আছে তা গণনা করা।
+    int inactiveCount = isActive.length - activeCount;             // মোট সংখ্যা থেকে active বাদ দিয়ে inactive বের করা।
+    return { "Active": activeCount, "Inactive": inactiveCount };   // Map আকারে Active ও Inactive সংখ্যা রিটার্ন।
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(                                               // মূল Scaffold UI।
+      appBar: AppBar(                                              // উপরের AppBar।
+        title: Text("Contacts"),                                   // AppBar টাইটেল।
+        backgroundColor: Colors.greenAccent,                       // AppBar ব্যাকগ্রাউন্ড রঙ।
+        actions: [                                                 // AppBar এর ডানপাশে বাটন।
+          TextButton(onPressed: (){                                // "Activate All / Deactivate All" বাটন প্রেস হলে...
+            setState(() {                                          // UI রিফ্রেশ হবে।
+              bool allseLect = isActive.every((t)=>t);              // চেক করছে সবগুলো কি true?
+              isActive = List<bool>.filled(isActive.length, !allseLect); // সবগুলো উল্টিয়ে দিচ্ছে (যদি সব true হয় → false করবে, না হলে true করবে)।
+            });
+          }, child: Text("Activate All / Deactivate All",          // বাটনের টেক্সট।
+              style: TextStyle(color: Colors.white),)),
+        ],
+      ),
+
+      body: ListView.builder(                                      // স্ক্রলযোগ্য কন্টাক্ট লিস্ট।
+        itemCount: ContactsList.length,                            // যতগুলো কন্টাক্ট আছে ততবার লুপ।
+          itemBuilder: (context,index){
+            return ListTile(                                       // প্রতিটি কন্টাক্ট একটি ListTile।
+              leading: CircleAvatar(                               // বামপাশে Circle Avatar।
+                radius: MediaQuery.of(context).size.width*0.05,    // স্ক্রিন সাইজ অনুযায়ী ডায়নামিক সাইজ।
+                child: Text(ContactsList[index][0]),               // নামের প্রথম অক্ষর দেখানো।
+                backgroundColor: Colors.blue,                      // ব্যাকগ্রাউন্ড রঙ নীল।
+              ),
+              title: Text( ContactsList[index],                    // কন্টাক্ট নাম।
+                style: TextStyle(
+                  color: isActive[index]? Colors.black : Colors.grey, // Active হলে কালো, Inactive হলে ধূসর।
+                ),
+              ),
+              trailing: Switch(                                    // ডানপাশে Switch বাটন।
+                  value: isActive[index],                          // বর্তমান স্ট্যাটাস।
+                  onChanged: (value){                              // পরিবর্তন হলে...
+                    setState(() {                                  // UI রিফ্রেশ।
+                      isActive[index] = value;                     // নতুন ভ্যালু সেট।
+                    });
+              }
+              ),
+              onLongPress: (){                                     // দীর্ঘ প্রেস করলে...
+                  ActiveInactiveCount();                           // Active/Inactive সংখ্যা বের হবে (এখানে শুধু কল করছে, UI তে কিছু করছে না)।
+              }
+            );
+          }
+      ),
+
+      bottomNavigationBar: Container(                              // নিচে Bottom Navigation Bar এর মতো সারসংক্ষেপ বার।
+        padding: EdgeInsets.all(12),                               // চারপাশে প্যাডিং।
+        color: Colors.blueGrey,                                    // ব্যাকগ্রাউন্ড রঙ।
+        child: Text("Active: ${ActiveInactiveCount()["Active"]}, Inactive: ${ActiveInactiveCount()["Inactive"]}", // Active/Inactive সংখ্যা।
+          style:TextStyle(
+            color: Colors.white,                                   // লেখার রঙ সাদা।
+            fontSize: 18,                                          // ফন্ট সাইজ।
+            fontWeight: FontWeight.bold),                          // লেখার গাঢ়তা।
+          textAlign: TextAlign.center,                             // লেখাকে সেন্টারে রাখা।
+        ),
+      ),
+    );
+  }
+}
+
+class SwitChkbx extends StatefulWidget {                           // একটি StatefulWidget তৈরি করা হয়েছে, যাতে UI এবং ডেটা আপডেট হতে পারে।
+   SwitChkbx({super.key});                                        // Constructor (ঐচ্ছিকভাবে key নেয়)।
+
+  @override
+  State<SwitChkbx> createState() => _SwitChkbxState();             // State অবজেক্ট তৈরি করছে।
+}
+
+class _SwitChkbxState extends State<SwitChkbx> {
+  var ContactsList = ["Siyam Devo","HiruDon","Padraj Arafat","Hot Xahid 2 2",]; // কন্টাক্ট নামের লিস্ট।
+  List<bool> isActive = [true, false, true, false];                // প্রতিটি কন্টাক্টের Active/Inactive স্ট্যাটাস (true = active)।
+
+  Map<String, int> ActiveInactiveCount() {                         // Active/Inactive কন্টাক্ট সংখ্যা বের করার ফাংশন।
+    int activeCount = isActive.where((status)=>status).length;     // কতগুলো true আছে তা গণনা করা।
+    int inactiveCount = isActive.length - activeCount;             // মোট সংখ্যা থেকে active বাদ দিয়ে inactive বের করা।
+    return { "Active": activeCount, "Inactive": inactiveCount };   // Map আকারে Active ও Inactive সংখ্যা রিটার্ন।
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(                                               // মূল Scaffold UI।
+      appBar: AppBar(                                              // উপরের AppBar।
+        title: Text("Contacts"),                                   // AppBar টাইটেল।
+        backgroundColor: Colors.greenAccent,                       // AppBar ব্যাকগ্রাউন্ড রঙ।
+        actions: [                                                 // AppBar এর ডানপাশে বাটন।
+          TextButton(onPressed: (){                                // "Activate All / Deactivate All" বাটন প্রেস হলে...
+            setState(() {                                          // UI রিফ্রেশ হবে।
+              bool allseLect = isActive.every((t)=>t);              // চেক করছে সবগুলো কি true?
+              isActive = List<bool>.filled(isActive.length, !allseLect); // সবগুলো উল্টিয়ে দিচ্ছে (যদি সব true হয় → false করবে, না হলে true করবে)।
+            });
+          }, child: Text("Activate All / Deactivate All",          // বাটনের টেক্সট।
+              style: TextStyle(color: Colors.white),)),
+        ],
+      ),
+
+      body: ListView.builder(                                      // স্ক্রলযোগ্য কন্টাক্ট লিস্ট।
+        itemCount: ContactsList.length,                            // যতগুলো কন্টাক্ট আছে ততবার লুপ।
+          itemBuilder: (context,index){
+            return ListTile(                                       // প্রতিটি কন্টাক্ট একটি ListTile।
+              leading: CircleAvatar(                               // বামপাশে Circle Avatar।
+                radius: MediaQuery.of(context).size.width*0.05,    // স্ক্রিন সাইজ অনুযায়ী ডায়নামিক সাইজ।
+                child: Text(ContactsList[index][0]),               // নামের প্রথম অক্ষর দেখানো।
+                backgroundColor: Colors.blue,                      // ব্যাকগ্রাউন্ড রঙ নীল।
+              ),
+              title: Text( ContactsList[index],                    // কন্টাক্ট নাম।
+                style: TextStyle(
+                  color: isActive[index]? Colors.black : Colors.grey, // Active হলে কালো, Inactive হলে ধূসর।
+                ),
+              ),
+              trailing: Switch(                                    // ডানপাশে Switch বাটন।
+                  value: isActive[index],                          // বর্তমান স্ট্যাটাস।
+                  onChanged: (value){                              // পরিবর্তন হলে...
+                    setState(() {                                  // UI রিফ্রেশ।
+                      isActive[index] = value;                     // নতুন ভ্যালু সেট।
+                    });
+              }
+              ),
+              onLongPress: (){                                     // দীর্ঘ প্রেস করলে...
+                  ActiveInactiveCount();                           // Active/Inactive সংখ্যা বের হবে (এখানে শুধু কল করছে, UI তে কিছু করছে না)।
+              }
+            );
+          }
+      ),
+
+      bottomNavigationBar: Container(                              // নিচে Bottom Navigation Bar এর মতো সারসংক্ষেপ বার।
+        padding: EdgeInsets.all(12),                               // চারপাশে প্যাডিং।
+        color: Colors.blueGrey,                                    // ব্যাকগ্রাউন্ড রঙ।
+        child: Text("Active: ${ActiveInactiveCount()["Active"]}, Inactive: ${ActiveInactiveCount()["Inactive"]}", // Active/Inactive সংখ্যা।
+          style:TextStyle(
+            color: Colors.white,                                   // লেখার রঙ সাদা।
+            fontSize: 18,                                          // ফন্ট সাইজ।
+            fontWeight: FontWeight.bold),                          // লেখার গাঢ়তা।
+          textAlign: TextAlign.center,                             // লেখাকে সেন্টারে রাখা।
+        ),
+      ),
+    );
+  }
+}
+
+
+.............................................................................
+সংক্ষিপ্ত বিবরণ
+
+এই কোডে একটি Contacts List তৈরি করা হয়েছে যেখানে প্রতিটি কন্টাক্টের পাশে একটি Switch আছে, যা দিয়ে Active/Inactive টগল করা যায়।
+AppBar এ একটি বাটন আছে যা দিয়ে একসাথে সব কন্টাক্ট Activate বা Deactivate করা যায়।
+নিচে একটি সারসংক্ষেপ বার আছে যেখানে বর্তমানে কতজন Active আর কতজন Inactive আছে তা দেখানো হয়।
+
+ভুল বা উন্নতির পরামর্শ
+
+onLongPress এখন শুধু ফাংশন কল করছে কিন্তু UI তে কিছু করছে না — এখানে যদি Long Press করলে bulk toggle বা অন্য কোনো ফিচার দরকার হয়, সেটা করতে হবে।
+
+ContactsList এবং isActive এর লেন্থ সবসময় সমান থাকতে হবে, না হলে error হবে। এজন্য ডায়নামিক লিস্ট ম্যানেজ করার সিস্টেম রাখা ভালো।
+
+কোডে কিছু hardcoded সাইজ আছে (width*0.05) — এগুলো রেসপন্সিভ করতে MediaQuery ঠিক আছে, কিন্তু আরও ভালো হবে LayoutBuilder দিয়ে।
+
+AppBar বাটনের টেক্সট লম্বা হওয়ায় মোবাইলে জায়গা কমে যেতে পারে — এটা IconButton + Tooltip ব্যবহার করে ঠিক করা যেতে পারে।
+
+..........................................

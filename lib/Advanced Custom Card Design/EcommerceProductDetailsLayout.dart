@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 //Practice Task 6.29 ঃ Flutter Stack + Positioned – Social Media Feed Post Layout ans:
-/*
+
 class SocialMediaPost extends StatelessWidget {
    SocialMediaPost({super.key});
 
@@ -89,11 +89,11 @@ class SocialMediaPost extends StatelessWidget {
   }
 }
 
- */
 
 
 
 
+/*
 //Another
 import 'package:flutter/material.dart';
 
@@ -219,5 +219,7 @@ class SocialMediaPost extends StatelessWidget {
     );
   }
 }
+
+ */
 
 
