@@ -110,9 +110,12 @@ class _SwitChkbxState extends State<SwitChkbx> {
               }
               ),
                 onLongPress: (){
-                  ActiveInactiveCount();
+                  setState(() {
+                    ActiveInactiveCount();
+                  });
 
                 }
+
             );
 
           }
