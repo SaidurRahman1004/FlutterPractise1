@@ -1,0 +1,69 @@
+_LisTName.map((MapNAmeFromList) { ... }).toList() ব্যবহার করে আমরা লিস্টের প্রতিটি আইটেমের জন্য একটি করে Chip উইজেট তৈরি করেছি।
+...........................................................
+import 'package:flutter/material.dart'; // Flutter-এর Material Design উইজেটগুলো ব্যবহারের জন্য ইম্পোর্ট করা হয়েছে।
+
+void main() { // অ্যাপের এক্সিকিউশন এখান থেকে শুরু হয়।
+  runApp(MaterialApp( // Flutter অ্যাপটি শুরু করে এবং MaterialApp কে রুট উইজেট হিসেবে ব্যবহার করে।
+    home: WrapChipExample(), // অ্যাপের প্রথম স্ক্রিন বা হোমপেজ হিসেবে WrapChipExample উইজেটটিকে সেট করে।
+  ));
+}
+
+// একটি StatefulWidget তৈরি করা হয়েছে কারণ ব্যবহারকারীর সিলেকশনের অবস্থা (state) পরিবর্তন হবে।
+class WrapChipExample extends StatefulWidget {
+  const WrapChipExample({super.key});
+
+  @override
+  State<WrapChipExample> createState() => _WrapChipExampleState(); // 위젯ের State অবজেক্ট তৈরি করে।
+}
+
+class _WrapChipExampleState extends State<WrapChipExample> {
+  // সকল ক্যাটাগরির নামসহ একটি লিস্ট তৈরি করা হয়েছে যা চিপ হিসেবে দেখানো হবে।
+  List<String> categories = [
+    "Electronics", "Fashion", "Home & Living", "Sports", "Books",
+    "Toys", "Beauty", "Grocery", "Automobile", "Music"
+  ];
+
+  // ব্যবহারকারী যেসব ক্যাটাগরি সিলেক্ট করবে, সেগুলো এই খালি লিস্টে জমা হবে।
+  List<String> selectedCategories = [];
+
+  @override
+  Widget build(BuildContext context) { // এই মেথডটি স্ক্রিনের UI তৈরি করে।
+    return Scaffold( // অ্যাপের একটি বেসিক লেআউট কাঠামো (যেমন AppBar, Body) প্রদান করে।
+      appBar: AppBar(title: Text("Wrap & Chip Example")), // স্ক্রিনের উপরে একটি AppBar বা টাইটেল বার দেখায়।
+      body: Padding( // মূল কন্টেন্টের চারপাশে ফাঁকা জায়গা বা প্যাডিং যোগ করে।
+        padding: const EdgeInsets.all(12.0),
+        child: Wrap( // চিপগুলোকে একটির পর একটি সাজিয়ে রাখে এবং জায়গা না থাকলে পরের লাইনে নিয়ে যায়।
+          spacing: 8, // পাশাপাশি থাকা চিপগুলোর মধ্যে অনুভূমিক (horizontal) ফাঁকা জায়গা তৈরি করে।
+          runSpacing: 4, // উপরে-নিচে থাকা চিপের লাইনগুলোর মধ্যে উল্লম্ব (vertical) ফাঁকা জায়গা তৈরি করে।
+          children: categories.map((category) { // `categories` লিস্টের প্রতিটি আইটেমের জন্য একটি করে চিপ তৈরি করে।
+            final isSelected = selectedCategories.contains(category); // বর্তমান চিপটি সিলেক্ট করা আছে কি না তা চেক করে।
+            return ChoiceChip( // প্রতিটি ক্যাটাগরির জন্য একটি করে ChoiceChip উইজেট তৈরি করে।
+              label: Text(category), // চিপের উপর ক্যাটাগরির নামটি দেখায়।
+              selected: isSelected, // চিপটি সিলেক্টেড কি না তার উপর ভিত্তি করে এর ডিজাইন পরিবর্তন করে।
+              onSelected: (value) { // যখন কোনো চিপে ট্যাপ করা হয়, তখন এই ফাংশনটি কাজ করে।
+                setState(() { // UI-কে আপডেট করার জন্য Flutter-কে নির্দেশ দেয়।
+                  isSelected
+                      ? selectedCategories.remove(category) // যদি চিপটি আগে থেকেই সিলেক্টেড থাকে, তবে লিস্ট থেকে মুছে ফেলে।
+                      : selectedCategories.add(category); // যদি সিলেক্টেড না থাকে, তবে লিস্টে যোগ করে।
+                });
+              },
+              selectedColor: Colors.blueAccent, // চিপ সিলেক্টেড থাকা অবস্থায় তার الخلفية রঙ সেট করে।
+              labelStyle: TextStyle( // চিপের টেক্সটের স্টাইল নির্ধারণ করে।
+                color: isSelected ? Colors.white : Colors.black, // সিলেক্টেড হলে সাদা, না হলে কালো রঙ দেখায়।
+              ),
+            );
+          }).toList(), // `map` থেকে তৈরি হওয়া চিপগুলোকে একটি লিস্টে পরিণত করে।
+        ),
+      ),
+      bottomNavigationBar: Container( // স্ক্রিনের নিচে একটি কন্টেইনার যোগ করে।
+        padding: EdgeInsets.all(16),
+        color: Colors.grey[200],
+        child: Text( // এই Text উইজেটটি সিলেক্টেড ক্যাটাগরিগুলো দেখানোর জন্য ব্যবহৃত হয়।
+          "Selected: ${selectedCategories.join(", ")}", // `selectedCategories` লিস্টের আইটেমগুলোকে কমা দিয়ে যুক্ত করে দেখায়।
+          style: TextStyle(fontSize: 16),
+        ),
+      ),
+    );
+  }
+}
+..........................................................................................................................................................
