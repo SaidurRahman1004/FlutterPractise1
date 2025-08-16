@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'Advanced Custom Card Design/EcommerceProductDetailsLayout.dart';
 import 'Advanced Custom Card Design/ExpansionTileList.dart';
 import 'Advanced Custom Card Design/FlutterListProjects.dart';
+import 'Advanced Custom Card Design/PageViewExample.dart';
 import 'Advanced Custom Card Design/ProfileLayout.dart';
 import 'Advanced Custom Card Design/SliverAppBarCustomScrollView.dart';
 import 'Advanced Custom Card Design/StackUIAdv.dart';
@@ -56,7 +57,7 @@ void main(){
 void main(){
   runApp( MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: ProductFilterScreen(),    //practisePage  //CustomBottomSheetDemo  //BottomSheetExample
+    home: MyPageView(),    //practisePage  //CustomBottomSheetDemo  //BottomSheetExample
 
   ) ); //listExample  //MyApp  //practisePage  //Practiseg2 //ExampleOfAllList //GminiPractise  //CounterWidget //StatefullWidgetAiAll //TextFormFieldEditingController
  }
