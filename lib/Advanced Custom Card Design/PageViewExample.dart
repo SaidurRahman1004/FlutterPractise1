@@ -1,6 +1,144 @@
 import 'package:flutter/material.dart'; // Flutter এর Material Design উইজেটগুলি ইম্পোর্ট করে।
 import 'package:smooth_page_indicator/smooth_page_indicator.dart'; // পেজ ইন্ডিকেটরের জন্য একটি থার্ড-পার্টি প্যাকেজ ইম্পোর্ট করে।
 
+
+//Practice Task 6.34 — PageView (Swipeable Pages) Ans:
+
+class PageViewSwipe extends StatefulWidget {
+   PageViewSwipe({super.key});
+
+  @override
+  State<PageViewSwipe> createState() => _PageViewSwipeState();
+}
+
+class _PageViewSwipeState extends State<PageViewSwipe> {
+  PageController _pageController = PageController( initialPage: 0);
+  int _currentPage = 0;
+
+
+  mysnk(msg,context){
+    return ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("PageView Swipe"),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: PageView(
+              controller: _pageController,
+              scrollDirection: Axis.vertical,
+              onPageChanged: (index){
+                setState(() {
+                  _currentPage = index;
+                });
+              },
+              children: [
+                Container(
+                  color: Colors.teal,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "This is Page 1",
+                        style: TextStyle(fontSize: 30,
+                            color: Colors.white), // টেক্সটের স্টাইল সেট করে।
+                      ),
+                      Text(
+                        "This is Page  ${_currentPage+1}",
+                        style: TextStyle(fontSize: 15,
+                            color: Colors.white), // টেক্সটের স্টাইল সেট করে।
+                      ),
+
+            
+                    ],
+            
+                  ),
+                ),
+                Container(
+                  color: Colors.orange,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "This is Page 2",
+                        style: TextStyle(fontSize: 30,
+                            color: Colors.white), // টেক্সটের স্টাইল সেট করে।
+                      ),
+                      Text(
+                        "This is Page ${_currentPage+1}",
+                        style: TextStyle(fontSize: 15,
+                            color: Colors.white), // টেক্সটের স্টাইল সেট করে।
+                      ),
+
+            
+                    ],
+            
+                  ),
+                ),
+                Container(
+                  color: Colors.grey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "This is Page 3",
+                        style: TextStyle(fontSize: 30,
+                            color: Colors.white), // টেক্সটের স্টাইল সেট করে।
+                      ),
+                      Text(
+                        "This is ${_currentPage+1}",
+                        style: TextStyle(fontSize: 15,
+                            color: Colors.white), // টেক্সটের স্টাইল সেট করে।
+                      ),
+                      ElevatedButton(onPressed: (){mysnk("Welcome to the App", context);
+                      }, child: Text("Get Started")),
+            
+                    ],
+            
+                  ),
+                ),
+              ],
+            ),
+
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(3, (index)=>Container(
+              margin: EdgeInsets.all(4),
+              width: 10,
+              height: 10,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: _currentPage == index ? Colors.blue : Colors.grey,
+
+              ),
+            )
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(onPressed: (){_pageController.previousPage(duration: Duration(microseconds: 300), curve: Curves.easeIn );}, icon: Icon(Icons.arrow_back)),
+              IconButton(onPressed: (){
+                _pageController.nextPage(duration: Duration(microseconds: 300), curve: Curves.easeIn );
+              }, icon: Icon(Icons.arrow_forward)),
+            ],
+          ),
+
+        ],
+      ),
+
+    );
+  }
+}
+
+
+
 // pageView1 একটি StatelessWidget যা MaterialApp রিটার্ন করে।
 class pageView1 extends StatelessWidget {
   const pageView1({super.key}); // কনস্ট্রাক্টর
@@ -41,6 +179,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           PageView( // একটি স্ক্রোলযোগ্য তালিকা যা পৃষ্ঠা অনুসারে কাজ করে।
             controller: _controller,
             // PageView নিয়ন্ত্রণ করতে ব্যবহৃত PageController।
+            scrollDirection: Axis.vertical,
             children: const [
               // পেজ ১
               OnboardingPage( // কাস্টম উইজেট যা একটি অনবোর্ডিং পেজ দেখায়।

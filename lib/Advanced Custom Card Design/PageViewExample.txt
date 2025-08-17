@@ -1,0 +1,382 @@
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+import 'package:flutter/material.dart'; // Flutter এর Material Design উইজেটগুলি ইম্পোর্ট করে।
+import 'package:smooth_page_indicator/smooth_page_indicator.dart'; // পেজ ইন্ডিকেটরের জন্য একটি থার্ড-পার্টি প্যাকেজ ইম্পোর্ট করে।
+
+//Practice Task 6.34 — PageView (Swipeable Pages)
+
+class PageViewSwipe extends StatefulWidget {
+  PageViewSwipe({super.key});
+
+  @override
+  State<PageViewSwipe> createState() => _PageViewSwipeState();
+}
+
+class _PageViewSwipeState extends State<PageViewSwipe> {
+  // PageController এর একটি ইনস্ট্যান্স তৈরি করা হয়েছে, প্রথম পেজ (0) ডিফল্ট হিসেবে সেট করা হয়েছে।
+  final PageController _pageController = PageController(initialPage: 0);
+  // বর্তমান পেজের ইনডেক্স ট্র্যাক করার জন্য একটি ভেরিয়েবল। প্রথম অবস্থায় এটি অপ্রয়োজনীয় কারণ PageController নিজেই পেজ ট্র্যাক করে, তবে onPageChanged এ _currentPage আপডেট করা হচ্ছে।
+  int _currentPage = 0; // এই ভেরিয়েবলটি এখন আর সরাসরি পেজ পরিবর্তনের জন্য ব্যবহৃত হচ্ছে না, তবে onPageChanged এ আপডেট করা হচ্ছে।
+
+  // পেজগুলোর ডেটা (উদাহরণস্বরূপ)
+  final List<Map<String, dynamic>> pagesData = [
+    {"title": "Page 1", "color": Colors.blue, "content": "This is Page 1"},
+    {"title": "Page 2", "color": Colors.green, "content": "This is Page 2"},
+    {"title": "Page 3", "color": Colors.redAccent, "content": "This is Page 3"},
+  ];
+
+  // একটি SnackBar দেখানোর জন্য Helper ফাংশন।
+  mysnk(String msg, BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("PageView Swipe"),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: PageView.builder( // PageView.builder ব্যবহার করলে পেজগুলো প্রয়োজন অনুযায়ী তৈরি হয়।
+              controller: _pageController,
+              scrollDirection: Axis.vertical, // স্ক্রল করার দিক পরিবর্তন করা হয়েছে।
+              onPageChanged: (index) {
+                setState(() {
+                  _currentPage = index; // SmoothPageIndicator এর জন্য বর্তমান পেজ আপডেট করা হচ্ছে।
+                });
+              },
+              itemCount: pagesData.length, // মোট পেজের সংখ্যা।
+              itemBuilder: (context, index) {
+                // প্রতিটি পেজের UI তৈরি করা হচ্ছে।
+                return Container(
+                  color: pagesData[index]["color"] as Color,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        pagesData[index]["content"] as String,
+                        style: const TextStyle(fontSize: 30, color: Colors.white),
+                      ),
+                      Text(
+                        "Page ${index + 1}", // সরাসরি ইনডেক্স ব্যবহার করে পেজ নম্বর দেখানো হচ্ছে।
+                        style: const TextStyle(fontSize: 15, color: Colors.white),
+                      ),
+                      if (index == pagesData.length - 1) // শুধুমাত্র শেষ পেজে বাটনটি দেখানো হচ্ছে।
+                        ElevatedButton(
+                          onPressed: () {
+                            mysnk("Welcome to the App", context);
+                          },
+                          child: const Text("Get Started"),
+                        ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+          // SmoothPageIndicator যোগ করা হয়েছে।
+          Padding(
+            padding: const EdgeInsets.all(8.0), // ইন্ডিকেটরের চারপাশে কিছু প্যাডিং।
+            child: SmoothPageIndicator(
+              controller: _pageController, // PageView এর PageController।
+              count: pagesData.length, // মোট পেজের সংখ্যা।
+              effect: const WormEffect( // বিভিন্ন ইফেক্ট ব্যবহার করা যায়, যেমন: WormEffect, ExpandingDotsEffect ইত্যাদি।
+                dotHeight: 12,
+                dotWidth: 12,
+                activeDotColor: Colors.blueAccent, // সক্রিয় ডটের রঙ।
+                dotColor: Colors.grey, // নিষ্ক্রিয় ডটের রঙ।
+              ),
+              onDotClicked: (index) { // ডটে ক্লিক করলে সেই পেজে যাওয়ার জন্য।
+                _pageController.animateToPage(
+                  index,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeIn,
+                );
+              },
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                onPressed: () {
+                  _pageController.previousPage(
+                    duration: const Duration(milliseconds: 300), // সময়কাল microseconds থেকে milliseconds এ পরিবর্তন করা ভালো।
+                    curve: Curves.easeIn,
+                  );
+                },
+                icon: const Icon(Icons.arrow_back),
+              ),
+              IconButton(
+                onPressed: () {
+                  _pageController.nextPage(
+                    duration: const Duration(milliseconds: 300), // সময়কাল microseconds থেকে milliseconds এ পরিবর্তন করা ভালো।
+                    curve: Curves.easeIn,
+                  );
+                },
+                icon: const Icon(Icons.arrow_forward),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+......................................................................................................................................
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+import 'package:flutter/material.dart';                 // Flutter এর UI বানানোর জন্য Material package ইম্পোর্ট
+
+class PageViewSwipe extends StatefulWidget {            // StatefulWidget, কারণ PageView এ state (currentPage) পরিবর্তন হবে
+  const PageViewSwipe({super.key});                     // Constructor
+
+  @override
+  State<PageViewSwipe> createState() => _PageViewSwipeState(); // State তৈরি করা হলো
+}
+
+class _PageViewSwipeState extends State<PageViewSwipe> {
+  PageController _pageController = PageController(initialPage: 0); // PageView নিয়ন্ত্রণ করার জন্য Controller (শুরু পেজ = 0)
+  int _currentPage = 0;                                           // বর্তমানে কোন পেজে আছে সেটি ট্র্যাক করার ভ্যারিয়েবল
+
+  mysnk(msg, context) {                                           // Custom function: Snackbar দেখানোর জন্য
+    return ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(msg)));              // নির্দিষ্ট মেসেজ দেখাবে
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(                                              // Scaffold দিয়ে পুরো UI তৈরি
+      appBar: AppBar(                                             // AppBar অংশ
+        title: Text("PageView Swipe"),                            // টাইটেল
+      ),
+      body: Column(                                               // Column → উপরে PageView, নিচে dot + বাটন
+        children: [
+          Expanded(                                               // PageView কে Expanded করা হয়েছে, যাতে বাকি জায়গা নেয়
+            child: PageView(                                      // PageView → swipeable pages
+              controller: _pageController,                        // PageController এর সাথে যুক্ত
+              scrollDirection: Axis.vertical,                     // স্ক্রল হবে উলম্ব (উপরে-নিচে)
+              onPageChanged: (index) {                            // যখন পেজ পরিবর্তন হবে তখন কল হবে
+                setState(() {                                     // UI আপডেট করার জন্য setState
+                  _currentPage = index;                           // _currentPage নতুন index সেট হবে
+                });
+              },
+              children: [                                         // PageView এর ভেতরের পেজ লিস্ট
+                Container(                                        // প্রথম পেজ
+                  color: Colors.blue,                             // ব্যাকগ্রাউন্ড নীল
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,  // টেক্সট মাঝখানে থাকবে
+                    children: [
+                      Text("This is Page 1",                      // প্রথম টেক্সট
+                          style: TextStyle(fontSize: 30, color: Colors.white)),
+                      Text("This is Page ${_currentPage + 1}",    // _currentPage থেকে বর্তমান পেজ নাম্বার দেখাবে
+                          style: TextStyle(fontSize: 15, color: Colors.white)),
+                    ],
+                  ),
+                ),
+                Container(                                        // দ্বিতীয় পেজ
+                  color: Colors.green,                            // ব্যাকগ্রাউন্ড সবুজ
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("This is Page 2",
+                          style: TextStyle(fontSize: 30, color: Colors.white)),
+                      Text("This is Page ${_currentPage + 1}",
+                          style: TextStyle(fontSize: 15, color: Colors.white)),
+                    ],
+                  ),
+                ),
+                Container(                                        // তৃতীয় পেজ
+                  color: Colors.redAccent,                        // ব্যাকগ্রাউন্ড লাল
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("This is Page 3",
+                          style: TextStyle(fontSize: 30, color: Colors.white)),
+                      Text("This is ${_currentPage + 1}",
+                          style: TextStyle(fontSize: 15, color: Colors.white)),
+                      ElevatedButton(                             // একটি বাটন
+                          onPressed: () {
+                            mysnk("Welcome to the App", context); // বাটনে চাপ দিলে Snackbar দেখাবে
+                          },
+                          child: Text("Get Started")),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          // ✅ Dot Indicator Section
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,           // ডটগুলো মাঝখানে রাখা হয়েছে
+            children: List.generate(
+              3,                                                   // মোট ৩টি পেজ → ৩টি ডট তৈরি
+              (index) => Container(                                // প্রতিটি ডট Container দিয়ে বানানো
+                margin: EdgeInsets.symmetric(horizontal: 4, vertical: 10), // ডটের মাঝে গ্যাপ
+                width: _currentPage == index ? 16 : 8,             // Active হলে বড়, না হলে ছোট
+                height: 8,
+                decoration: BoxDecoration(
+                  color: _currentPage == index                     // Active হলে নীল, অন্যথায় ধূসর
+                      ? Colors.blue
+                      : Colors.grey,
+                  borderRadius: BorderRadius.circular(10),         // ডট গোলাকার
+                ),
+              ),
+            ),
+          ),
+
+          // ✅ Navigation Buttons
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,           // বাটন মাঝখানে
+            children: [
+              IconButton(
+                  onPressed: () {                                  // আগের পেজে যাওয়ার বাটন
+                    _pageController.previousPage(
+                        duration: Duration(milliseconds: 300),      // 0.3 সেকেন্ডে যাবে
+                        curve: Curves.easeIn);                     // animation curve
+                  },
+                  icon: Icon(Icons.arrow_back)),
+              IconButton(
+                  onPressed: () {                                  // পরের পেজে যাওয়ার বাটন
+                    _pageController.nextPage(
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.easeIn);
+                  },
+                  icon: Icon(Icons.arrow_forward)),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+import 'package:flutter/material.dart';                  // Flutter এর মূল UI প্যাকেজ ইমপোর্ট করা হয়েছে
+
+class PracticeTask634 extends StatefulWidget {           // StatefulWidget ডিফাইন করা হয়েছে কারণ state পরিবর্তন হবে
+  const PracticeTask634({super.key});
+
+  @override
+  State<PracticeTask634> createState() => _PracticeTask634State();
+}
+
+class _PracticeTask634State extends State<PracticeTask634> {
+  final PageController _pageController = PageController(initialPage: 0); // PageView নিয়ন্ত্রণ করার জন্য PageController
+  int _currentPage = 0;                                                  // বর্তমানে কোন পেজে আছি সেটা ট্র্যাক রাখবে
+
+  // Snackbar দেখানোর জন্য আলাদা ফাংশন
+  void showSnack(BuildContext context, String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(msg)),                                      // SnackBar-এ বার্তা দেখানো হবে
+    );
+  }
+
+  // পেজ ডাটা: প্রতিটি পেজের Title, Subtitle এবং Background Color রাখা হয়েছে Map এর ভিতরে
+  final List<Map<String, dynamic>> pages = [
+    {
+      "title": "Welcome", "subtitle": "Swipe to explore the app", "color": Colors.blue
+    },
+    {
+      "title": "Shop Easily", "subtitle": "Browse thousands of products", "color": Colors.green
+    },
+    {
+      "title": "Fast Delivery", "subtitle": "Get your items delivered quickly", "color": Colors.orange
+    },
+    {
+      "title": "Secure Payment", "subtitle": "Your safety is our priority", "color": Colors.purple
+    },
+    {
+      "title": "Get Started", "subtitle": "Enjoy your shopping journey!", "color": Colors.redAccent
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(                                                   // মূল Scaffold → App এর লেআউট
+      appBar: AppBar(title: const Text("Practice Task 6.34")),         // উপরে AppBar শিরোনাম সহ
+      body: Column(                                                    // পুরো বডি Column এ রাখা হয়েছে
+        children: [
+          // ✅ PageView
+          Expanded(                                                    // উপরের অংশে PageView জায়গা নেবে
+            child: PageView.builder(                                   // PageView.builder → ডাইনামিকভাবে পেজ বানায়
+              controller: _pageController,                             // কোন পেজে আছি তা নিয়ন্ত্রণ করবে
+              itemCount: pages.length,                                 // মোট কতগুলো পেজ আছে
+              onPageChanged: (index) {                                 // পেজ পরিবর্তন হলে কলব্যাক
+                setState(() {
+                  _currentPage = index;                                // _currentPage আপডেট
+                });
+              },
+              itemBuilder: (context, index) {                          // প্রতিটি পেজ তৈরি করার জন্য itemBuilder
+                final page = pages[index];                             // index অনুযায়ী ডাটা বের করা
+                return Container(
+                  color: page["color"],                                // ব্যাকগ্রাউন্ড রঙ
+                  child: Center(                                       // টেক্সট মাঝখানে থাকবে
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,     // Column এর আইটেমগুলো কেন্দ্রে
+                      children: [
+                        Text(page["title"],                            // টাইটেল টেক্সট
+                            style: const TextStyle(
+                                fontSize: 35,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white)),
+                        const SizedBox(height: 10),                   // টাইটেল আর সাবটাইটেলের মাঝে ফাঁকা
+                        Text(page["subtitle"],                         // সাবটাইটেল টেক্সট
+                            style: const TextStyle(
+                                fontSize: 18, color: Colors.white70)),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+
+          // ✅ Dot Indicator (পেজ অনুযায়ী ডট পরিবর্তন)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,               // Row কে সেন্টারে আনা হয়েছে
+            children: List.generate(                                   // মোট যতগুলো পেজ আছে ততগুলো ডট বানাবে
+              pages.length,
+              (index) => Container(
+                margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 12), // ডটের মাঝে ফাঁকা
+                width: _currentPage == index ? 16 : 8,                // যদি Active হয় বড় ডট, না হলে ছোট
+                height: 8,
+                decoration: BoxDecoration(
+                  color: _currentPage == index ? Colors.blue : Colors.grey, // Active হলে নীল, না হলে ধূসর
+                  borderRadius: BorderRadius.circular(10),            // ডটকে গোলাকার বানানো
+                ),
+              ),
+            ),
+          ),
+
+          // ✅ Next / Get Started Button
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16),               // নিচে কিছু ফাঁকা রাখা
+            child: ElevatedButton(
+              onPressed: () {
+                if (_currentPage == pages.length - 1) {               // যদি শেষ পেজে থাকি
+                  showSnack(context, "Welcome to the App!");          // SnackBar দেখাবে
+                } else {                                              // অন্য পেজ হলে
+                  _pageController.nextPage(                           // পরের পেজে যাবে
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOut);
+                }
+              },
+              child: Text(
+                  _currentPage == pages.length - 1                    // বাটনের টেক্সট পরিবর্তন
+                      ? "Get Started"
+                      : "Next"),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}

@@ -57,7 +57,7 @@ void main(){
 void main(){
   runApp( MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: MyPageView(),    //practisePage  //CustomBottomSheetDemo  //BottomSheetExample
+    home: pageView1(),    //practisePage  //CustomBottomSheetDemo  //BottomSheetExample
 
   ) ); //listExample  //MyApp  //practisePage  //Practiseg2 //ExampleOfAllList //GminiPractise  //CounterWidget //StatefullWidgetAiAll //TextFormFieldEditingController
  }
