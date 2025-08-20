@@ -380,3 +380,171 @@ class _PracticeTask634State extends State<PracticeTask634> {
     );
   }
 }
+...........................................................................
+
+
+import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Carousel Slider Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: const ProductCarouselScreen(),
+    );
+  }
+}
+
+class ProductCarouselScreen extends StatefulWidget {
+  const ProductCarouselScreen({super.key});
+
+  @override
+  State<ProductCarouselScreen> createState() => _ProductCarouselScreenState();
+}
+
+class _ProductCarouselScreenState extends State<ProductCarouselScreen> {
+  // স্লাইডারের বর্তমান পেজ ট্র্যাক করার জন্য
+  int _current = 0;
+  final CarouselController _controller = CarouselController();
+
+  // স্লাইডারে দেখানোর জন্য প্রোডাক্টের তালিকা (বোনাস টাস্ক)
+  final List<Map<String, dynamic>> productList = [
+    {
+      'title': 'Stunning Watch',
+      'imageUrl': 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+    },
+    {
+      'title': 'Leather Bag',
+      'imageUrl': 'https://images.unsplash.com/photo-1547949003-9792a18a2601?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+    },
+    {
+      'title': 'Stylish Shoes',
+      'imageUrl': 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+    },
+    {
+      'title': 'Modern Camera',
+      'imageUrl': 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+      'isLast': true // শেষ আইটেমটি চিহ্নিত করার জন্য
+    }
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Product Carousel'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // ১. ক্যারোসেল স্লাইডার
+            CarouselSlider.builder(
+              itemCount: productList.length,
+              carouselController: _controller,
+              itemBuilder: (context, index, realIndex) {
+                final product = productList[index];
+                return buildProductCard(product); // প্রতিটি আইটেমের জন্য কার্ড তৈরি
+              },
+              options: CarouselOptions(
+                height: 400.0,
+                autoPlay: true, // auto-slide চালু করা হলো
+                enlargeCenterPage: true,
+                aspectRatio: 16 / 9,
+                viewportFraction: 0.8,
+                onPageChanged: (index, reason) {
+                  // পেজ পরিবর্তন হলে state আপডেট হবে
+                  setState(() {
+                    _current = index;
+                  });
+                },
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // ২. ইন্ডিকেটর ডট
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: productList.asMap().entries.map((entry) {
+                return GestureDetector(
+                  onTap: () => _controller.animateToPage(entry.key),
+                  child: Container(
+                    width: 12.0,
+                    height: 12.0,
+                    margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      // বর্তমান পেজের index অনুযায়ী ডটের রঙ পরিবর্তন
+                      color: (_current == entry.key ? Colors.blue : Colors.grey)
+                          .withOpacity(0.8),
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // প্রোডাক্ট কার্ড বানানোর জন্য একটি Helper ফাংশন (বোনাস টাস্ক)
+  Widget buildProductCard(Map<String, dynamic> product) {
+    return Card(
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(15),
+        child: Column(
+          children: [
+            Expanded(
+              child: Image.network(
+                product['imageUrl'],
+                fit: BoxFit.cover,
+                width: double.infinity,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                product['title'],
+                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+            // ৩. শেষ ছবিতে "Shop Now" বাটন
+            if (product['isLast'] == true)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    // ৪. বাটন প্রেস করলে SnackBar দেখানো
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Redirecting to Shop...'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  },
+                  child: const Text('Shop Now'),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
