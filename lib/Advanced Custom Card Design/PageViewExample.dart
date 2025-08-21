@@ -5,14 +5,14 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart'; // পেজ 
 //Practice Task 6.34 — PageView (Swipeable Pages) Ans:
 
 class PageViewSwipe extends StatefulWidget {
-   PageViewSwipe({super.key});
+   const PageViewSwipe({super.key});
 
   @override
   State<PageViewSwipe> createState() => _PageViewSwipeState();
 }
 
 class _PageViewSwipeState extends State<PageViewSwipe> {
-  PageController _pageController = PageController( initialPage: 0);
+  final PageController _pageController = PageController( initialPage: 0);
   int _currentPage = 0;
 
 
@@ -288,6 +288,8 @@ class OnboardingPage extends StatelessWidget {
 /////////আনথের
 
 class MyPageView extends StatefulWidget {
+  const MyPageView({super.key});
+
   // MyPageView একটি StatefulWidget, যার অর্থ এটি সময়ের সাথে পরিবর্তিত হতে পারে এমন ডেটা ধারণ করে।
   @override
   _MyPageViewState createState() =>

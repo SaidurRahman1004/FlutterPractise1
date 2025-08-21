@@ -1,5 +1,6 @@
 
 ///Step 6.18 Practice Task Ans Flutter Drawer Navigation (Side Menu)
+library;
 import 'package:flutter/material.dart';
 class DrawerCustom extends StatelessWidget {
   const DrawerCustom({super.key});
@@ -121,6 +122,8 @@ class DrawerWithRoute extends StatelessWidget {
 
 // ✅ Home Page
 class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -131,6 +134,8 @@ class HomePage extends StatelessWidget {
 }
 // ✅ About Page
 class AboutPage extends StatelessWidget {
+  const AboutPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,6 +147,8 @@ class AboutPage extends StatelessWidget {
 
 // ✅ Settings Page
 class SettingsPage extends StatelessWidget {
+  const SettingsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

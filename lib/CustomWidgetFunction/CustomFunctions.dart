@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/TabBarBottomNavigationBar.dart';
 class cusSnk {
   static  customSnkbar(BuildContext context, String message,
       {Color backgroundColor = Colors.black, Duration duration = const Duration(seconds: 2)}) {

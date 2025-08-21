@@ -290,8 +290,8 @@ class _GminiPractiseState extends State<GminiPractise> {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
   }
   final _formKey  = GlobalKey<FormState>();
-   TextEditingController _nameC = TextEditingController();
-   TextEditingController _mailC = TextEditingController();
+   final TextEditingController _nameC = TextEditingController();
+   final TextEditingController _mailC = TextEditingController();
    String nameDis = "";
    String mailmeDis = "";
    String isSuccess = "";

@@ -1,5 +1,6 @@
 
 ///🧪 Practice Task 6.25:Ans::Flutter Stack Layout – UI Overlapping + Layering
+library;
 import 'package:flutter/material.dart';
 import 'package:myapp/CustomWidgetFunction/CustomFunctions.dart';
 //task1
@@ -77,7 +78,7 @@ class Stack2Ui extends StatelessWidget {
             Positioned(
               top: 10,
               left: 10,
-              child: Container(
+              child: SizedBox(
                 height: 80,
                 width: 50,
                 child: Icon(Icons.star,color: Colors.redAccent,size: 30,),
@@ -142,11 +143,11 @@ class ProductCardStack extends StatelessWidget {
             Positioned(
               bottom: 0,
               right: 0,
-              child: ElevatedButton(onPressed: (){}, child: Text("Buy Now"),
+              child: ElevatedButton(onPressed: (){},
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
                   foregroundColor: Colors.white,
-                  backgroundColor: Colors.orange),
+                  backgroundColor: Colors.orange), child: Text("Buy Now"),
 
 
               ),

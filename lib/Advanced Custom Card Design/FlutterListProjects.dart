@@ -56,7 +56,7 @@ class PageControl extends StatelessWidget {
 
 ///Practice Task 6.30: ListTile + Switch/Checkbox & Custom Trailing Ans:
 class SwitChkbx extends StatefulWidget {
-   SwitChkbx({super.key});
+   const SwitChkbx({super.key});
 
   @override
   State<SwitChkbx> createState() => _SwitChkbxState();
@@ -93,8 +93,8 @@ class _SwitChkbxState extends State<SwitChkbx> {
             return ListTile(
               leading: CircleAvatar(
                 radius: MediaQuery.of(context).size.width*0.05,
-                child: Text(ContactsList[index][0]),
                 backgroundColor: Colors.blue,
+                child: Text(ContactsList[index][0]),
               ),
               title: Text( ContactsList[index],
                 style: TextStyle(
@@ -213,6 +213,8 @@ class LisTpro extends StatelessWidget {
 
 
 class SettingsListWithSwitch extends StatefulWidget {
+  const SettingsListWithSwitch({super.key});
+
   @override
   State<SettingsListWithSwitch> createState() => _SettingsListWithSwitchState();
 }
@@ -256,7 +258,9 @@ class _SettingsListWithSwitchState extends State<SettingsListWithSwitch> {
 
 //chkbox
 
-class TaskListWithCheckbox extends StatefulWidget {                         // একটি StatefulWidget তৈরি করা হয়েছে, যাতে state পরিবর্তন হলে UI আপডেট হয়
+class TaskListWithCheckbox extends StatefulWidget {
+  const TaskListWithCheckbox({super.key});
+                         // একটি StatefulWidget তৈরি করা হয়েছে, যাতে state পরিবর্তন হলে UI আপডেট হয়
   @override
   State<TaskListWithCheckbox> createState() => _TaskListWithCheckboxState(); // এর জন্য State ক্লাস তৈরি করা হচ্ছে
 }

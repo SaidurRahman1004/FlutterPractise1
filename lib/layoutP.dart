@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 class layoutP extends StatelessWidget {
   final TextEditingController name = TextEditingController();
+
+  layoutP({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -95,11 +95,11 @@ class ExpansionTileExample  extends StatelessWidget {
               leading: Icon(catagoryItems[1]['icon'],color: Colors.blue),
               title: Text(catagoryItems[1]['name'],style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               children: [
-                ListTile(title: Text("Men\'s Wear"),onTap: (){SnackBarCustom("Men\'s Wear", context);}),
+                ListTile(title: Text("Men's Wear"),onTap: (){SnackBarCustom("Men's Wear", context);}),
                 Divider(),
-                ListTile(title: Text("Women\'s Wear"),onTap: (){SnackBarCustom("Women\'s Wear", context);}),
+                ListTile(title: Text("Women's Wear"),onTap: (){SnackBarCustom("Women's Wear", context);}),
                 Divider(),
-                ListTile(title: Text("Kids\' Wear"),onTap: (){SnackBarCustom("Kids\' Wear", context);}),
+                ListTile(title: Text("Kids' Wear"),onTap: (){SnackBarCustom("Kids' Wear", context);}),
 
 
               ],

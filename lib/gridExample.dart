@@ -22,6 +22,8 @@ class gridExample extends StatelessWidget{
     {"img": "https://i.postimg.cc/mDxzTffY/0.jpg", "title": "Andrew Perez"},
   ];
 
+  gridExample({super.key});
+
   //snackbar
   mysnkbar(msg,context){
     return ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
@@ -137,7 +139,7 @@ class gridBuilder extends StatelessWidget {
       appBar: AppBar(title: Text("Grid Builder"),),
       body: GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3,crossAxisSpacing: 10,mainAxisSpacing: 10),itemCount: 10, itemBuilder: (context,index){
         return GestureDetector(
-          onTap:()=> cusSnk.customSnkbar(context, "Grid Builder ${index}",backgroundColor: boxColors[index]),
+          onTap:()=> cusSnk.customSnkbar(context, "Grid Builder $index",backgroundColor: boxColors[index]),
           child: Container(
             color: boxColors[index],
             margin: EdgeInsets.all(5),

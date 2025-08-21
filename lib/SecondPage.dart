@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 class SecondPage extends StatelessWidget {
   final TextEditingController eml = TextEditingController();
   final TextEditingController pass = TextEditingController();
-  final _formKey = GlobalKey<FormState>();      // 🔐 এটি ফর্মকে নিয়ন্ত্রণ করার জন্য একটি Global Key
+  final _formKey = GlobalKey<FormState>();
+
+  SecondPage({super.key});      // 🔐 এটি ফর্মকে নিয়ন্ত্রণ করার জন্য একটি Global Key
 
 //Snackbar Function
   Snkbtn(mess,context){

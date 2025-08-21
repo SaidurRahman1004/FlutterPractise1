@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class navigatorPassData extends StatelessWidget{
+  const navigatorPassData({super.key});
+
 
 
   @override
@@ -30,6 +32,8 @@ class navigatorPassData extends StatelessWidget{
 
 
 class page2 extends StatelessWidget{
+  const page2({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

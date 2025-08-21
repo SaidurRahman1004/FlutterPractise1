@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class listExample extends StatelessWidget{
+  const listExample({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,6 +37,8 @@ class ListItemsActivity extends StatelessWidget{
     {"img": "https://i.postimg.cc/mDxzTffY/0.jpg", "title": "Mia Gonzalez"},
     {"img": "https://i.postimg.cc/mDxzTffY/0.jpg", "title": "Andrew Perez"},
   ];
+
+  ListItemsActivity({super.key});
 
 
 //snackbar

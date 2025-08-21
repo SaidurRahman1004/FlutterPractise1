@@ -105,7 +105,7 @@ class _WrapchipState extends State<Wrapchip> {
           children: categoriesE.map((catgry) {
             final isSelected = selectedCategoriesE.contains(catgry);
             return InkWell(
-              onDoubleTap: () => SnnkB("${catgry}", context),
+              onDoubleTap: () => SnnkB(catgry, context),
               child: ChoiceChip(
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 label: Text(catgry),
@@ -257,7 +257,7 @@ class _ProductFilterScreenState extends State<ProductFilterScreen> {
                     setState(() {
                       categoriesN.remove(item);
                     });
-                    SnnkB("${item} deleted!", context);
+                    SnnkB("$item deleted!", context);
                     print("Chip deleted!");
                   },
                 );
@@ -362,6 +362,8 @@ class SkillTagScreen extends StatelessWidget {
 
 ////WrapeChip1 Ai Cloude1 Copy
 class WrapeChip1 extends StatelessWidget {
+  const WrapeChip1({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -373,6 +375,8 @@ class WrapeChip1 extends StatelessWidget {
 }
 
 class WrapChipDemo extends StatefulWidget {
+  const WrapChipDemo({super.key});
+
   @override
   _WrapChipDemoState createState() => _WrapChipDemoState();
 }
@@ -664,13 +668,15 @@ class _WrapChipDemoState extends State<WrapChipDemo> {
 
 // Dynamic Tag Input Component
 class DynamicTagInput extends StatefulWidget {
+  const DynamicTagInput({super.key});
+
   @override
   _DynamicTagInputState createState() => _DynamicTagInputState();
 }
 
 class _DynamicTagInputState extends State<DynamicTagInput> {
   final TextEditingController _controller = TextEditingController();
-  List<String> _tags = ['Flutter', 'Dart'];
+  final List<String> _tags = ['Flutter', 'Dart'];
 
   void _addTag() {
     if (_controller.text.isNotEmpty) {
@@ -727,6 +733,8 @@ class _DynamicTagInputState extends State<DynamicTagInput> {
 
 // Advanced Example: Product Filter Page
 class ProductFilterPage extends StatefulWidget {
+  const ProductFilterPage({super.key});
+
   @override
   _ProductFilterPageState createState() => _ProductFilterPageState();
 }
@@ -860,10 +868,10 @@ class _ProductFilterPageState extends State<ProductFilterPage> {
               print('Brands: $selectedBrands');
               print('Features: $features');
             },
-            child: Text('Apply Filters'),
             style: ElevatedButton.styleFrom(
               padding: EdgeInsets.symmetric(vertical: 16),
             ),
+            child: Text('Apply Filters'),
           ),
         ],
       ),

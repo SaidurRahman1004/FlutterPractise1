@@ -7,6 +7,8 @@ import 'cardViewExample.dart';
 import 'navigatorPassData.dart';
 
 class ExampleOfAllList extends StatelessWidget{
+  const ExampleOfAllList({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

@@ -1,5 +1,6 @@
 
 ///6.17: Practice Task Ans Flutter TabBar & BottomNavigationBar
+library;
 //Task 1 Ans
 import 'package:flutter/material.dart';
 class tabbarCustom extends StatelessWidget {
@@ -81,7 +82,7 @@ class BottomNavigationBarCustom2 extends StatefulWidget {
 
 class _BottomNavigationBarCustom2State extends State<BottomNavigationBarCustom2> {
   int curentIndex1 = 0;
-  List<Widget> _pages = [
+  final List<Widget> _pages = [
     Center(child: Text("Home")),
     Center(child: Text("Search"))
   ];

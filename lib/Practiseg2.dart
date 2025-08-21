@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Practiseg2 extends StatelessWidget{
+  const Practiseg2({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

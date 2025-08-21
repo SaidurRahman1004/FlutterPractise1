@@ -93,7 +93,7 @@ class EcommerceNestedScroll extends StatelessWidget {
             ];
           },
           body: TabBarView(
-            children: [AllProductsTab(), CategoriesTabt(),AboutTab(), ],
+            children: [AllProductsTab(), CategoriesTabt(), AboutTab()],
           ),
         ),
       ),
@@ -134,8 +134,6 @@ class AllProductsTab extends StatelessWidget {
   }
 }
 
-
-
 //,,
 class CategoriesTabt extends StatelessWidget {
   CategoriesTabt({super.key});
@@ -171,6 +169,7 @@ class CategoriesTabt extends StatelessWidget {
     );
   }
 }
+
 //,,
 class AboutTab extends StatelessWidget {
   const AboutTab({super.key});
@@ -182,11 +181,211 @@ class AboutTab extends StatelessWidget {
         padding: EdgeInsets.all(16),
         child: Text(
           "Welcome to E-commerce Store!\n\n"
-              "Here you can find a wide range of products including fashion, "
-              "electronics, home essentials, and much more.\n\n"
-              "Enjoy shopping with smooth experience!",
+          "Here you can find a wide range of products including fashion, "
+          "electronics, home essentials, and much more.\n\n"
+          "Enjoy shopping with smooth experience!",
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 16),
+        ),
+      ),
+    );
+  }
+}
+
+//Practice Task 6.37 NestedScrollView + Tabs (Coordinated Scroll) Ans Submit Gmini
+class ResorebtMenue extends StatelessWidget {
+  const ResorebtMenue({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        body: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return [
+              SliverOverlapAbsorber(
+                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                sliver:               SliverAppBar(
+                  title: Text(
+                    "HiruVai Restora",
+                    style: TextStyle(
+                      color: Colors.redAccent,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  centerTitle: true,
+                  floating: true,
+                  pinned: true,
+                  expandedHeight: 250,
+                  flexibleSpace: FlexibleSpaceBar(
+                    background: Image.network(
+                      "https://img.lovepik.com/photo/48025/8241.jpg_wh860.jpg",
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  bottom: TabBar(
+                    tabs: [
+                      Tab(text: "Appetizers"),
+                      Tab(text: "Main Course"),
+                    ],
+                  ),
+                ),
+              )
+
+            ];
+          },
+          body: TabBarView(
+            children: [AppiTabContent(), MainCourseMenuTabContent()],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+//appetizers
+class AppiTabContent extends StatelessWidget {
+  AppiTabContent({super.key});
+
+  List<Map<String, dynamic>> appetizers = [
+    {
+      "name": "Spring Rolls",
+      "desc": "Crispy rolls with veggies",
+      "icon": Icons.local_dining,
+    },
+    {
+      "name": "Garlic Bread",
+      "desc": "Toasted bread with garlic & butter",
+      "icon": Icons.bakery_dining,
+    },
+    {
+      "name": "Chicken Wings",
+      "desc": "Spicy grilled wings",
+      "icon": Icons.set_meal,
+    },
+    {
+      "name": "French Fries",
+      "desc": "Crispy potato fries",
+      "icon": Icons.fastfood,
+    },
+    {
+      "name": "Nachos",
+      "desc": "Corn chips with cheese dip",
+      "icon": Icons.lunch_dining,
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Builder(
+        builder: (BuildContext context) {
+          return CustomScrollView(
+            slivers: [
+              SliverOverlapInjector(
+                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) => ListTile(
+                    leading: Icon(appetizers[index]["icon"]),
+                    title: Text(appetizers[index]["name"]),
+                    subtitle: Text(appetizers[index]["desc"]),
+                  ),
+                  childCount: appetizers.length,
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+//MainCourseMenu
+class MainCourseMenuTabContent extends StatelessWidget {
+  MainCourseMenuTabContent({super.key});
+
+  List<Map<String, dynamic>> mainCourse = [
+    {
+      "name": "Grilled Chicken",
+      "desc": "Served with mashed potatoes",
+      "icon": Icons.set_meal,
+    },
+    {
+      "name": "Beef Steak",
+      "desc": "Juicy steak with pepper sauce",
+      "icon": Icons.dinner_dining,
+    },
+    {
+      "name": "Paneer Butter Masala",
+      "desc": "Indian curry with soft paneer",
+      "icon": Icons.rice_bowl,
+    },
+    {
+      "name": "Fried Rice",
+      "desc": "Veg/Chicken fried rice",
+      "icon": Icons.local_dining,
+    },
+    {
+      "name": "Pasta Alfredo",
+      "desc": "Creamy white sauce pasta",
+      "icon": Icons.lunch_dining,
+    },
+    {
+      "name": "Fish Curry",
+      "desc": "Traditional spicy curry with rice",
+      "icon": Icons.restaurant_menu,
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Builder(
+          builder: (BuildContext context) {
+            return CustomScrollView(
+              slivers: [
+                SliverOverlapInjector(
+                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                ),
+                SliverGrid(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 1,
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) => Card(
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(mainCourse[index]["icon"], size: 40, color: Colors.blue),
+                          SizedBox(height: 10),
+                          Text(mainCourse[index]["name"]),
+                          SizedBox(height: 5),
+                          Text(mainCourse[index]["desc"],style: TextStyle(
+                            fontSize: 12.0,
+                            color: Colors.grey[600],
+                          ),maxLines: 2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center,),
+                        ],
+                      ),
+                    ),
+                    childCount: mainCourse.length,
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

@@ -48,7 +48,7 @@ class TextFormFieldEditingController extends StatelessWidget {
                       controller: nameC,
                       decoration: InputDecoration(labelText: "Name",hintText: "Enter Your Valid Name",border: OutlineInputBorder(),suffixIcon: Icon(Icons.person)),
                       validator: (value){
-                        if(value!.isEmpty || value == null){
+                        if(value!.isEmpty){
                           return 'Name cannot be empty';
                         }
                         return null;
@@ -61,7 +61,7 @@ class TextFormFieldEditingController extends StatelessWidget {
                       controller: emailC,
                       decoration: InputDecoration(labelText: "Email",hintText: "Ex: example@gmail.com",border: OutlineInputBorder(),suffixIcon: Icon(Icons.mail)),
                       validator: (value){
-                        if(value!.isEmpty || value == null){
+                        if(value!.isEmpty){
                           return 'Email cannot be empty';
                         }else if(value.contains("@")==false || RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)==false){
                           return 'Email is not valid';
@@ -78,7 +78,7 @@ class TextFormFieldEditingController extends StatelessWidget {
                       validator: (value){
                         if(value!.isEmpty){
                           return 'Password cannot be empty';
-                        }else if(value==null || value.length <= 6){
+                        }else if(value.length <= 6){
                           return 'Password must be at least 6 characters';
                         }
                         return null;
@@ -89,7 +89,7 @@ class TextFormFieldEditingController extends StatelessWidget {
                       if(_formKey.currentState!.validate()){
                         snkbtn("Account Created for [${nameC.text}]!",context);
                       }
-                    }, child: Text("Submit"),style: ElevatedButton.styleFrom(backgroundColor: Colors.lightBlueAccent,foregroundColor: Colors.black),),
+                    },style: ElevatedButton.styleFrom(backgroundColor: Colors.lightBlueAccent,foregroundColor: Colors.black), child: Text("Submit"),),
 
                   ],
                 ),

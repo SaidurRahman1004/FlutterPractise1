@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'Advanced Custom Card Design/EcommerceProductDetailsLayout.dart';
 import 'Advanced Custom Card Design/ExpansionTileList.dart';
 import 'Advanced Custom Card Design/FlutterListProjects.dart';
+import 'Advanced Custom Card Design/LayoutBuilderE.dart';
 import 'Advanced Custom Card Design/NestedScrollViewTabs.dart';
 import 'Advanced Custom Card Design/PageViewExample.dart';
 import 'Advanced Custom Card Design/ProfileLayout.dart';
@@ -59,7 +60,7 @@ void main(){
 void main(){
   runApp( MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: EcommerceNestedScroll(),    //practisePage  //CustomBottomSheetDemo  //BottomSheetExample
+    home: ResponsiveLayoutBuilderExample(),    //practisePage  //CustomBottomSheetDemo  //BottomSheetExample
 
   ) ); //listExample  //MyApp  //practisePage  //Practiseg2 //ExampleOfAllList //GminiPractise  //CounterWidget //StatefullWidgetAiAll //TextFormFieldEditingController
  }
@@ -190,12 +191,12 @@ ButtonSnack(BuildContext context){   //এটি কল করলেই ভি�
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
         elevation: 25,
-        child: Icon(Icons.smart_button),
         //tooltip: "Add Something",   //বাটনে মাউস রালে এই লেখা সো হবে
         heroTag: AutofillHints.gender,                                              //Hero Animation এর জন্য ট্যাগ
         onPressed: (){                                                            //onPressed   ক্লিক করলে যা হবে,FloatingActionButton এ ক্লিক করলে onPressed এর আইটেম এক্সেকিউট হবে!
           ButtonSnackbar("This is floting action button", context);                //FloatingActionButton এ ক্লিক করলে onPressed এর এই ButtonSnackbar সো হবে!This is floting action button
-        },),
+        },
+        child: Icon(Icons.smart_button),),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,                                    //FAB-এর অবস্থানও পরিবর্তন !মাঝ বরাবর নিচে!FAB সবসময় Scaffold এর মধ্যে থাকতে হয়।
 
       ///bottomNavigationBar   এটি Flutter-এর এমন একটি Widget যা স্ক্রিনের নিচে একটি নেভিগেশন বারের মতো থাকে — যেখানে একাধিক আইকন + লেবেল থাকে।
@@ -331,11 +332,11 @@ ButtonSnack(BuildContext context){   //এটি কল করলেই ভি�
                         //বাটন
                         ElevatedButton(onPressed: () async{                                                         // 🔹 বাটন বানানো হয়েছে — ক্লিক করলে _launchUrl() ফাংশন কল হবে
                           await _launchUrl();                                                                        //_launchUrl দিয়ে _urifb কল করা হয়েছে!  // ✅ বাটনে ক্লিক করলে ফেসবুক লিংক ওপেন হবে
-                        }, child: Icon(Icons.facebook),style: btnstyl,) ,     //শুধু আইকন সহ বাটন!কোন টেক্সট নাই!                                           //style এ btnstyl কল করা হয়েছে!
+                        },style: btnstyl, child: Icon(Icons.facebook),) ,     //শুধু আইকন সহ বাটন!কোন টেক্সট নাই!                                           //style এ btnstyl কল করা হয়েছে!
                         SizedBox(width: 10),
 
                         //outline button
-                        OutlinedButton(onPressed: (){AlartBtn(context);},    //alert function call  show arert box
+                        OutlinedButton(onPressed: (){AlartBtn(context);},style: btnstyl,    //alert function call  show arert box
 
                           child: Row(                                     //টেক্সট আইকন সহ বাটন
                             mainAxisSize: MainAxisSize.min,
@@ -344,7 +345,7 @@ ButtonSnack(BuildContext context){   //এটি কল করলেই ভি�
                             SizedBox(width: 5),
                             Text("Other Alert"),
                           ],
-                        ),style: btnstyl,),
+                        ),),
 
                       ],
                     ),

@@ -94,7 +94,7 @@ class productDetailsGrid extends StatelessWidget {
             itemBuilder: (context,index){
               final productAll = productList[index];
               return GestureDetector(
-                onTap: ()=> cusSnk.customSnkbar(context, "${productAll.name}"),
+                onTap: ()=> cusSnk.customSnkbar(context, productAll.name),
                 child: Card(
                   elevation: 10,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -115,21 +115,21 @@ class productDetailsGrid extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("${productAll.name}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
+                              Text(productAll.name,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16),),
                               SizedBox(height: 5),
                               Text("\$${productAll.price}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 13,color: Colors.red),),
                               SizedBox(height: 5),
-                              Text("${productAll.description}",style: TextStyle(fontSize: 12),overflow: TextOverflow.ellipsis,maxLines: 2,),
+                              Text(productAll.description,style: TextStyle(fontSize: 12),overflow: TextOverflow.ellipsis,maxLines: 2,),
                               SizedBox(height: 5),
                               ElevatedButton(
                                   onPressed: (){},
-                                  child: Text("Add to Cart"),
                                   style:ElevatedButton.styleFrom(
                                     backgroundColor: Colors.purple,
                                     foregroundColor: Colors.white,
                                     minimumSize: Size(double.infinity,25),
                                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                                   ) ,
+                                  child: Text("Add to Cart"),
                         
                                 ),
                         
