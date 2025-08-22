@@ -129,4 +129,84 @@ class ResponsiveLayoutBuilderExample extends StatelessWidget {
     );
   }
 }
+////////////////////////////////////////////////////////////////////////////////////////////
+////Practice Task 6.38 — LayoutBuilder Gmni Ans:
+class ResponsiveContactCard extends StatelessWidget {
+  const ResponsiveContactCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Contact Card"),
+      ),
+      body: Center(
+        child: Padding(
+            padding: EdgeInsets.all(16.0),
+          child: Card(
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: LayoutBuilder(
+                builder: (context,constraints){
+                  if(constraints.maxWidth < 300){
+                    return Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            radius: 40,
+                            backgroundImage: NetworkImage("https://i.postimg.cc/bNZdjVSY/o1.jpg",),
+                          ),
+                          SizedBox(height: 10,),
+                          Text("Sr Sheam",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                          SizedBox(height: 10,),
+                          Text("Siyambn705@gmail.com",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                          SizedBox(height: 10,),
+                        ],
+
+                      ),
+                    );
+                  }else{
+                    return Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            radius: 40,
+                            backgroundImage: NetworkImage("https://i.postimg.cc/bNZdjVSY/o1.jpg",),
+                          ),
+                          SizedBox(width: 10,),
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Sr Sheam",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                              SizedBox(height: 10,),
+                              Text("Siyambn705@gmail.com",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                              SizedBox(height: 10,),
+                            ],
+
+                          )
+
+
+
+                        ],
+                      ),
+                    );
+                  }
+                }
+            ),
+          ),
+        ),
+      ),
+
+    );
+  }
+}
 

@@ -5,6 +5,7 @@ import 'Advanced Custom Card Design/EcommerceProductDetailsLayout.dart';
 import 'Advanced Custom Card Design/ExpansionTileList.dart';
 import 'Advanced Custom Card Design/FlutterListProjects.dart';
 import 'Advanced Custom Card Design/LayoutBuilderE.dart';
+import 'Advanced Custom Card Design/MediaQueryExam.dart';
 import 'Advanced Custom Card Design/NestedScrollViewTabs.dart';
 import 'Advanced Custom Card Design/PageViewExample.dart';
 import 'Advanced Custom Card Design/ProfileLayout.dart';
@@ -60,7 +61,7 @@ void main(){
 void main(){
   runApp( MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: ResponsiveLayoutBuilderExample(),    //practisePage  //CustomBottomSheetDemo  //BottomSheetExample
+    home: MdqaPtGmniUpdted(),    //practisePage  //CustomBottomSheetDemo  //BottomSheetExample
 
   ) ); //listExample  //MyApp  //practisePage  //Practiseg2 //ExampleOfAllList //GminiPractise  //CounterWidget //StatefullWidgetAiAll //TextFormFieldEditingController
  }
