@@ -1,0 +1,323 @@
+https://github.com/copilot/share/4a0b0334-0300-8cb0-a051-2644249869e2
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+import 'package:flutter/material.dart'; // Flutter এর Material UI লাইব্রেরি ইম্পোর্ট করা হয়েছে
+import 'package:flutter_ui/button.dart'; // কাস্টম Button widget ইম্পোর্ট করা হয়েছে, যা হয়তো আলাদা ফাইলে আছে
+
+void main() { // অ্যাপের main entry point
+  runApp(MyApp()); // MyApp widget কে রান করানো হচ্ছে, Flutter app শুরু হচ্ছে
+}
+
+class MyApp extends StatelessWidget { // MyApp নামে StatelessWidget ডিফাইন করা হয়েছে
+  const MyApp({super.key}); // কনস্ট্রাক্টর, super.key পাস করা হয়েছে
+
+  @override
+  Widget build(BuildContext context) { // build method, UI রিটার্ন করবে
+    return MaterialApp( // MaterialApp widget দিয়ে অ্যাপের রুট তৈরি
+      debugShowCheckedModeBanner: false, // debug banner অফ করা হয়েছে
+      home: HomeScreen(), // HomeScreen widget কে home হিসেবে সেট করা হয়েছে
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget { // HomeScreen নামে StatelessWidget ডিফাইন
+  const HomeScreen({super.key}); // কনস্ট্রাক্টর
+
+  static const List<String> buttons = [ // ক্যালকুলেটরের সব button-এর টেক্সট লিস্ট আকারে রাখা হয়েছে
+    "C", // Clear button
+    "D", // Delete বা অন্য ফাংশনের button
+    "%", // Percentage operator
+    "/", // Division operator
+    "7", "8", "9", // Number buttons
+    "x", // Multiplication operator
+    "4", "5", "6", // Number buttons
+    "-", // Subtraction operator
+    "1", "2", "3", // Number buttons
+    "+", // Addition operator
+    "00", "0", ".", // Number, double zero, dot
+    "=", // Equal button
+  ];
+
+  @override
+  Widget build(BuildContext context) { // HomeScreen-এর build method
+    return Scaffold( // Scaffold দিয়ে পুরো screen-এর structure তৈরি
+      backgroundColor: Colors.black, // ব্যাকগ্রাউন্ড কালার কালো
+      body: SafeArea( // SafeArea widget ব্যবহার করা হয়েছে যেন UI notch বা status bar-এ না ঢুকে যায়
+        child: Padding( // Edge padding দেওয়া হয়েছে উপরে, বামে, ডানে
+          padding: EdgeInsets.only(top: 20, left: 15, right: 15), // Padding value
+          child: Column( // Column layout ব্যবহার করা হয়েছে, উপরে নিচে item সাজানোর জন্য
+            children: [
+              Expanded( // Expanded widget - প্রথম অংশ (ডিসপ্লে ও অপশন বার)
+                child: Column( // ভিতরে আরেকটি Column, যাতে দুটি অংশ আছে
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween, // দুই item-এর মধ্যে স্পেস
+                  crossAxisAlignment: CrossAxisAlignment.end, // item গুলো ডান দিকে থাকবে
+                  children: [
+                    Text( // ক্যালকুলেটরের ডিসপ্লে, প্রথমে "0" দেখাবে
+                      "0",
+                      style: TextStyle(color: Colors.white, fontSize: 40), // ডিসপ্লের style
+                    ),
+                    Row( // নিচের অপশন বারের জন্য Row widget
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween, // item গুলো দুই পাশে
+                      children: [
+                        Row( // বামপাশের আইকনগুলো
+                          children: [
+                            IconButton( // হিস্ট্রি আইকন
+                              onPressed: () {}, // এখানে কোনো ফাংশন দেওয়া হয়নি
+                              icon: Icon(Icons.history, color: Colors.white70, size: 30,), // হিস্ট্রি আইকন style
+                            ),
+                            IconButton( // থার্মোস্টেট আইকন
+                              onPressed: () {},
+                              icon: Icon(Icons.device_thermostat_outlined, color: Colors.white, size: 30,),
+                            ),
+                            Divider(), // ডিভাইডার (হালকা লাইন)
+                            IconButton( // সায়েন্স আইকন
+                              onPressed: () {},
+                              icon: Icon(Icons.science_outlined, color: Colors.white, size: 30,),
+                            ),
+                          ],
+                        ),
+                        IconButton( // ডান পাশে backspace আইকন
+                          onPressed: () {},
+                          icon: Icon(Icons.backspace_outlined, color: Colors.green, size: 30,),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Divider(color: Colors.white54,), // ডিসপ্লে ও বাটন এরিয়া আলাদা করার জন্য ডিভাইডার
+              SizedBox(height: 20), // কিছু স্পেস দেওয়া হয়েছে
+              Expanded( // দ্বিতীয় Expanded, নিচের button গুলো দেখানোর জন্য
+                flex: 2, // বেশি জায়গা দেবে বাটন এরিয়াকে
+                child: Align( // নিচের দিকে GridView রাখতে Align
+                  alignment: Alignment.bottomCenter, // নিচের মধ্যখানে
+                  child: GridView.builder( // GridView ব্যবহার করা হয়েছে বাটন গুলো সাজাতে
+                    physics: NeverScrollableScrollPhysics(), // স্ক্রল বন্ধ
+                    itemCount: buttons.length, // মোট কয়টি বাটন দেখাবে
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount( // grid config
+                      crossAxisSpacing: 20, // দুই বাটনের মধ্যে horizontal গ্যাপ
+                      mainAxisSpacing: 20, // vertical গ্যাপ
+                      crossAxisCount: 4, // প্রতি লাইনে ৪টি বাটন
+                    ),
+                    itemBuilder: (context, index) { // প্রতিটি বাটনের জন্য widget তৈরি
+                      var button = buttons[index]; // বর্তমান বাটন
+                      var isOperator = // অপারেটর কি না, চেক করা হচ্ছে
+                          button == "%" ||
+                          button == "/" ||
+                          button == "x" ||
+                          button == "-" ||
+                          button == "+";
+                      if (button == "=") { // যদি "=" হয়
+                        return Button( // কাস্টম Button widget
+                          text: buttons[index], // বাটনের টেক্সট
+                          bg: Colors.green, // ব্যাকগ্রাউন্ড সবুজ
+                          color: Colors.white, // টেক্সট সাদা
+                        );
+                      } else if (isOperator) { // যদি অপারেটর হয়
+                        return Button(
+                          text: buttons[index],
+                          bg: Colors.white10, // হালকা সাদা ব্যাকগ্রাউন্ড
+                          color: Colors.green, // সবুজ টেক্সট
+                        );
+                      } else if (button == "C") { // যদি "C" হয় (Clear)
+                        return Button(
+                          text: buttons[index],
+                          bg: Colors.white10,
+                          color: Colors.red, // লাল রঙ
+                        );
+                      } else if (button == "D") { // যদি "D" হয়
+                        return Button(
+                          text: buttons[index],
+                          bg: Colors.white10,
+                          color: Colors.white, // সাদা টেক্সট
+                        );
+                      } else { // বাকি সব বাটন
+                        return Button(
+                          text: buttons[index],
+                          bg: Colors.white10,
+                          color: Colors.white,
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+...................................................
+import 'package:flutter/material.dart'; // Flutter এর Material UI package ইম্পোর্ট
+
+class Button extends StatelessWidget { // Button নামে StatelessWidget ডিফাইন
+  final String? text; // বাটনের টেক্সট (যেমন: 1, +, =)
+  final Color? bg; // বাটনের ব্যাকগ্রাউন্ড রঙ
+  final Color? color; // বাটনের টেক্সট/আইকনের রঙ
+
+  const Button({
+    super.key,
+    required this.text, // Button-এর টেক্সট অবশ্যই দিতে হবে
+    required this.bg,   // ব্যাকগ্রাউন্ড কালার দিতে হবে
+    required this.color, // টেক্সট/আইকনের কালার দিতে হবে
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialButton( // Flutter-এর Material Design Button ব্যবহার
+      color: bg, // বাটনের ব্যাকগ্রাউন্ড কালার
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)), // গোলাকার বর্ডার
+      onPressed: () {}, // এখানে কোনো অ্যাকশন নেই, শুধু UI
+      child: text == "D" // যদি বাটনের টেক্সট "D" হয়
+          ? Icon(Icons.backspace_outlined, color: Colors.red[400],) // তাহলে Backspace আইকন দেখাবে
+          : Text( // নাহলে টেক্সট দেখাবে
+              text.toString(),
+              style: TextStyle(fontSize: 30, color: color), // বড় ফন্ট
+            ),
+    );
+  }
+}
+
+Button widget কাস্টমাইজেবল, বিভিন্ন রঙ ও টেক্সট নেয়।
+"D" হলে Backspace আইকন দেখায়, অন্য ক্ষেত্রে টেক্সট দেখায়।
+UI খুব শোভন, গোলাকার বাটন।
+
+.................................................................................
+MyApp (StatelessWidget)
+└── MaterialApp
+    └── HomeScreen (StatelessWidget)
+        └── Scaffold
+            ├── backgroundColor: Colors.black
+            └── body: SafeArea
+                └── Padding (top: 20, left: 15, right: 15)
+                    └── Column
+                        ├── Expanded (flex: 1)   <-- Display ও Option Bar
+                        │   └── Column
+                        │       ├── Text("0")   <-- Calculator display value
+                        │       └── Row         <-- Option Bar
+                        │           ├── Row     <-- Left icons
+                        │           │   ├── IconButton(Icons.history)
+                        │           │   ├── IconButton(Icons.device_thermostat_outlined)
+                        │           │   ├── Divider()
+                        │           │   └── IconButton(Icons.science_outlined)
+                        │           └── IconButton(Icons.backspace_outlined) <-- Right icon
+                        ├── Divider(color: Colors.white54)
+                        ├── SizedBox(height: 20)
+                        └── Expanded (flex: 2)   <-- Button Grid Area
+                            └── Align (Alignment.bottomCenter)
+                                └── GridView.builder
+                                    └── Button (Custom Widget) for each calculator button
+
+
+                                    সংক্ষিপ্ত ব্যাখ্যা
+                                    MyApp: Main entry, MaterialApp দিয়ে অ্যাপের রুট।
+                                    HomeScreen: Scaffold দিয়ে পুরো screen-এর structure।
+                                    SafeArea: UI যেন notch/status bar-এ না ঢুকে।
+                                    Padding: UI-এর চারধারে space।
+                                    Column: সব widget (Display, Option Bar, Divider, SizedBox, Button Grid) একত্রে সাজানো।
+                                    প্রথম Expanded: Display ও Option Bar (Text + Row of IconButtons)।
+                                    Divider: Display ও বাটন এরিয়া আলাদা।
+                                    SizedBox: কিছু vertical space।
+                                    দ্বিতীয় Expanded: GridView.builder দিয়ে সব calculator button সাজানো, প্রতিটি cell-এ custom Button widget।
+........................................................................................................................
+
+সংক্ষিপ্ত বর্ণনা
+উপরের কোডটি একটি Flutter ভিত্তিক Samsung Calculator-এর UI তৈরি করে। এখানে মূলত দুটি প্রধান widget আছে—MyApp (অ্যাপের entry point) এবং HomeScreen (মূল ক্যালকুলেটর স্ক্রিন)।
+
+কী কী করা হয়েছে:
+MaterialApp ও Scaffold দিয়ে অ্যাপের মূল কাঠামো তৈরি।
+Text widget দিয়ে ক্যালকুলেটরের ডিসপ্লে দেখানো হয়েছে।
+Row এবং IconButton দিয়ে অপশন ও history/science/backspace button দেখানো হয়েছে।
+GridView.builder দিয়ে ক্যালকুলেটরের সব বাটন (০-৯, অপারেটর, ক্লিয়ার, ইত্যাদি) সাজানো হয়েছে।
+প্রতিটি বাটনের জন্য কাস্টম Button widget ব্যবহার করা হয়েছে, যেটা flutter_ui/button.dart থেকে ইম্পোর্ট করা।
+কোডের প্রভাব/ফলাফল:
+এই কোড রান করলে একটি সুন্দর, আধুনিক কালো থিমের ক্যালকুলেটর UI পাওয়া যাবে।
+এখানে এখনও গাণিতিক লজিক (যেমন: সংখ্যার হিসাব, অপারেটর, ক্লিয়ার, ইত্যাদি) ইমপ্লিমেন্ট করা হয়নি—শুধু UI এবং বাটন সাজানো হয়েছে।
+প্রতিটি button-এর জন্য আলাদা রঙ ও style ব্যবহার করা হয়েছে—এতে ব্যবহারকারীর জন্য পরিষ্কার ও আকর্ষণীয় ইন্টারফেস তৈরি হয়।
+পুরো স্ক্রিন responsive ভাবে সাজানো, তাই ছোট বা বড় স্ক্রিনে ভালোভাবে দেখাবে।
+পুরো প্রজেক্ট বুঝতে এই কোড:
+প্রধানত ক্যালকুলেটরের UI তৈরি করে। এখানে সব প্রয়োজনীয় বাটন ও ডিসপ্লে আছে।
+লজিক যোগ করলে (onPressed-এর ফাংশন), এটা পূর্ণাঙ্গ ক্যালকুলেটর হয়ে যাবে।
+UI-এর বাটন ও অপশন গুলো সহজে কাস্টমাইজ করা যাবে, কারন সব কিছু আলাদা widget ও List দিয়ে সাজানো হয়েছে।
+কোডটি শিক্ষানবিশ কিংবা নতুন Flutter ডেভেলপারদের জন্য UI ডিজাইন শেখার ভালো উদাহরণ।
+সারাংশ:
+এই কোডে Flutter ব্যবহার করে একটি কাস্টম ক্যালকুলেটরের ইউজার ইন্টারফেস তৈরি করা হয়েছে, যা পরবর্তীতে গাণিতিক লজিক ও
+কার্যকারিতা যোগ করে সম্পূর্ণ ক্যালকুলেটর অ্যাপ হিসেবে ব্যবহার করা যাবে। UI সুন্দর ও সহজবোধ্য, এবং কোড স্ট্রাকচারড—যা ভবিষ্যতে সহজে পরিবর্তন/বর্ধিত করা যাবে।
+..............................................................................
+উভয় ফাইলের সম্পর্ক ও প্রভাব
+main.dart-এ ক্যালকুলেটরের UI-র কাঠামো (স্ক্রিন, ডিসপ্লে, বাটন গ্রিড) তৈরী হয়েছে।
+button.dart-এর Button widget দিয়ে প্রতিটি বাটন কাস্টম ডিজাইন ও রঙে দেখানো হয়েছে।
+Button widget-এর ব্যবহার main.dart-এ GridView.builder-এর মাধ্যমে—যাতে প্রতিটি বাটন আলাদা style ও function পায়।
+Backspace ("D") button-এর জন্য আলাদা Icon দেখানো হয়েছে।
+UI সম্পূর্ণ responsive, সুন্দর ও সহজবোধ্য।
+সংক্ষেপে
+main.dart: ক্যালকুলেটরের মূল UI ও layout structure।
+button.dart: প্রতিটি বাটনের জন্য কাস্টম Widget, ভিন্ন রঙ, টেক্সট/আইকন।
+ফলাফল: একত্রে একটি সুন্দর, ব্যবহার-বান্ধব ক্যালকুলেটর UI তৈরি হয়েছে, যেখানে প্রতিটি বাটন আলাদা style এবং সহজেই ব্যবহারযোগ্য।
+বিস্তারিত UI Tree Structure Diagram Main.dart
+MyApp (StatelessWidget)
+└── MaterialApp
+    └── HomeScreen (StatelessWidget)
+        └── Scaffold
+            ├── backgroundColor: Colors.black
+            └── body: SafeArea
+                └── Padding (EdgeInsets: top:20, left:15, right:15)
+                    └── Column
+                        ├── Expanded (flex: 1)   // Display ও Option Bar
+                        │   └── Column
+                        │       ├── Text("0")
+                        │       │   └── style: TextStyle(color: Colors.white, fontSize: 40)
+                        │       └── Row
+                        │           ├── Row
+                        │           │   ├── IconButton(Icons.history)
+                        │           │   ├── IconButton(Icons.device_thermostat_outlined)
+                        │           │   ├── Divider()
+                        │           │   └── IconButton(Icons.science_outlined)
+                        │           └── IconButton(Icons.backspace_outlined)
+                        ├── Divider(color: Colors.white54)
+                        ├── SizedBox(height: 20)
+                        └── Expanded (flex: 2)   // Button Grid Area
+                            └── Align (Alignment.bottomCenter)
+                                └── GridView.builder
+                                    ├── physics: NeverScrollableScrollPhysics()
+                                    ├── itemCount: buttons.length
+                                    ├── gridDelegate: SliverGridDelegateWithFixedCrossAxisCount
+                                    │   ├── crossAxisCount: 4
+                                    │   ├── crossAxisSpacing: 20
+                                    │   └── mainAxisSpacing: 20
+                                    └── itemBuilder: (context, index)
+                                        └── Button (Custom Widget from button.dart)
+                                            ├── text: buttons[index]
+                                            ├── bg: (dynamic color)
+                                            └── color: (dynamic color)
+
+button.dart এর Button Widget Structure:
+Button (StatelessWidget)
+├── MaterialButton
+│   ├── color: bg
+│   ├── shape: RoundedRectangleBorder (borderRadius: 100)
+│   ├── onPressed: () {}
+│   └── child:
+│       ├── if text == "D": Icon(Icons.backspace_outlined, color: Colors.red[400])
+│       └── else: Text(text, style: TextStyle(fontSize: 30, color: color))
+
+ফ্লো সংক্ষেপে
+MyApp → MaterialApp → HomeScreen
+HomeScreen:
+Scaffold: কালো ব্যাকগ্রাউন্ড, SafeArea
+Padding: UI-এর চারপাশে স্পেস
+Column: দুই Expanded—(১) Display ও Option Bar, (২) Button Grid
+Expanded(flex:1):
+Display Text ("0")
+Option Bar (Row of IconButtons)
+Divider + SizedBox: স্পেস ও আলাদা করা
+Expanded(flex:2):
+Align → GridView.builder
+GridView: প্রতিটি cell-এ Button widget
+Button: MaterialButton, গোলাকার, টেক্সট/আইকন, আলাদা রঙ
+ডায়াগ্রামটি দেখে কী বুঝবেন?
+পুরো UI-র layout, প্রতিটি অংশ কোথায় রয়েছে, কিভাবে nested হয়েছে।
+Display, Option Bar, এবং Button Grid-এর সম্পর্ক।
+Button widget-এর ভিতরের গঠন ও styling।
+ভবিষ্যতে যদি কোনো অংশে লজিক যোগ করতে চান, কোথায় কী করতে হবে, সহজেই ধরতে পারবেন।
