@@ -1,0 +1,272 @@
+import 'dart:math'; // math লাইব্রেরি ইম্পোর্ট করা হয়েছে যা pi এবং রেডিয়ান/ডিগ্রি রূপান্তরের জন্য প্রয়োজন।
+
+import 'package:flutter/material.dart'; // Flutter এর ম্যাটেরিয়াল UI টুলকিট ইম্পোর্ট করা হয়েছে।
+
+// ProductTransformPlayground একটি StatefulWidget কারণ আমরা UI-তে বিভিন্ন ইন্টার‌্যাকশনের (rotate, scale, skew) মাধ্যমে এর অবস্থা পরিবর্তন করব।
+class ProductTransformPlayground extends StatefulWidget {
+  const ProductTransformPlayground({super.key}); // কনস্ট্রাক্টর, key প্যারামিটার গ্রহণ করে যা উইজেট ট্রিতে উইজেট সনাক্ত করতে সাহায্য করে।
+
+  @override
+  // createState() মেথডটি এই StatefulWidget এর জন্য একটি State অবজেক্ট তৈরি এবং রিটার্ন করে।
+  State<ProductTransformPlayground> createState() =>
+      _ProductTransformPlaygroundState();
+}
+
+// _ProductTransformPlaygroundState ক্লাসটি ProductTransformPlayground উইজেটের পরিবর্তনশীল অবস্থা এবং UI লজিক ধারণ করে।
+class _ProductTransformPlaygroundState
+    extends State<ProductTransformPlayground> {
+  // স্টেট ভেরিয়েবলগুলো:
+  double _rotationAngle = 0.0; // Transform-এ ব্যবহারের জন্য ঘূর্ণন কোণ (রেডিয়ানে)। UI-তে এটি ডিগ্রিতে দেখানো হবে।
+  double _scaleValue = 1.0;    // স্কেলের মান (1 = আসল আকার, <1 ছোট, >1 বড়)।
+  bool _isSkewed = false;      // স্কিউ ইফেক্ট চালু আছে কিনা তা নির্দেশ করে (একটি টগল)।
+  double _skewXValue = 0.2;    // স্কিউ এর X-অক্ষের মান (যখন স্কিউ চালু থাকে তখন কতটা ঝুঁকে যাবে)।
+
+  // ডিগ্রি থেকে রেডিয়ানে রূপান্তরের জন্য হেল্পার ফাংশন।
+  // স্লাইডার ডিগ্রিতে মান দেখালেও Matrix4 কোণ রেডিয়ানে নেয়।
+  double _degreesToRadians(double degrees) {
+    return degrees * (pi / 180); // ডিগ্রি মানকে (pi / 180) দ্বারা গুণ করে রেডিয়ানে রূপান্তর।
+  }
+
+  // রেডিয়ান থেকে ডিগ্রিতে রূপান্তরের জন্য হেল্পার ফাংশন।
+  // UI-তে স্লাইডার এবং টেক্সট ডিসপ্লেতে মান ডিগ্রিতে দেখানোর জন্য।
+  double _radiansToDegrees(double radians) {
+    return radians * (180 / pi); // রেডিয়ান মানকে (180 / pi) দ্বারা গুণ করে ডিগ্রিতে রূপান্তর।
+  }
+
+  // সব transform রিসেট করার জন্য হেল্পার ফাংশন।
+  // এই ফাংশন কল করলে সব ভেরিয়েবল তাদের প্রাথমিক মানে ফিরে যাবে।
+  void _resetTransforms() {
+    setState(() { // setState() কল করা হয় UI-কে নতুন স্টেট অনুযায়ী রি-বিল্ড করার জন্য।
+      _rotationAngle = 0.0; // ঘূর্ণন কোণ ০.০ রেডিয়ানে রিসেট করা হয়।
+      _scaleValue = 1.0;    // স্কেলের মান ১.০ (আসল আকার) এ রিসেট করা হয়।
+      _isSkewed = false;    // স্কিউ ইফেক্ট বন্ধ করা হয়।
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) { // build মেথড UI তৈরি এবং রিটার্ন করে।
+    // UI-তে দেখানোর জন্য কিছু অন্তর্বর্তী মান গণনা করা হচ্ছে:
+    double currentRotationDegrees = _radiansToDegrees(_rotationAngle); // বর্তমান ঘূর্ণন কোণকে রেডিয়ান থেকে ডিগ্রিতে রূপান্তর।
+
+    // Matrix4 ব্যবহার করে transform ম্যাট্রিক্স তৈরি করা হচ্ছে।
+    Matrix4 transformMatrix = Matrix4.identity() // প্রথমে একটি identity ম্যাট্রিক্স (কোনো পরিবর্তন নেই) দিয়ে শুরু।
+      ..rotateZ(_rotationAngle) // তারপর Z-অক্ষ বরাবর ঘূর্ণন প্রয়োগ করা হয় (rotateZ রেডিয়ানে কোণ নেয়)।
+      ..scale(_scaleValue);    // এরপর স্কেলিং প্রয়োগ করা হয় (ঘূর্ণনের ওপর স্কেল প্রয়োগ হবে কারণ ক্রম গুরুত্বপূর্ণ)।
+
+    if (_isSkewed) { // যদি স্কিউ ইফেক্ট চালু থাকে (_isSkewed == true)।
+      // ম্যাট্রিক্সে স্কিউ/শিয়ার প্রয়োগ করা হয়।
+      // setEntry(1, 0, _skewXValue) মানে ম্যাট্রিক্সের [1][0] এলিমেন্টের মান _skewXValue সেট করা।
+      // এর ফলে Y-স্থানাঙ্ক X-স্থানাঙ্কের অনুপাতে পরিবর্তিত হয়, যা একটি শিয়ার (skew) ইফেক্ট তৈরি করে।
+      // পর্যবেক্ষণে এটি Y-অক্ষ বরাবর শিয়ার করে, যার ফলে কন্টেইনারটি উল্লম্বভাবে ঝুঁকে যায়।
+      transformMatrix.setEntry(1, 0, _skewXValue);
+    }
+
+    return Scaffold( // অ্যাপের মূল ভিজ্যুয়াল কাঠামো প্রদান করে।
+      appBar: AppBar(title: const Text('Transform Demo')), // অ্যাপবারের টাইটেল।
+      body: SingleChildScrollView( // কনটেন্ট বেশি হলে স্ক্রল করার সুবিধা দেয়।
+        child: Padding( // পুরো কন্টেইনারের চারপাশে প্যাডিং যোগ করে।
+          padding: const EdgeInsets.all(16.0),
+          child: Column( // উপাদানগুলোকে উল্লম্বভাবে সাজায়।
+            mainAxisAlignment: MainAxisAlignment.center, // চাইল্ড উপাদানগুলোকে উল্লম্বভাবে মাঝখানে রাখে।
+            crossAxisAlignment: CrossAxisAlignment.stretch, // চাইল্ড উপাদানগুলোকে অনুভূমিকভাবে প্রসারিত করে।
+            children: [
+              // এখানে Transform উইজেটটি রয়েছে, যেখানে transformMatrix প্রয়োগ করা হচ্ছে।
+              Transform(
+                alignment: Alignment.center, // transform এর কেন্দ্রবিন্দু; center হলে মাঝখান থেকে ঘুরবে/স্কেল হবে।
+                transform: transformMatrix,  // উপরে তৈরি করা Matrix4 প্রয়োগ করা হচ্ছে।
+                child: ProductContainerTransfrom(), // যে UI উপাদানটিকে আমরা ট্রান্সফর্ম করছি (প্রোডাক্ট কার্ড)।
+              ),
+
+              const SizedBox(height: 16.0), // উল্লম্ব ফাঁকা স্থান।
+
+              // Info Card: বর্তমানে কী ঘূর্ণন/স্কেল/স্কিউ আছে তা দেখায়।
+              Card(
+                elevation: 5, // কার্ডের ছায়ার গভীরতা।
+                margin: const EdgeInsets.all(10), // কার্ডের চারপাশে মার্জিন।
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0), // কার্ডের ভেতরের কন্টেন্টের চারপাশে প্যাডিং।
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start, // টেক্সটগুলোকে বাম দিকে অ্যালাইন করে।
+                    children: [
+                      // ঘূর্ণনের তথ্য (ডিগ্রিতে)।
+                      Text(
+                          "Rotation: ${currentRotationDegrees.toStringAsFixed(1)}°"), // দশমিকের পর এক ঘর পর্যন্ত দেখায়।
+                      // স্কেলের তথ্য।
+                      Text("Scale: ${_scaleValue.toStringAsFixed(2)}x"), // দশমিকের পর দুই ঘর পর্যন্ত দেখায়।
+                      // স্কিউ এর তথ্য।
+                      Text("Skew: ${_isSkewed ? "ON (X-Factor: $_skewXValue)" : "OFF"}"), // স্কিউ চালু নাকি বন্ধ তা দেখায়।
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 16.0), // উল্লম্ব ফাঁকা স্থান।
+
+              // ---------- Rotate Slider ----------
+              Row( // টেক্সট এবং স্লাইডারকে পাশাপাশি রাখে।
+                children: [
+                  const Text("Rotate:"), // লেবেল।
+                  Expanded( // স্লাইডারকে অবশিষ্ট স্থান পূরণ করতে দেয়।
+                    child: Slider(
+                      value: currentRotationDegrees, // স্লাইডারের বর্তমান মান (ডিগ্রিতে)।
+                      min: -180.0,                 // স্লাইডারের সর্বনিম্ন মান (ডিগ্রি)।
+                      max: 180.0,                  // স্লাইডারের সর্বোচ্চ মান (ডিগ্রি)।
+                      divisions: 360,              // ৩৬০টি ভাগ, অর্থাৎ ১ ডিগ্রি করে পরিবর্তন।
+                      label: "${currentRotationDegrees.toStringAsFixed(0)}°", // স্লাইডার ড্র্যাগ করার সময় টুলটিপে মান দেখায়।
+                      onChanged: (double degrees) { // যখন স্লাইডারের মান পরিবর্তন হয়।
+                        setState(() { // UI আপডেট করার জন্য।
+                          // স্লাইডার থেকে প্রাপ্ত ডিগ্রিকে রেডিয়ানে রূপান্তর করে _rotationAngle এ সংরক্ষণ করা হয়।
+                          _rotationAngle = _degreesToRadians(degrees);
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+
+              // ---------- Scale Slider ----------
+              Row( // টেক্সট এবং স্লাইডারকে পাশাপাশি রাখে।
+                children: [
+                  const Text("Scale: "), // লেবেল।
+                  Expanded( // স্লাইডারকে অবশিষ্ট স্থান পূরণ করতে দেয়।
+                    child: Slider(
+                      value: _scaleValue, // স্লাইডারের বর্তমান মান।
+                      min: 0.5,           // স্লাইডারের সর্বনিম্ন মান (৫০% ছোট)।
+                      max: 1.5,           // স্লাইডারের সর্বোচ্চ মান (১৫০% বড়)।
+                      divisions: 20,      // ২০টি ভাগ, প্রায় ০.০৫ করে পরিবর্তন।
+                      label: _scaleValue.toStringAsFixed(2), // স্লাইডার ড্র্যাগ করার সময় টুলটিপে মান দেখায়।
+                      onChanged: (double value) { // যখন স্লাইডারের মান পরিবর্তন হয়।
+                        setState(() { // UI আপডেট করার জন্য।
+                          _scaleValue = value; // _scaleValue তে নতুন মান সেট করা হয়।
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+
+              // ---------- Skew Toggle ----------
+              Row( // টেক্সট এবং সুইচকে পাশাপাশি রাখে।
+                mainAxisAlignment: MainAxisAlignment.spaceBetween, // উপাদানগুলোকে দুই প্রান্তে রাখে।
+                children: [
+                  const Text("Skew Effect:"), // লেবেল।
+                  Switch(
+                    value: _isSkewed, // সুইচের বর্তমান অবস্থা (চালু/বন্ধ)।
+                    onChanged: (bool value) { // যখন সুইচের মান পরিবর্তন হয়।
+                      setState(() { // UI আপডেট করার জন্য।
+                        _isSkewed = value; // _isSkewed তে নতুন মান (true/false) সেট করা হয়।
+                      });
+                    },
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 20.0), // উল্লম্ব ফাঁকা স্থান।
+
+              // Reset Button — সব transform মুছে দেয়।
+              ElevatedButton(
+                onPressed: _resetTransforms, // বাটন চাপলে _resetTransforms ফাংশন কল হবে।
+                child: const Text("Reset All Transforms"), // বাটনের টেক্সট।
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Product UI widget — এই অংশটাকেই Transform দ্বারা ঘোরানো/বড়/বাঁকা দেখানো হয়।
+  // এটি একটি হেল্পার ফাংশন যা প্রোডাক্ট কার্ডের UI তৈরি করে।
+  Widget ProductContainerTransfrom() {
+    return Card( // কার্ডের মতো দেখতে একটি কন্টেইনার।
+      elevation: 5, // কার্ডের ছায়ার গভীরতা।
+      margin: const EdgeInsets.all(10), // কার্ডের চারপাশে মার্জিন।
+      child: Padding(
+        padding: const EdgeInsets.all(8.0), // কার্ডের ভেতরের কন্টেন্টের চারপাশে প্যাডিং।
+        child: Column( // প্রোডাক্টের ছবি, নাম এবং মূল্য উল্লম্বভাবে সাজানো।
+          mainAxisSize: MainAxisSize.min, // কলাম তার চাইল্ডদের কন্টেন্টের সমান উচ্চতা নেবে।
+          children: [
+            Image( // ছবি দেখানোর জন্য।
+              image: NetworkImage( // নেটওয়ার্ক থেকে ছবি লোড করে।
+                // একটি স্যাম্পল প্রোডাক্ট ছবি (অনলাইন)।
+                "https://images.unsplash.com/photo-1510127034890-ba27508e9f1c?auto=format&fit=crop&w=800&q=60",
+              ),
+              fit: BoxFit.cover, // ছবিকে কন্টেইনারের সাথে মানানসই করে দেখায়।
+            ),
+            const SizedBox(height: 16.0), // উল্লম্ব ফাঁকা স্থান।
+            const Text( // প্রোডাক্টের নাম।
+              "Camera",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold), // টেক্সটের স্টাইল।
+            ),
+            const SizedBox(height: 8.0), // উল্লম্ব ফাঁকা স্থান।
+            const Text( // প্রোডাক্টের মূল্য।
+              "\$99.99",
+              style: TextStyle(fontSize: 18, color: Colors.green), // টেক্সটের স্টাইল।
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+সারাংশ — এই কোড দিয়ে কি করা হয়েছে (সংক্ষিপ্ত বোঝাপড়া)
+
+একটি ইন্টারঅ্যাকটিভ ডেমো পেজ বানানো হয়েছে যেখানে তুমি একটি প্রোডাক্ট কার্ড (ছবি + নাম + দাম) কে Rotate, Scale, Skew করতে পারো রিয়েল-টাইমে।
+
+ইউজার UI থেকে Slider দিয়ে রোটেশন (ডিগ্রি), Slider দিয়ে স্কেল (বড়/ছোট) এবং Switch দিয়ে স্কিউ অন/অফ করতে পারে।
+
+একটি Reset বোতাম আছে সব বদলগুলো মুছে সঠিক অবস্থায় ফেরাতে।
+
+উপরের Card-এ বর্তমানে কত ডিগ্রি/কত স্কেল/স্কিউ অন আছে তা দেখানো হচ্ছে (Info Card)।
+
+এই কোড লেখার প্রভাব (Effects / Considerations)
+১) ইউজার অভিজ্ঞতা
+
+সরাসরি ভিজ্যুয়াল ফিডব্যাক পাওয়া যায় → শেখার বা প্রোটোটাইপিং এর জন্য দারুণ।
+
+Interactive control থাকায় designer/developer দ্রুত UI effect টেস্ট করতে পারে।
+
+২) Matrix ক্রম (Order) গুরুত্বপূর্ণ
+
+তুমি rotateZ() → তারপর scale() লিখেছ — ফলে scale হবে rotate হওয়া অবজেক্টে। যদি ক্রম পাল্টাও (scale→rotate) ফলাফল ভিন্ন হবে।
+
+তাই transform গুলো প্রয়োগের ক্রম ঠিক রাখা জরুরি।
+
+৩) Skew (shear) কীভাবে কাজ করে
+
+transformMatrix.setEntry(1, 0, _skewXValue) করলে matrix element m[1][0] সেট হয় → yকে x এর অনুপাতে সরে নিয়ে যায় (y' = y + m10 * x ইত্যাদি) → কন্টেইনার বাঁকানো/খাঁজ পড়া মত দেখাবে।
+
+এই ধরণের কাস্টম shear কমন transform helper নয়, কিন্তু Matrix4.setEntry দিয়ে সরাসরি manipulation করা যায়।
+
+৪) Performance
+
+সাধারণত এক বা দুটো ছোট উইজেট Transform করলে পারফরম্যান্স ঠিক থাকবে — Flutter GPU accelerate করে।
+
+অনেক বড় ইমেজ বা অনেকগুলি একসাথে transform করলে বা continuous animation থাকলে Repaint/Compositing বাড়বে → দরকার হলে RepaintBoundary ব্যবহার করা যায় বা animation optimization দরকার হবে।
+
+৫) UX Edge Cases
+
+Slider-এ degrees value ব্যবহার করা হয়েছে (user-friendly)। কিন্তু internal হিসেবে radians দরকার — তুমি conversion ঠিক করেছ — ভাল অনুশীলন।
+
+scale min/max রেখে দিলে UI নষ্ট হওয়া রোধ হয় (যেমন 0 হলে দেখা নেই)। তুমি min 0.5 max 1.5 রেখেছো — উপযুক্ত।
+
+৬) Extend/Enhancements (বৃহৎ আইডিয়া)
+
+Add AnimatedTransform — slider পরিবর্তনে মসৃণ animation (Tween + AnimatedBuilder)
+
+Add pivot control — alignment পরিবর্তন করে rotate pivot বাইরের কোণে দেখার বিকল্প
+
+Add presets — common transforms (e.g., rotate 90°, flip horizontally) বোতাম দেওয়া
+
+Add gesture support — pinch-to-scale ও rotate gesture (GestureDetector + Transform) → মোবাইলে natural feel দিবে
+
+৭) Bug / Missing Thing
+
+মূল কোডে import 'dart:math'; যদি না থাকে pi কাজে আসবে না — তাই উপরে যোগ করেছি।
+
+Skew মান খুব বড় দিলে UI ফসলে যেতে পারে — তাই clamp করে রাখা উচিত (e.g., between -1 and 1)।
+
+শেষ কথা (সংক্ষেপে)
+
+এই কোডটি তোমাকে Flutter-এ Transform (Rotate / Scale / Skew) কিভাবে কাজ করে তা রিয়েল-টাইমে শেখার জন্য চমৎকার উদাহরণ। matrix order, alignment, skew এর ধারণা, এবং UI control (slider/switch) সবকিছু একসাথে অনুশীলন করে নিতে পারবে।
