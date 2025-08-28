@@ -1,90 +1,61 @@
 import 'package:flutter/material.dart';
 
 
+class JustTest extends StatelessWidget {
+  const JustTest({super.key});
 
-class ToDoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ToDoHome(),
+      home: CounterScreen(),
     );
   }
 }
 
-class ToDoHome extends StatefulWidget {
+class CounterScreen extends StatefulWidget {
+  const CounterScreen({super.key});
+
   @override
-  State<ToDoHome> createState() => _ToDoHomeState();
+  State<CounterScreen> createState() => _CounterScreenState();
 }
 
-class _ToDoHomeState extends State<ToDoHome> {
-  List<String> tasks = []; // সব Task রাখার জন্য লিস্ট
-  TextEditingController taskController = TextEditingController(); // ইনপুট ফিল্ড কন্ট্রোলার
+class _CounterScreenState extends State<CounterScreen> {
+  // --- আমাদের স্টেট ---
+  int _counter = 0;
 
-  void addTask() {
-    if (taskController.text.isNotEmpty) {
-      setState(() {
-        tasks.add(taskController.text); // নতুন Task যোগ করা
-        taskController.clear(); // ইনপুট ফিল্ড খালি করা
-      });
-    }
-  }
-
-  void deleteTask(int index) {
+  // --- স্টেট পরিবর্তন করার মেথড ---
+  void _incrementCounter() {
+    // setState কল করা হচ্ছে Flutter-কে জানানোর জন্য যে স্টেট পরিবর্তন হয়েছে
     setState(() {
-      tasks.removeAt(index); // নির্দিষ্ট Task ডিলিট করা
+      _counter++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    print('Build method called!'); // প্রতিবার setState কল হলে এটি প্রিন্ট হবে
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Simple To-Do"),
-        centerTitle: true,
-        backgroundColor: Colors.blueAccent,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      appBar: AppBar(title: const Text('setState Demo')),
+      body: Center(
         child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: taskController,
-                    decoration: InputDecoration(
-                      hintText: "Enter a task",
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 8),
-                ElevatedButton(
-                  onPressed: addTask,
-                  child: Text("Add"),
-                ),
-              ],
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'You have pushed the button this many times:',
             ),
-            SizedBox(height: 20),
-            Expanded(
-              child: ListView.builder(
-                itemCount: tasks.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      title: Text(tasks[index]),
-                      trailing: IconButton(
-                        icon: Icon(Icons.delete, color: Colors.red),
-                        onPressed: () => deleteTask(index),
-                      ),
-                    ),
-                  );
-                },
-              ),
+            Text(
+              '$_counter', // UI স্টেট-এর উপর নির্ভরশীল
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter, // বাটন ক্লিক করলে স্টেট পরিবর্তন হবে
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
       ),
     );
   }

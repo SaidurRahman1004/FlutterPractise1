@@ -48,31 +48,33 @@ class _ToggleCounterAppState extends State<ToggleCounterApp> {
         title: Text("Toggle Counter App"),
       ),
       body: Center(
-        child: Card(
-          elevation: 5,
-          color: CupertinoColors.lightBackgroundGray,
-          child: Container(
-            height: 300,
-            width: 200,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Count $_count",style: const TextStyle(fontSize: 18),),
-                Switch(value: _isEnabled, onChanged: (_)=>_toogle()),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(onPressed: (){_increment();}, icon: Icon(Icons.add)), //প্রেস করলে কাউন্ট বাড়বে
-                    IconButton(onPressed: (){_reset();}, icon: Icon(Icons.lock_reset_outlined)),  //প্রেস করলে কাউন্ট reset হবে
-                  ]
-
-                )
-
-
-
-              ],
-
-
+        child: Expanded(
+          child: Card(
+            elevation: 5,
+            color: CupertinoColors.lightBackgroundGray,
+            child: Container(
+              height: 300,
+              width: 200,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Count $_count",style: const TextStyle(fontSize: 18),),
+                  Switch(value: _isEnabled, onChanged: (_)=>_toogle()),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(onPressed: (){_increment();}, icon: Icon(Icons.add)), //প্রেস করলে কাউন্ট বাড়বে
+                      IconButton(onPressed: (){_reset();}, icon: Icon(Icons.lock_reset_outlined)),  //প্রেস করলে কাউন্ট reset হবে
+                    ]
+          
+                  )
+          
+          
+          
+                ],
+          
+          
+              ),
             ),
           ),
         ),
