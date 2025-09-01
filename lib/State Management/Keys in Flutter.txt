@@ -1,0 +1,115 @@
+🔑 Step 7.4 – Keys in Flutter
+1️⃣ Keys কী? (Definition)
+
+👉 Key হলো একটি unique identifier (পরিচয়) যা Flutter কে বলে দেয় কোন Widget আগেরটার সাথে মিলবে আর কোনটা নতুন তৈরি হবে।
+যখন UI rebuild হয় (setState বা state change এ) Flutter নতুন widget tree তৈরি করে → Flutter চেক করে Widget গুলো কি একই নাকি নতুন?
+
+যদি Key না থাকে → Flutter কখনো কখনো Widget-কে নতুন মনে করে → state reset হয়ে যায় ❌
+
+যদি Key থাকে → Flutter বুঝে নেয় আগের Widget-ই এটা, শুধু state আপডেট করবে ✅
+
+2️⃣ কেন Keys দরকার? (Why)
+
+Widgets আলাদা করতে
+
+State preserve করার জন্য
+
+যখন একই Widget একাধিকবার থাকে (List, Grid, Form field)
+
+উদাহরণ:
+👉 ধরো তুমি একটি ListView এ TextField রেখেছো।
+
+Key ছাড়া → Scroll করলে বা setState করলে TextField-এর data reset হয়ে যাবে।
+
+Key দিয়ে দিলে → Flutter বুঝবে এটি আগের TextField → data থাকবে।
+
+3️⃣ Keys এর ধরন (Types of Keys in Flutter)
+🟢 1. ValueKey
+
+যখন widget কে একটি নির্দিষ্ট মান (value) দিয়ে আলাদা করতে চাও।
+
+ValueKey("username_field")
+
+🟢 2. UniqueKey
+
+প্রত্যেকবার নতুন unique identity তৈরি করে।
+
+Flutter যখন rebuild হয়, UniqueKey মানে → পুরো Widget নতুন করে তৈরি হবে।
+
+UniqueKey()
+
+🟢 3. ObjectKey
+
+যখন Widget কে একটি object reference দিয়ে চিহ্নিত করতে চাও।
+
+ObjectKey(myUserObject)
+
+🟢 4. GlobalKey
+
+সবচেয়ে powerful → Widget-এর সাথে পুরো State-কে globally access করতে দেয়।
+
+উদাহরণ: একটি Form validate করতে GlobalKey<FormState> লাগে।
+
+4️⃣ বাস্তব উদাহরণ (Real-life Analogy)
+
+ধরো তোমার 10 জন বন্ধু আছে → তাদের নাম দিয়েই তুমি আলাদা করো। (👉 ValueKey)
+
+যদি নতুন জন্ম নিবন্ধন নম্বর দাও → প্রত্যেকবার নতুন unique আইডি হয়। (👉 UniqueKey)
+
+যদি তাদের ID Card object দিয়ে চিনো → (👉 ObjectKey)
+
+যদি একজনকে সবার মাঝে ডাকতে হয় যেখানেই থাকুক → (👉 GlobalKey)
+
+5️⃣ Code Example (Keys use-case)
+Without Key (Problem)
+ListView(
+  children: [
+    TextField(), // Username
+    TextField(), // Password
+  ],
+);
+
+
+👉 Rebuild হলে data reset হয়ে যাবে।
+
+With ValueKey (Solution)
+ListView(
+  children: [
+    TextField(key: ValueKey("username")), // Username
+    TextField(key: ValueKey("password")), // Password
+  ],
+);
+
+
+👉 এখন rebuild হলেও Flutter বুঝবে কোনটা Username, কোনটা Password → data থাকবে ✅
+
+GlobalKey Example (Form)
+final _formKey = GlobalKey<FormState>();
+
+Form(
+  key: _formKey,
+  child: TextFormField(
+    validator: (value) {
+      if (value!.isEmpty) return "Required";
+      return null;
+    },
+  ),
+);
+
+ElevatedButton(
+  onPressed: () {
+    if (_formKey.currentState!.validate()) {
+      print("Form valid!");
+    }
+  },
+  child: Text("Submit"),
+)
+
+
+👉 এখানে GlobalKey ব্যবহার করে পুরো Form validate করা হচ্ছে।
+
+6️⃣ Output এ প্রভাব
+
+Without Key → UI rebuild এ data হারিয়ে যাবে।
+
+With Key → Flutter widget চিনে ফেলবে → data state থাকবে।

@@ -1,24 +1,43 @@
 import 'package:flutter/material.dart';
-
-class MultiChildParentExample extends StatefulWidget {
-  const MultiChildParentExample({super.key});
+class TodoApp extends StatelessWidget {
+  const TodoApp({super.key});
 
   @override
-  State<MultiChildParentExample> createState() => _MultiChildParentExampleState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Todo List App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: const TodoListScreen(),
+    );
+  }
 }
 
-class _MultiChildParentExampleState extends State<MultiChildParentExample> {
-  int _cartCount = 0;
+class TodoListScreen extends StatefulWidget {
+  const TodoListScreen({super.key});
 
-  void _addToCart() {
-    setState(() {
-      _cartCount++;
-    });
+  @override
+  State<TodoListScreen> createState() => _TodoListScreenState();
+}
+
+class _TodoListScreenState extends State<TodoListScreen> {
+  final List<String> _tasks = [];
+  final TextEditingController _taskController = TextEditingController();
+
+  void _addTask() {
+    if (_taskController.text.isNotEmpty) {
+      setState(() {
+        _tasks.add(_taskController.text);
+        _taskController.clear();
+      });
+    }
   }
 
-  void _resetCart() {
+  void _removeTask(String taskToRemove) {
     setState(() {
-      _cartCount = 0;
+      _tasks.remove(taskToRemove);
     });
   }
 
@@ -26,74 +45,62 @@ class _MultiChildParentExampleState extends State<MultiChildParentExample> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Multiple Child Widgets Sharing State"),
-        actions: [
-          // Child 1: Cart Count in AppBar
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(child: Text("Cart: $_cartCount 🛒")),
-          )
-        ],
+        title: const Text('Todo List'),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Child 2: Product List
-          ProductListWidget(onAdd: _addToCart),
-
-          const SizedBox(height: 20),
-
-          // Child 3: Reset Cart Button
-          ResetCartWidget(onReset: _resetCart),
-
-          const SizedBox(height: 20),
-
-          // Child 4: Cart Summary Widget
-          CartSummaryWidget(count: _cartCount),
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: TextField(
+                    controller: _taskController,
+                    decoration: const InputDecoration(
+                      labelText: 'Enter a new task',
+                      border: OutlineInputBorder(),
+                    ),
+                    onSubmitted: (_) => _addTask(), // Add task on submit
+                  ),
+                ),
+                const SizedBox(width: 10),
+                ElevatedButton(
+                  onPressed: _addTask,
+                  child: const Text('Add Task'),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _tasks.length,
+              itemBuilder: (context, index) {
+                final task = _tasks[index];
+                // ValueKey ব্যবহার করা হচ্ছে প্রতিটি টাস্কের জন্য
+                return Card(
+                  key: ValueKey(task), // Important: Using ValueKey
+                  margin: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0),
+                  child: ListTile(
+                    title: Text(task),
+                    trailing: IconButton(
+                      icon: const Icon(
+                          Icons.remove_circle_outline, color: Colors.red),
+                      onPressed: () => _removeTask(task),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
   }
-}
-
-/// 🛒 Product List
-class ProductListWidget extends StatelessWidget {
-  final VoidCallback onAdd;
-  const ProductListWidget({super.key, required this.onAdd});
 
   @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onAdd,
-      child: const Text("Add Product to Cart"),
-    );
-  }
-}
-
-/// 🔄 Reset Button
-class ResetCartWidget extends StatelessWidget {
-  final VoidCallback onReset;
-  const ResetCartWidget({super.key, required this.onReset});
-
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onReset,
-      child: const Text("Reset Cart"),
-    );
-  }
-}
-
-/// 📊 Cart Summary
-class CartSummaryWidget extends StatelessWidget {
-  final int count;
-  const CartSummaryWidget({super.key, required this.count});
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      "Total items in cart: $count",
-      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-    );
+  void dispose() {
+    _taskController.dispose();
+    super.dispose();
   }
 }
