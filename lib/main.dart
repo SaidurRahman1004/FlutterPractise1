@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'Advanced Custom Card Design/EcommerceProductDetailsLayout.dart';
 import 'Advanced Custom Card Design/ExpansionTileList.dart';
@@ -25,6 +26,7 @@ import 'Drawer.dart';
 import 'Flutter Backend/APIgetJson.dart';
 import 'ImageAss.dart';
 import 'SecondPage.dart';
+import 'State Management/InheritedWidget.dart';
 import 'State Management/LightSwitchApp.dart';
 import 'State Management/MultipleChildWidgetsSharingParentState.dart';
 import 'State Management/TodoAppUsingKey.dart';
@@ -69,17 +71,27 @@ void main(){
 
 
 
-
+void main() {
+  runApp(
+    // ✅ 2. Provide the CartModel globally
+    ChangeNotifierProvider(
+      create: (context) => CartModel(),
+      child: const ProviderExample(),
+    ),
+  );
+}
 //Copyed//https://picsum.photos
-
+/*
 void main(){
   runApp( MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: BasicTodo(),    //practisePage  //CustomBottomSheetDemo  //BottomSheetExample
+    home: AppStateContainer(child: AppStateDemo(),),    //practisePage  //CustomBottomSheetDemo  //BottomSheetExample
        //practisePage  //CustomBottomSheetDemo  //BottomSheetExample
 
   ) ); //listExample  //MyApp  //practisePage  //Practiseg2 //ExampleOfAllList //GminiPractise  //CounterWidget //StatefullWidgetAiAll //TextFormFieldEditingController
  }
+
+ */
 
 
 

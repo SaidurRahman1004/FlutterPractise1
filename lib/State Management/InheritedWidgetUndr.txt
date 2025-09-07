@@ -1,0 +1,261 @@
+import 'package:flutter/material.dart';
+
+// 🔹 InheritedWidget
+class AppStateScope extends InheritedWidget { //InheritedWidget Delevary Boy
+  final bool isDark;
+  final int cartCount;
+  final VoidCallback toggleTheme;
+  final VoidCallback addToCart;
+  final VoidCallback resetCart;
+
+  const AppStateScope({
+    super.key,
+    required this.isDark,
+    required this.cartCount,
+    required this.toggleTheme,
+    required this.addToCart,
+    required this.resetCart,
+    required Widget child,
+  }) : super(child: child);
+
+  static AppStateScope of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<AppStateScope>()!;
+  }
+
+  @override
+  bool updateShouldNotify(AppStateScope oldWidget) {
+    return oldWidget.isDark != isDark || oldWidget.cartCount != cartCount;
+  }
+}
+
+// 🔹 State Container
+class AppStateContainer extends StatefulWidget {
+  final Widget child;
+  const AppStateContainer({super.key, required this.child});
+
+  @override
+  State<AppStateContainer> createState() => _AppStateContainerState();
+}
+
+class _AppStateContainerState extends State<AppStateContainer> {
+  bool _isDark = false;
+  int _cartCount = 0;
+
+  void _toggleTheme() => setState(() => _isDark = !_isDark);
+  void _addToCart() => setState(() => _cartCount++);
+  void _resetCart() => setState(() => _cartCount = 0);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppStateScope(
+      isDark: _isDark,
+      cartCount: _cartCount,
+      toggleTheme: _toggleTheme,
+      addToCart: _addToCart,
+      resetCart: _resetCart,
+      child: widget.child,
+    );
+  }
+}
+
+// 🔹 Main App
+class AppStateDemo extends StatelessWidget {
+  const AppStateDemo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: AppStateScope.of(context).isDark
+          ? ThemeData.dark()
+          : ThemeData.light(),
+      home: const AppStateDemoUi(),
+    );
+  }
+}
+
+// 🔹 UI
+class AppStateDemoUi extends StatelessWidget {
+  const AppStateDemoUi({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const ThemeModeText()),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            CartBadge(),
+            SizedBox(height: 20),
+            AddToCartButton(),
+            SizedBox(height: 10),
+            ResetButton(),
+            SizedBox(height: 10),
+            ToggleThemeButton(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// 🔹 Dark/Light Mode Text
+class ThemeModeText extends StatelessWidget {
+  const ThemeModeText({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = AppStateScope.of(context).isDark;
+    return Text(isDark ? 'Dark Mode' : 'Light Mode');
+  }
+}
+
+// 🔹 Cart Count
+class CartBadge extends StatelessWidget {
+  const CartBadge({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final cartCount = AppStateScope.of(context).cartCount;
+    return Text("Cart Count: $cartCount");
+  }
+}
+
+// 🔹 Add To Cart Button
+class AddToCartButton extends StatelessWidget {
+  const AddToCartButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final addToCart = AppStateScope.of(context).addToCart;
+    return ElevatedButton(
+        onPressed: () => addToCart(), child: const Text("Add To Cart"));
+  }
+}
+
+// 🔹 Reset Button
+class ResetButton extends StatelessWidget {
+  const ResetButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final resetCart = AppStateScope.of(context).resetCart;
+    return ElevatedButton(
+        onPressed: () => resetCart(), child: const Text("Reset"));
+  }
+}
+
+// 🔹 Toggle Theme Button
+class ToggleThemeButton extends StatelessWidget {
+  const ToggleThemeButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final toggleTheme = AppStateScope.of(context).toggleTheme;
+    return ElevatedButton(
+        onPressed: () => toggleTheme(), child: const Text("Toggle Theme"));
+  }
+}
+
+// 🔹 Main Function
+void main() {
+  runApp(
+    AppStateContainer(
+      child: const AppStateDemo(),
+    ),
+  );
+}
+.......................................................................
+
+🧩 গল্প দিয়ে বুঝো
+
+ভাবো তুমি একটা বড়ো পরিবারে আছো।
+
+বাড়ির বড়ো ভাই (AppStateContainer + AppStateScope) টাকা, খাবার আর লাইট-ফ্যান কন্ট্রোল নিজের কাছে রেখেছে।
+
+ছোট ভাই-বোনেরা (CartBadge, AddToCartButton, ResetButton, ToggleThemeButton) যখনই কিছু দরকার হয়, তারা বড় ভাইকে জিজ্ঞেস করে (AppStateScope.of(context)) → তারপর সেই জিনিস পেয়ে যায়।
+
+মানে 👉 এক জায়গায় ডেটা রাখা আছে, সবাই সেটা ফ্রি ইউজ করতে পারছে।
+
+🔑 এই কোডে কে কী করছে?
+1. AppStateContainer (StatefulWidget)
+
+👉 এটা হলো স্টোররুম।
+এখানে সব ডেটা রাখা হয়:
+
+_isDark → Dark/Light mode
+
+_cartCount → Cart এর সংখ্যা
+
+এখানে method আছে → _toggleTheme(), _addToCart(), _resetCart()
+
+এইসব method কে InheritedWidget এর ভেতর দিয়ে নিচে পাঠানো হয়।
+
+2. AppStateScope (InheritedWidget)
+
+👉 এটা হলো ডেলিভারি বয়।
+
+AppStateContainer যেই data দেয় → সেটা নিচে child widget-এ পাঠায়।
+
+যখন ডেটা বদলায় (Dark/Light বা cartCount), তখন updateShouldNotify বলে দেয় 👉 "হে নিচের widget, তুমি আবার redraw হয়ে যাও"
+
+এখানেই আছে জাদুর দরজা:
+
+AppStateScope.of(context)
+
+
+👉 এর মাধ্যমে নিচের widget ডেটা বের করে।
+
+3. AppStateDemo (MaterialApp)
+
+👉 এখানে Theme switch হচ্ছে:
+
+theme: AppStateScope.of(context).isDark
+          ? ThemeData.dark()
+          : ThemeData.light(),
+
+
+মানে Dark/Light mode চেক করছে।
+
+4. Child Widgets
+
+সবাই শুধু ডেটা নেয় আর কাজ করে
+
+ThemeModeText → শুধু দেখে এখন Light নাকি Dark।
+
+CartBadge → শুধু দেখে কতগুলো জিনিস আছে।
+
+AddToCartButton → টিপলে addToCart() কল করে।
+
+ResetButton → সব শূন্যে সেট করে।
+
+ToggleThemeButton → Light ↔ Dark মোড পরিবর্তন করে।
+
+🧠 এখন InheritedWidget কনসেপ্ট
+
+👉 এক লাইনে মনে রাখো:
+
+InheritedWidget = Widget Tree-এর ভেতরে Global Store + Free Access Door
+
+Data রাখবে AppStateContainer
+
+Door খুলবে AppStateScope.of(context)
+
+যার দরকার → নিচের widget গিয়ে নিয়ে আসবে
+
+⚡ Flow Diagram (Text আকারে)
+AppStateContainer (StatefulWidget)
+    |
+    ↓ (data + methods)
+AppStateScope (InheritedWidget)
+    |
+    ├── ThemeModeText → ডেটা নেয় (isDark)
+    ├── CartBadge → ডেটা নেয় (cartCount)
+    ├── AddToCartButton → ফাংশন কল করে (addToCart)
+    ├── ResetButton → ফাংশন কল করে (resetCart)
+    └── ToggleThemeButton → ফাংশন কল করে (toggleTheme)
+
+
+👉 এখন তুমি বুঝতে পারো:
+InheritedWidget আসলে নিজে কিছু কাজ করে না → শুধু data share করে দেয় নিচে।
+Real কাজ (State Change) করে AppStateContainer।

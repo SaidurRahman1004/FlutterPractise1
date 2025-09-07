@@ -1,106 +1,63 @@
 import 'package:flutter/material.dart';
-class TodoApp extends StatelessWidget {
-  const TodoApp({super.key});
+import 'package:provider/provider.dart';
+
+// ✅ 1. Model class (state holder)
+class CartModel with ChangeNotifier {
+  int _count = 0;
+  int get count => _count;
+
+  void addItem() {
+    _count++;
+    notifyListeners(); // 🔔 Rebuild করবে সেই widget যেগুলো শুনছে
+  }
+
+  void reset() {
+    _count = 0;
+    notifyListeners();
+  }
+}
+
+
+class ProviderExample extends StatelessWidget {
+  const ProviderExample({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Todo List App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: const TodoListScreen(),
+      home: CartPage(),
     );
   }
 }
 
-class TodoListScreen extends StatefulWidget {
-  const TodoListScreen({super.key});
-
-  @override
-  State<TodoListScreen> createState() => _TodoListScreenState();
-}
-
-class _TodoListScreenState extends State<TodoListScreen> {
-  final List<String> _tasks = [];
-  final TextEditingController _taskController = TextEditingController();
-
-  void _addTask() {
-    if (_taskController.text.isNotEmpty) {
-      setState(() {
-        _tasks.add(_taskController.text);
-        _taskController.clear();
-      });
-    }
-  }
-
-  void _removeTask(String taskToRemove) {
-    setState(() {
-      _tasks.remove(taskToRemove);
-    });
-  }
+class CartPage extends StatelessWidget {
+  const CartPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final cart = context.watch<CartModel>(); // ✅ listen করে data নিলো
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Todo List'),
-      ),
-      body: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: TextField(
-                    controller: _taskController,
-                    decoration: const InputDecoration(
-                      labelText: 'Enter a new task',
-                      border: OutlineInputBorder(),
-                    ),
-                    onSubmitted: (_) => _addTask(), // Add task on submit
-                  ),
-                ),
-                const SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: _addTask,
-                  child: const Text('Add Task'),
-                ),
-              ],
+      appBar: AppBar(title: const Text("Provider Demo")),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Cart Count: ${cart.count}",
+                style: const TextStyle(fontSize: 24)),
+
+            const SizedBox(height: 20),
+
+            ElevatedButton(
+              onPressed: () => context.read<CartModel>().addItem(),
+              child: const Text("Add to Cart"),
             ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: _tasks.length,
-              itemBuilder: (context, index) {
-                final task = _tasks[index];
-                // ValueKey ব্যবহার করা হচ্ছে প্রতিটি টাস্কের জন্য
-                return Card(
-                  key: ValueKey(task), // Important: Using ValueKey
-                  margin: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0),
-                  child: ListTile(
-                    title: Text(task),
-                    trailing: IconButton(
-                      icon: const Icon(
-                          Icons.remove_circle_outline, color: Colors.red),
-                      onPressed: () => _removeTask(task),
-                    ),
-                  ),
-                );
-              },
+
+            ElevatedButton(
+              onPressed: () => context.read<CartModel>().reset(),
+              child: const Text("Reset Cart"),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _taskController.dispose();
-    super.dispose();
   }
 }
