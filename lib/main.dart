@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/State%20Management/ProviderStM.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'Advanced Custom Card Design/EcommerceProductDetailsLayout.dart';
@@ -47,6 +48,16 @@ import 'navigatorPassData.dart';
 import 'GminiPractise.dart';
 import 'BottomSheet.dart';
 
+/////////////////////////////Temp////////////////////////////
+void main() {
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => TodoProvider(),
+      child: const AppProviderState(),
+    ),
+  );
+}
+/////////////////////////////Temp////////////////////////////
 
 /*
   runApp( MaterialApp(
@@ -70,7 +81,7 @@ void main(){
  */
 
 
-
+/*
 void main() {
   runApp(
     // ✅ 2. Provide the CartModel globally
@@ -80,6 +91,8 @@ void main() {
     ),
   );
 }
+
+ */
 //Copyed//https://picsum.photos
 /*
 void main(){

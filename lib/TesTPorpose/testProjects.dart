@@ -1,62 +1,102 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:collection'; // UnmodifiableListView ব্যবহারের জন্য
 
-// ✅ 1. Model class (state holder)
-class CartModel with ChangeNotifier {
-  int _count = 0;
-  int get count => _count;
+// ১. ChangeNotifier ক্লাস তৈরি
+class TodoProvider extends ChangeNotifier {
+  final List<String> _tasks = [];
 
-  void addItem() {
-    _count++;
-    notifyListeners(); // 🔔 Rebuild করবে সেই widget যেগুলো শুনছে
+  // 외부 থেকে List-কে সরাসরি পরিবর্তন করা রোধ করতে UnmodifiableListView ব্যবহার করা হয়
+  UnmodifiableListView<String> get tasks => UnmodifiableListView(_tasks);
+
+  void addTask(String task) {
+    _tasks.add(task);
+    notifyListeners(); // UI-কে জানানো হচ্ছে যে একটি নতুন টাস্ক যোগ হয়েছে
   }
 
-  void reset() {
-    _count = 0;
-    notifyListeners();
+  void removeTask(String task) {
+    _tasks.remove(task);
+    notifyListeners(); // UI-কে জানানো হচ্ছে যে একটি টাস্ক মুছে ফেলা হয়েছে
   }
 }
 
+void main() {
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => TodoProvider(),
+      child: const AppProviderState(),
+    ),
+  );
+}
 
-class ProviderExample extends StatelessWidget {
-  const ProviderExample({super.key});
+class AppProviderState extends StatelessWidget {
+  const AppProviderState({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: CartPage(),
+      debugShowCheckedModeBanner: false,
+      home: TodoScreen(),
     );
   }
 }
 
-class CartPage extends StatelessWidget {
-  const CartPage({super.key});
+class TodoScreen extends StatelessWidget {
+  final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final cart = context.watch<CartModel>(); // ✅ listen করে data নিলো
+    // Consumer ব্যবহার করে UI আপডেট করা হচ্ছে
     return Scaffold(
-      appBar: AppBar(title: const Text("Provider Demo")),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Cart Count: ${cart.count}",
-                style: const TextStyle(fontSize: 24)),
-
-            const SizedBox(height: 20),
-
-            ElevatedButton(
-              onPressed: () => context.read<CartModel>().addItem(),
-              child: const Text("Add to Cart"),
+      appBar: AppBar(title: const Text('To-Do List with Provider')),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _controller,
+                    decoration: const InputDecoration(labelText: 'New Task'),
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: () {
+                    if (_controller.text.isNotEmpty) {
+                      // context.read ব্যবহার করে মেথড কল করা হচ্ছে
+                      context.read<TodoProvider>().addTask(_controller.text);
+                      _controller.clear();
+                    }
+                  },
+                ),
+              ],
             ),
-
-            ElevatedButton(
-              onPressed: () => context.read<CartModel>().reset(),
-              child: const Text("Reset Cart"),
+          ),
+          Expanded(
+            // Consumer শুধুমাত্র লিস্ট অংশটিকে rebuild করবে
+            child: Consumer<TodoProvider>(
+              builder: (context, todoProvider, child) {
+                return ListView.builder(
+                  itemCount: todoProvider.tasks.length,
+                  itemBuilder: (context, index) {
+                    final task = todoProvider.tasks[index];
+                    return ListTile(
+                      title: Text(task),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {
+                          context.read<TodoProvider>().removeTask(task);
+                        },
+                      ),
+                    );
+                  },
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
