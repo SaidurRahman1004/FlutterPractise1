@@ -26,6 +26,7 @@ import 'DateTime.dart';
 import 'Drawer.dart';
 import 'Flutter Backend/APIgetJson.dart';
 import 'ImageAss.dart';
+import 'OstadFlutterPractise/DialogAletSnackbar.dart';
 import 'SecondPage.dart';
 import 'State Management/InheritedWidget.dart';
 import 'State Management/LightSwitchApp.dart';
@@ -49,6 +50,7 @@ import 'GminiPractise.dart';
 import 'BottomSheet.dart';
 
 /////////////////////////////Temp////////////////////////////
+/*
 void main() {
   runApp(
     ChangeNotifierProvider(
@@ -57,6 +59,8 @@ void main() {
     ),
   );
 }
+
+ */
 /////////////////////////////Temp////////////////////////////
 
 /*
@@ -94,17 +98,17 @@ void main() {
 
  */
 //Copyed//https://picsum.photos
-/*
+
 void main(){
   runApp( MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: AppStateContainer(child: AppStateDemo(),),    //practisePage  //CustomBottomSheetDemo  //BottomSheetExample
+    home: OstadDialogSnkbar(),    //practisePage  //CustomBottomSheetDemo  //BottomSheetExample
        //practisePage  //CustomBottomSheetDemo  //BottomSheetExample
 
   ) ); //listExample  //MyApp  //practisePage  //Practiseg2 //ExampleOfAllList //GminiPractise  //CounterWidget //StatefullWidgetAiAll //TextFormFieldEditingController
  }
 
- */
+
 
 
 
