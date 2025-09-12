@@ -6,7 +6,7 @@ import 'dart:collection'; // UnmodifiableListView ব্যবহারের �
 class TodoProvider extends ChangeNotifier {
   final List<String> _tasks = [];
 
-  // 외부 থেকে List-কে সরাসরি পরিবর্তন করা রোধ করতে UnmodifiableListView ব্যবহার করা হয়
+  // বহিরাগত থেকে List-কে সরাসরি পরিবর্তন করা রোধ করতে UnmodifiableListView ব্যবহার করা হয়
   UnmodifiableListView<String> get tasks => UnmodifiableListView(_tasks);
 
   void addTask(String task) {
@@ -20,14 +20,7 @@ class TodoProvider extends ChangeNotifier {
   }
 }
 
-void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (context) => TodoProvider(),
-      child: const AppProviderState(),
-    ),
-  );
-}
+
 
 class AppProviderState extends StatelessWidget {
   const AppProviderState({super.key});

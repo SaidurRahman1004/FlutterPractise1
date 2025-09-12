@@ -32,6 +32,7 @@ import 'State Management/InheritedWidget.dart';
 import 'State Management/LightSwitchApp.dart';
 import 'State Management/MultipleChildWidgetsSharingParentState.dart';
 import 'State Management/TodoAppUsingKey.dart';
+import 'State Management/WishlistProvider.dart';
 import 'State Management/liftingCallback.dart';
 import 'State Management/setStateExample.dart';
 import 'StatefullWidgetAiAll.dart';
@@ -50,17 +51,17 @@ import 'GminiPractise.dart';
 import 'BottomSheet.dart';
 
 /////////////////////////////Temp////////////////////////////
-/*
+
 void main() {
   runApp(
     ChangeNotifierProvider(
-      create: (context) => TodoProvider(),
-      child: const AppProviderState(),
+      create: (context) => WishlistProvider(),
+      child: const wishlistHandle(),
     ),
   );
 }
 
- */
+
 /////////////////////////////Temp////////////////////////////
 
 /*
@@ -98,7 +99,7 @@ void main() {
 
  */
 //Copyed//https://picsum.photos
-
+/*
 void main(){
   runApp( MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -107,6 +108,8 @@ void main(){
 
   ) ); //listExample  //MyApp  //practisePage  //Practiseg2 //ExampleOfAllList //GminiPractise  //CounterWidget //StatefullWidgetAiAll //TextFormFieldEditingController
  }
+
+ */
 
 
 
