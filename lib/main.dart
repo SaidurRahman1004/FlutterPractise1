@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/State%20Management/ProviderStM.dart';
+import 'package:myapp/State%20Management/ProviderStM.dart' hide CartProvider;
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'Advanced Custom Card Design/EcommerceProductDetailsLayout.dart';
@@ -30,6 +30,7 @@ import 'OstadFlutterPractise/DialogAletSnackbar.dart';
 import 'SecondPage.dart';
 import 'State Management/InheritedWidget.dart';
 import 'State Management/LightSwitchApp.dart';
+import 'State Management/MultiProvider.dart';
 import 'State Management/MultipleChildWidgetsSharingParentState.dart';
 import 'State Management/TodoAppUsingKey.dart';
 import 'State Management/WishlistProvider.dart';
@@ -52,6 +53,21 @@ import 'BottomSheet.dart';
 
 /////////////////////////////Temp////////////////////////////
 
+void main(){
+  runApp(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_)=>CounterProvider()),
+          ChangeNotifierProvider(create: (_)=>UserProvider()),
+        ],
+        child: MultiProviderEx(),
+
+      )
+
+  );
+}
+
+/*
 void main() {
   runApp(
     ChangeNotifierProvider(
@@ -61,6 +77,8 @@ void main() {
   );
 }
 
+
+ */
 
 /////////////////////////////Temp////////////////////////////
 

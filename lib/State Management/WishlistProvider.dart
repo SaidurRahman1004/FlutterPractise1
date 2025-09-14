@@ -48,7 +48,7 @@ class ProductShowUI extends StatelessWidget {
     {'icon': Icons.tv, 'name': 'LED TV', 'price': 40000},
   ];
 
-  mysnk(msg, context) {
+  mysnk(msg,context) {
     return ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(msg), duration: Duration(seconds: 3)),
     );
@@ -74,12 +74,7 @@ class ProductShowUI extends StatelessWidget {
               );
             },
           ),
-          ElevatedButton(
-            onPressed: () {
-              CustomSimpleDialog(context);
-            },
-            child: Text("See Wishlist"),
-          ),
+          WishListButton(context),
         ],
       ),
       body: GridView.builder(
@@ -118,7 +113,7 @@ class ProductShowUI extends StatelessWidget {
                 SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () {
-                    mysnk('Selected ${product['name']}', context);
+                    mysnk("Selected ${product['name']}", context);
                     context.read<WishlistProvider>().addItem(product['name']);
                   },
                   child: Text("Add to Wishlist"),
@@ -161,6 +156,15 @@ class ProductShowUI extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+  ///Button WishList
+  WishListButton(context){
+    return ElevatedButton(
+      onPressed: () {
+        CustomSimpleDialog(context);
+      },
+      child: Text("See Wishlist"),
     );
   }
 }
