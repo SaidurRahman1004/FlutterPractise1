@@ -25,6 +25,7 @@ import 'CustomWidgetFunction/CustomFunctions.dart';
 import 'DateTime.dart';
 import 'Drawer.dart';
 import 'Flutter Backend/APIgetJson.dart';
+import 'Flutter Backend/JSONPlaceholderToDO/jsonTodo.dart';
 import 'ImageAss.dart';
 import 'OstadFlutterPractise/DialogAletSnackbar.dart';
 import 'SecondPage.dart';
@@ -52,7 +53,7 @@ import 'GminiPractise.dart';
 import 'BottomSheet.dart';
 
 /////////////////////////////Temp////////////////////////////
-
+/*
 void main(){
   runApp(
       MultiProvider(
@@ -66,6 +67,8 @@ void main(){
 
   );
 }
+
+ */
 
 /*
 void main() {
@@ -81,7 +84,9 @@ void main() {
  */
 
 /////////////////////////////Temp////////////////////////////
-
+void main() {
+  runApp(const todoUi());
+}
 /*
   runApp( MaterialApp(
     home: GminiPractise(),
