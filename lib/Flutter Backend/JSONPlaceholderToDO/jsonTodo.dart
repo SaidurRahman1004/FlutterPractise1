@@ -163,6 +163,7 @@ class todo {
 // API থেকে todo ডেটা আনার জন্য একটি অ্যাসিঙ্ক্রোনাস ফাংশন।
 // এই ফাংশনটি একটি Future রিটার্ন করে, যা সম্পন্ন হলে List<todo> (todo অবজেক্টের একটি লিস্ট) প্রদান করবে।
 Future<List<todo>> fetchTodoData() async {
+
   // API-এর URL, যেখান থেকে todo ডেটা আনা হবে।
   final url = Uri.parse('https://jsonplaceholder.typicode.com/todos');
 

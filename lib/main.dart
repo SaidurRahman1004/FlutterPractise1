@@ -85,7 +85,9 @@ void main() {
 
 /////////////////////////////Temp////////////////////////////
 void main() {
-  runApp(const todoUi());
+  runApp( MaterialApp(
+    home: todoHomeUI(),
+  ));
 }
 /*
   runApp( MaterialApp(
