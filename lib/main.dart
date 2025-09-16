@@ -25,6 +25,7 @@ import 'CustomWidgetFunction/CustomFunctions.dart';
 import 'DateTime.dart';
 import 'Drawer.dart';
 import 'Flutter Backend/APIgetJson.dart';
+import 'Flutter Backend/ErrorHandleing/ErrorHandleing.dart';
 import 'Flutter Backend/JSONPlaceholderToDO/jsonTodo.dart';
 import 'ImageAss.dart';
 import 'OstadFlutterPractise/DialogAletSnackbar.dart';
@@ -86,7 +87,8 @@ void main() {
 /////////////////////////////Temp////////////////////////////
 void main() {
   runApp( MaterialApp(
-    home: todoHomeUI(),
+    debugShowCheckedModeBanner: false,
+    home: ErrorTestingUI(),
   ));
 }
 /*

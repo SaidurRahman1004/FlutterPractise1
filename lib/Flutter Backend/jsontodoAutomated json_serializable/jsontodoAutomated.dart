@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:json_annotation/json_annotation.dart';
-part 'jsontodoAutomated.g.dart'; //ফাইলের নামের সাথে সেম হতে হবে!
+part 'jsontodoAutomated.g.dart'; //ফাইলের নামের সাথে সেম হতে হবে!   //flutter pub run build_runner build
 
 //todo Model class
 @JsonSerializable()
