@@ -1,133 +1,161 @@
-import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
-
 import 'package:myapp/Flutter%20Backend/ErrorHandleing/Post.dart';
 
-//API Function Created
-Future<Post> apiFunction(int id) async {
+//API ফাংশন তৈরি করো যা একটি id প্যারামিটার হিসেবে নেবে এবং ওই নির্দিষ্ট পোস্টটি নিয়ে আসবে
+Future<Post> fetctchApiError(int id) async {
   final url = Uri.parse("https://jsonplaceholder.typicode.com/posts/$id");
   try {
-    final response = await http.get(url).timeout(Duration(seconds: 5));
-
-    if (response.statusCode == 200) {
-      return Post.fromJson(jsonDecode(response.body));
-    } else if (response.statusCode == 404) {
-      throw Exception("Post $id not  found");
+    final responseApi = await http.get(url);
+    if (responseApi.statusCode == 200) {
+      return Post.fromJson(jsonDecode(responseApi.body));
+    } else if (responseApi.statusCode == 404) {
+      throw Exception(" ${responseApi.statusCode} Post id: $id not found");
     } else {
-      throw Exception("Failed to load post ${response.statusCode}");
+      throw Exception("Failed to load post ${responseApi.statusCode}");
     }
-  } catch (e) {
+  }
+  on SocketException{
+    throw Exception("No Internet connection");
+  }
+  catch (e) {
     throw Exception("Something went wrong ${e.toString()}");
   }
+
+
+
 }
 
-//UI
-class ErrorTestingUI extends StatelessWidget {
-  ErrorTestingUI({super.key});
+//UI-তে একটি TextField রাখো যেখানে ইউজার একটি পোস্ট ID (যেমন: 1, 5, 100) ইনপুট দিতে পারবে এবং একটি "Fetch Post" বাটন থাকবে।
+
+class ErrorTestingUIApiControl extends StatelessWidget {
+  const ErrorTestingUIApiControl({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeScreenErrUi(),
+      theme: ThemeData(
+        //Button Style
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            foregroundColor: Theme.of(context).colorScheme.onPrimary,
+            elevation: 4.0,
+            padding: const EdgeInsets.symmetric(
+              horizontal: 24.0,
+              vertical: 12.0,
+            ),
+            textStyle: const TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.w600,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+          ),
+        ),
+        //TextFeild Style
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16.0,
+            vertical: 12.0,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.0),
+            borderSide: BorderSide(
+              color: Theme.of(context).colorScheme.primary,
+              width: 2.0,
+            ),
+          ),
+        ),
+      ),
+      home: ErrorTestingUIApi(),
     );
   }
 }
 
-class HomeScreenErrUi extends StatefulWidget {
-  const HomeScreenErrUi({super.key});
+class ErrorTestingUIApi extends StatefulWidget {
+  const ErrorTestingUIApi({super.key});
 
   @override
-  State<HomeScreenErrUi> createState() => _HomeScreenErrUiState();
+  State<ErrorTestingUIApi> createState() => _ErrorTestingUIApiState();
 }
 
-class _HomeScreenErrUiState extends State<HomeScreenErrUi> {
-  //UI State Variables
-  TextEditingController idController = TextEditingController();
-  Post? post; // Success data
-  bool isLoading = false;
-  String? errorMessage; // Error store
-  //Button Action
-  Future<void> getPost() async {
-    final id = int.tryParse(idController.text);
-    if (id == null) {
-      setState(() => errorMessage = "Please enter a valid number.");
-      return;
+class _ErrorTestingUIApiState extends State<ErrorTestingUIApi> {
+  TextEditingController _idController =  TextEditingController(); //TextField Controller
+  late Future<Post> futureApi;
+  //Button Function
+  void _fetchPost() {
+    final id = int.tryParse(_idController.text);
+    if(_idController.text.isNotEmpty){
+      try{
+        setState(() {
+          futureApi = fetctchApiError(id!);
+        });
+      }catch(e){
+        setState(() {
+          futureApi = Future.error(Exception("${e.toString()}"));
+        });
+      }
+
+    }else{
+      setState(() {
+        futureApi = Future.error(Exception("Please enter a Post ID"));
+      });
     }
 
-    setState(() {
-      isLoading = true;
-      errorMessage = null;
-      post = null;
-    });
-
-    try {
-      final fetchedPost = await apiFunction(id);
-      setState(() {
-        post = fetchedPost;
-      });
-    } catch (e) {
-      setState(() {
-        errorMessage = e.toString();
-      });
-    } finally {
-      setState(() => isLoading = false);
-    }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Fetch Post Example")),
+      appBar: AppBar(title: Text("Error Testing")),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(8.02),
         child: Column(
           children: [
-            TextField(
-              controller: idController,
-              decoration: const InputDecoration(
-                labelText: "Enter Post ID",
-                border: OutlineInputBorder(),
-              ),
+            TextFormField(
+              //TextField
+              controller: _idController,
+              decoration: InputDecoration(labelText: "Enter Post ID"),
               keyboardType: TextInputType.number,
             ),
-            const SizedBox(height: 10),
-            ElevatedButton(onPressed: getPost, child: const Text("Fetch Post")),
-            const SizedBox(height: 20),
 
-            // UI States
-            if (isLoading) const CircularProgressIndicator(),
-            if (errorMessage != null)
-              Text(errorMessage!, style: const TextStyle(color: Colors.red)),
-            if (post != null)
-              Card(
-                elevation: 5,
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        post!.title ?? " ",
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(post!.body ?? ""),
-                    ],
-                  ),
-                ),
+            const SizedBox(height: 10),
+            //Button
+            ElevatedButton(onPressed: () {_fetchPost;}, child: Text("Fetch Post")),
+            const SizedBox(height: 30),
+            //Api এর ডাটা লোড করা হচ্ছে!
+            Expanded(
+              child: FutureBuilder(
+                future: futureApi,
+                builder: (context, snapshot) {
+                  if(snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator(),);
+                  }
+                  else if(snapshot.hasError){
+                    return Center(child: Text("Error: ${snapshot.error}"));
+                  }
+                  else if(snapshot.hasData){
+                    return ListView.builder(itemBuilder: ( context,index ){
+                      return ListTile(
+                        title: Text("ID: ${snapshot.data!.id}"),
+                      );
+                    });
+                  }
+                  return Center(child: Text("Enter Valid Id And Find Data"));
+
+                },
               ),
+            ),
           ],
         ),
       ),
     );
   }
 }
+
