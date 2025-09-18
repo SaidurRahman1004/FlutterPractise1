@@ -85,12 +85,18 @@ void main() {
  */
 
 /////////////////////////////Temp////////////////////////////
+void main(){
+  runApp( ErrorTestingUIApiControl());
+}
+/*
 void main() {
   runApp( MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: ErrorTestingUI(),
+    home: ErrorTestingUIApiControl(),
   ));
 }
+
+ */
 /*
   runApp( MaterialApp(
     home: GminiPractise(),

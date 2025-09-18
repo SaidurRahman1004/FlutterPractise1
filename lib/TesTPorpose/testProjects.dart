@@ -1,5 +1,163 @@
 
 
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+
+class MyAppAPIAjijul extends StatelessWidget {
+  const MyAppAPIAjijul({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(debugShowCheckedModeBanner: false, home: Home());
+  }
+}
+
+class Home extends StatefulWidget {
+  const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  final TextEditingController _idController = TextEditingController();
+
+  Future<Map?>? futurePost;
+
+  Future<Map?> fetchPost(String id) async {
+    final url = Uri.parse("https://jsonplaceholder.typicode.com/posts/$id");
+    try {
+      final res = await http.get(url).timeout(const Duration(seconds: 10));
+      if (res.statusCode == 200) {
+        final decode = jsonDecode(res.body);
+        if (decode is Map) {
+          return decode;
+        } else {
+          throw const FormatException("Invalid format");
+        }
+      } else {
+        throw Exception("Server error: ${res.statusCode}");
+      }
+    } on SocketException {
+      throw Exception("No Internet Connection");
+    } on TimeoutException {
+      throw Exception("Request Timeout");
+    } on FormatException {
+      throw Exception(" Invalid Data Format");
+    } catch (e) {
+      throw Exception("Unknown Error: $e");
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Data fetching FutureBuilder"),
+        backgroundColor: Colors.teal,
+      ),
+      body: Column(
+        children: [
+          const SizedBox(height: 40),
+          Center(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width - 20,
+              height: 60,
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: TextField(
+                      keyboardType: TextInputType.number,
+                      controller: _idController,
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.search),
+                        hintText: "Search post",
+                        hintStyle: TextStyle(color: Colors.teal),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.teal,
+                        foregroundColor: Colors.white,
+                        minimumSize: const Size(80, 55),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0),
+                        ),
+                      ),
+                      onPressed: () {
+                        if (_idController.text.isNotEmpty) {
+                          setState(() {
+                            futurePost = fetchPost(_idController.text);
+                          });
+                        }
+                      },
+                      child: const Text("Fetch post"),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 70),
+          Expanded(
+            child: FutureBuilder<Map?>(
+              future: futurePost,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      "Error : ${snapshot.error}",
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  );
+                } else if (snapshot.hasData && snapshot.data != null) {
+                  final data = snapshot.data!;
+                  return ListView(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.all(16),
+                    children: [
+                      Text(
+                        "ID: ${data["id"]}",
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      Text(
+                        "UserID: ${data["userId"]}",
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      Text(
+                        "Title: ${data["title"]}",
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      Text(
+                        "Body: ${data["body"]}",
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  );
+                }
+                return const Center(
+                  child: Text("🔍 Enter an ID to fetch data"),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 
 
 
