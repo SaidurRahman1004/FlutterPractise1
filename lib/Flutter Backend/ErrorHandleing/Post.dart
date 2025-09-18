@@ -1,3 +1,5 @@
+
+//একটি Post মডেল ক্লাস তৈরি করো (userId, id, title, body)।
 class Post {
   int? userId;
   int? id;
