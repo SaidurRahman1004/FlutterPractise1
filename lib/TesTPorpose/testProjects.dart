@@ -1,165 +1,153 @@
 
-
-import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
+// Photo মডেল ক্লাস
+class Photo {
+  final int id;
+  final String title;
+  final String thumbnailUrl;
 
-class MyAppAPIAjijul extends StatelessWidget {
-  const MyAppAPIAjijul({super.key});
+  Photo({required this.id, required this.title, required this.thumbnailUrl});
 
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(debugShowCheckedModeBanner: false, home: Home());
-  }
-}
-
-class Home extends StatefulWidget {
-  const Home({super.key});
-
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-  final TextEditingController _idController = TextEditingController();
-
-  Future<Map?>? futurePost;
-
-  Future<Map?> fetchPost(String id) async {
-    final url = Uri.parse("https://jsonplaceholder.typicode.com/posts/$id");
-    try {
-      final res = await http.get(url).timeout(const Duration(seconds: 10));
-      if (res.statusCode == 200) {
-        final decode = jsonDecode(res.body);
-        if (decode is Map) {
-          return decode;
-        } else {
-          throw const FormatException("Invalid format");
-        }
-      } else {
-        throw Exception("Server error: ${res.statusCode}");
-      }
-    } on SocketException {
-      throw Exception("No Internet Connection");
-    } on TimeoutException {
-      throw Exception("Request Timeout");
-    } on FormatException {
-      throw Exception(" Invalid Data Format");
-    } catch (e) {
-      throw Exception("Unknown Error: $e");
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Data fetching FutureBuilder"),
-        backgroundColor: Colors.teal,
-      ),
-      body: Column(
-        children: [
-          const SizedBox(height: 40),
-          Center(
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width - 20,
-              height: 60,
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: TextField(
-                      keyboardType: TextInputType.number,
-                      controller: _idController,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.search),
-                        hintText: "Search post",
-                        hintStyle: TextStyle(color: Colors.teal),
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.teal,
-                        foregroundColor: Colors.white,
-                        minimumSize: const Size(80, 55),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(0),
-                        ),
-                      ),
-                      onPressed: () {
-                        if (_idController.text.isNotEmpty) {
-                          setState(() {
-                            futurePost = fetchPost(_idController.text);
-                          });
-                        }
-                      },
-                      child: const Text("Fetch post"),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 70),
-          Expanded(
-            child: FutureBuilder<Map?>(
-              future: futurePost,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(
-                    child: Text(
-                      "Error : ${snapshot.error}",
-                      style: const TextStyle(color: Colors.red),
-                    ),
-                  );
-                } else if (snapshot.hasData && snapshot.data != null) {
-                  final data = snapshot.data!;
-                  return ListView(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.all(16),
-                    children: [
-                      Text(
-                        "ID: ${data["id"]}",
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      Text(
-                        "UserID: ${data["userId"]}",
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      Text(
-                        "Title: ${data["title"]}",
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      Text(
-                        "Body: ${data["body"]}",
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                    ],
-                  );
-                }
-                return const Center(
-                  child: Text("🔍 Enter an ID to fetch data"),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
+  factory Photo.fromJson(Map<String, dynamic> json) {
+    return Photo(
+      id: json['id'],
+      title: json['title'],
+      thumbnailUrl: json['thumbnailUrl'],
     );
   }
 }
 
 
+class PaginationAiDemo extends StatelessWidget {
+  const PaginationAiDemo({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(home: PhotoListScreen());
+  }
+}
 
+class PhotoListScreen extends StatefulWidget {
+  const PhotoListScreen({super.key});
+
+  @override
+  _PhotoListScreenState createState() => _PhotoListScreenState();
+}
+
+class _PhotoListScreenState extends State<PhotoListScreen> {
+  // --- স্টেট ভেরিয়েবলগুলো ---
+  final List<Photo> _photos = [];
+  final ScrollController _scrollController = ScrollController();
+  int _page = 1;
+  bool _isLoading = false;
+  bool _hasMore = true; // আরও ডেটা আছে কিনা
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchPhotos(); // প্রথমবার ডেটা আনা হচ্ছে
+
+    // স্ক্রোল কন্ট্রোলারের জন্য লিসেনার যোগ করা হচ্ছে
+    _scrollController.addListener(() {
+      // যদি ব্যবহারকারী তালিকার শেষ প্রান্তে পৌঁছে যায় এবং আরও ডেটা থাকে
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent && _hasMore) {
+        _fetchPhotos();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose(); // কন্ট্রোলার dispose করা হচ্ছে
+    super.dispose();
+  }
+
+  // API থেকে ডেটা আনার ফাংশন
+  Future<void> _fetchPhotos() async {
+    if (_isLoading) return; // যদি 이미 লোড হতে থাকে, তাহলে কিছু করবে না
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/photos?_page=$_page&_limit=20'));
+
+    if (response.statusCode == 200) {
+      List<dynamic> jsonResponse = jsonDecode(response.body);
+
+      if (jsonResponse.isEmpty) {
+        setState(() {
+          _hasMore = false; // আর কোনো ডেটা নেই
+        });
+      } else {
+        setState(() {
+          _page++;
+          _photos.addAll(jsonResponse.map((photo) => Photo.fromJson(photo)).toList());
+        });
+      }
+    } else {
+      // Handle error
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Infinite Scrolling Photos')),
+      body: ListView.builder(
+        controller: _scrollController,
+        // একটি অতিরিক্ত আইটেম লোডিং ইন্ডিকেটরের জন্য
+        itemCount: _photos.length + (_hasMore ? 1 : 0),
+        itemBuilder: (context, index) {
+          // যদি তালিকার শেষ আইটেম হয় এবং আরও ডেটা থাকে
+          if (index == _photos.length) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final photo = _photos[index];
+          return ListTile(
+            leading: Image.network(photo.thumbnailUrl),
+            title: Text(photo.title),
+            subtitle: Text('ID: ${photo.id}'),
+          );
+        },
+      ),
+    );
+  }
+}
+
+// আপনার ড্যাশবোর্ড স্ক্রিনে এটি ব্যবহার করার উদাহরণ:
+/*
+GridView.builder(
+  shrinkWrap: true,
+  physics: NeverScrollableScrollPhysics(), // Scrollable না করার জন্য
+  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 2, // প্রতি সারিতে দুটি কার্ড
+    childAspectRatio: 1.5, // কার্ডের অনুপাত
+    crossAxisSpacing: 16,
+    mainAxisSpacing: 16,
+  ),
+  itemCount: 6, // আপনার ছবিতে ছয়টি কার্ড
+  itemBuilder: (context, index) {
+    // এখানে আপনার ViewModel থেকে ডেটা আসবে
+    if (index == 0) {
+      return DashboardStatCard(
+        title: 'Total Properties',
+        value: viewModel.dashboardData?.totalProperties.toString() ?? '...',
+        icon: Icons.business,
+        iconColor: Colors.blue,
+      );
+    }
+    // ... অন্যান্য কার্ড ...
+    return Container(); // ডিফল্ট
+  },
+)
+*/
 
 //////////////////////////////////Example JSOn APi///////////////////////////////////////
 
