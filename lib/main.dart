@@ -28,6 +28,7 @@ import 'Flutter Backend/APIgetJson.dart';
 import 'Flutter Backend/ErrorHandleing/ErrorHandleing.dart';
 import 'Flutter Backend/JSONPlaceholderToDO/jsonTodo.dart';
 import 'Flutter Backend/Pagination/PaginationEx.dart';
+import 'Flutter Local Storage/SharedPreferencesEx.dart';
 import 'ImageAss.dart';
 import 'OstadFlutterPractise/DialogAletSnackbar.dart';
 import 'SecondPage.dart';
@@ -87,8 +88,13 @@ void main() {
  */
 
 /////////////////////////////Temp////////////////////////////
-void main(){
-  runApp( PaginationUiControl());
+void main() {
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => NameSFProvider(),
+      child: const WelcomeAppSf(),
+    ),
+  );
 }
 /*
 void main() {

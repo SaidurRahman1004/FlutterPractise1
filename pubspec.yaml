@@ -32,6 +32,7 @@ dev_dependencies:
   smooth_page_indicator: ^1.2.1
   build_runner: ^2.8.0
   json_serializable: ^6.11.1
+  shared_preferences: ^2.5.3
 
 
 
