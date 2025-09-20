@@ -9,14 +9,14 @@ class NameSFProvider with ChangeNotifier {
   String? _username;
   String? get username => _username;
 
-  
+
   //Sava UserNAme Data
   Future<void> _saveUserNAme(String NameValue) async{
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(USERNAME_KEY,NameValue);
     _username = NameValue;
   }
-  
+
   //Load or Read UserNAme Data
   Future<void> _loadNmaeData() async{
     final prefs = await SharedPreferences.getInstance();
@@ -24,9 +24,9 @@ class NameSFProvider with ChangeNotifier {
     notifyListeners();
   }
 
-   changeUsername(String newName) {
-    _saveUserNAme(newName);
-    _username = newName;
+     Future<void> changeUsername(String newName) async{
+       await _saveUserNAme(newName);
+
     notifyListeners();
   }
 }
@@ -51,11 +51,11 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  final TextEditingController _nameController = TextEditingController();
    bool _isEditing = false;
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController _nameController = TextEditingController();
     final provider = context.watch<NameSFProvider>();
     final savedname = provider.username ?? "";
 
@@ -65,6 +65,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         child: savedname.isEmpty || _isEditing ? Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text(
+              savedname.isEmpty
+                  ? "Please enter your name"
+                  : "Edit your name",
+              style: const TextStyle(
+                  fontSize: 20, fontWeight: FontWeight.bold),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SizedBox(
@@ -85,7 +92,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             SizedBox(height: 10),
             ElevatedButton(
               onPressed: () async{
-                if(_nameController.text.trim().isEmpty){
+                if(_nameController.text.trim().isNotEmpty){
                   await context.read<NameSFProvider>().changeUsername(_nameController.text.trim());
                     setState(() {
                       _isEditing = false;
