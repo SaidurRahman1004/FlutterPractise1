@@ -1,43 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:provider/provider.dart';
 
-// ThemeProvider এখন SharedPreferences ব্যবহার করবে
-class ThemeProvider extends ChangeNotifier {
-  static const String THEME_KEY = "theme_key";
-  bool _isLightTheme = true;
-
-  bool get isLightTheme => _isLightTheme;
-
-  ThemeProvider() {
-    _loadTheme(); // অ্যাপ চালু হওয়ার সময় সেভ করা থিম লোড হবে
-  }
-
-  // ডেটা সেভ করার ফাংশন
-  Future<void> _saveTheme(bool value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(THEME_KEY, value);
-  }
-
-  // ডেটা পড়ার ফাংশন
-  Future<void> _loadTheme() async {
-    final prefs = await SharedPreferences.getInstance();
-    _isLightTheme = prefs.getBool(THEME_KEY) ?? true; // যদি কিছু না থাকে, ডিফল্ট true
-    notifyListeners();
-  }
-
-  void toggleTheme() {
-    _isLightTheme = !_isLightTheme;
-    _saveTheme(_isLightTheme); // থিম পরিবর্তন করার সাথে সাথে সেভ হবে
-    notifyListeners();
-  }
-}
-
-// ... (main, MyApp, LightSwitchScreen অপরিবর্তিত থাকবে)
-// Provider দিয়ে UI আগের মতোই কাজ করবে, কিন্তু এখন ডেটা সেভ হবে।
-
-
-// ... (বাকি UI কোড অপরিবর্তিত)
 
 
 //////////////////////////////////Example JSOn APi///////////////////////////////////////

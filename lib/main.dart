@@ -31,6 +31,7 @@ import 'Flutter Backend/Pagination/PaginationEx.dart';
 import 'Flutter Local Storage/SharedPreferencesEx.dart';
 import 'ImageAss.dart';
 import 'OstadFlutterPractise/DialogAletSnackbar.dart';
+import 'OstadFlutterPractise/OstadAssingnmetGrid.dart';
 import 'SecondPage.dart';
 import 'State Management/InheritedWidget.dart';
 import 'State Management/LightSwitchApp.dart';
@@ -86,8 +87,15 @@ void main() {
 
 
  */
+void main(){
+  runApp(
+    CourseAssignmentOstad(),
+  );
+}
 
 /////////////////////////////Temp////////////////////////////
+//SharePrefarence Call
+/*
 void main() {
   runApp(
     ChangeNotifierProvider(
@@ -96,6 +104,8 @@ void main() {
     ),
   );
 }
+
+ */
 /*
 void main() {
   runApp( MaterialApp(
