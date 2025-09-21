@@ -12,7 +12,7 @@ class CourseAssignmentOstad extends StatelessWidget {
 
 class CourseCardUi extends StatelessWidget {
   CourseCardUi({super.key});
-
+//List
   final List coursesDetails = [
     {
       "image":
@@ -29,7 +29,6 @@ class CourseCardUi extends StatelessWidget {
       "batch": "ব্যাচ ৮",
       "seats": "৯৫ সিট বাকি",
       "days": "৩৫ দিন বাকি",
-      "icon": Icon(Icons.access_time),
     },
 
     {
@@ -49,7 +48,7 @@ class CourseCardUi extends StatelessWidget {
       "days": "৮ দিন বাকি",
     },
   ];
-
+//Courses Grid
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,7 +107,7 @@ class CourseCardCustom extends StatelessWidget {
       ),
 
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(8.0),
         width: double.infinity,
         child: Container(
           child: Column(
@@ -119,49 +118,43 @@ class CourseCardCustom extends StatelessWidget {
                   borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
                   child: Image.network(
                     imageUrl,
-                    height: 150,
                     width: double.infinity,
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
               SizedBox(height: 8),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Wrap(
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                  child: Row(
                     children: [
                       custobBadge(batch),
                       SizedBox(width: 5),
-                      custobBadge(seats),
+                      custobBadge(seats,icon:Icons.groups),
                       SizedBox(width: 5),
-                      custobBadge(days),
+                      custobBadge(days,icon: Icons.access_time),
                     ],
-                  ),
-                  Divider(),
-                  SizedBox(height: 10),
-                  Text(
-                    title,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 10),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.grey[200],
-                        foregroundColor: Colors.black,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      child: Text("বিস্তারিত দেখুন ➜"),
+                  )),
+              Divider(),
+              SizedBox(height: 10),
+              Text(
+                title,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey[200],
+                    foregroundColor: Colors.black,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
                     ),
                   ),
-                ],
+                  child: Text("বিস্তারিত দেখুন ➜"),
+                ),
               ),
 
             ],
@@ -170,16 +163,24 @@ class CourseCardCustom extends StatelessWidget {
       ),
     );
   }
-
-  Widget custobBadge(String text) {
+//batch,day,sit Row Widget Custom
+  Widget custobBadge(String text,{IconData? icon}) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
       margin: EdgeInsets.only(top: 5),
       decoration: BoxDecoration(
-        color: Colors.grey[300],
+        color: Colors.grey[200],
         borderRadius: BorderRadius.circular(3),
       ),
-      child: Text(text, style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500)),
+      child: Row(
+        children: [
+          if(icon != null)...[
+            Icon(icon,size: 14,),
+            SizedBox(width: 4,)
+          ],
+          Text(text, style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500)),
+        ],
+      ),
     );
   }
 }
