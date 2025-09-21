@@ -125,7 +125,7 @@ class CourseCardCustom extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                  Wrap(
                     children: [
                       custobBadge(batch),
                       SizedBox(width: 5),
@@ -134,6 +134,7 @@ class CourseCardCustom extends StatelessWidget {
                       custobBadge(days),
                     ],
                   ),
+                  Divider(),
                   SizedBox(height: 10),
                   Text(
                     title,
@@ -142,16 +143,19 @@ class CourseCardCustom extends StatelessWidget {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey[200],
-                      foregroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey[200],
+                        foregroundColor: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
+                      child: Text("বিস্তারিত দেখুন ➜"),
                     ),
-                    child: Text("বিস্তারিত দেখুন ➜"),
                   ),
                 ],
               ),
@@ -166,9 +170,10 @@ class CourseCardCustom extends StatelessWidget {
   Widget custobBadge(String text) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+      margin: EdgeInsets.only(top: 5),
       decoration: BoxDecoration(
         color: Colors.grey[300],
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(3),
       ),
       child: Text(text, style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500)),
     );
