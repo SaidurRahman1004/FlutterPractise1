@@ -119,7 +119,7 @@ class CourseCardCustom extends StatelessWidget {
                   child: Image.network(
                     imageUrl,
                     width: double.infinity,
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fill,
                   ),
                 ),
               ),
