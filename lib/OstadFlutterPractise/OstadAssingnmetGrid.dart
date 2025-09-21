@@ -29,6 +29,7 @@ class CourseCardUi extends StatelessWidget {
       "batch": "ব্যাচ ৮",
       "seats": "৯৫ সিট বাকি",
       "days": "৩৫ দিন বাকি",
+      "icon": Icon(Icons.access_time),
     },
 
     {
@@ -59,7 +60,7 @@ class CourseCardUi extends StatelessWidget {
             itemCount: coursesDetails.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 0.75,
+              childAspectRatio: 0.65,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
             ),
@@ -113,15 +114,18 @@ class CourseCardCustom extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-                child: Image.network(
-                  imageUrl,
-                  height: 150,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+                  child: Image.network(
+                    imageUrl,
+                    height: 150,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
+              SizedBox(height: 8),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
